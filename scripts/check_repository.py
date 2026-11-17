@@ -4,6 +4,7 @@ import hashlib
 import json
 import re
 from urllib.parse import unquote
+from build_papers import PAPERS
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -42,12 +43,12 @@ def main():
             source = ROOT/name
             if not source.exists() or hashlib.sha256(source.read_bytes()).hexdigest() != expected:
                 errors.append(f"Paper input mismatch: {name}")
-    pdfs = list((ROOT/"papers").glob("*/kernel_to_*.pdf"))
-    if len(pdfs) != 2 or any(not p.read_bytes().startswith(b"%PDF") for p in pdfs):
-        errors.append("Expected two built research-note PDFs")
+    pdfs = [ROOT/"papers"/folder/(name+".pdf") for folder, name in PAPERS]
+    if any(not p.exists() or not p.read_bytes().startswith(b"%PDF") for p in pdfs):
+        errors.append(f"Expected {len(PAPERS)} built research-note PDFs")
     if errors:
         raise SystemExit("\n".join(errors))
-    print(f"Checked {count} local documentation links, recorded source hashes and both paper PDFs.")
+    print(f"Checked {count} local documentation links, recorded source hashes and {len(pdfs)} paper PDFs.")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,13 @@
+{
+  "experiments/hidden_wire/results/results.json": "1309443d728a621f0e6799b0fa38a7884ea33d4fa2544d69502dec095e726219",
+  "experiments/hidden_wire/results/predictions.npz": "fd8600cef8f77d5bde6a364f87e47f33d6926949802f69261dfbea6e3f49d6d8",
+  "experiments/hidden_wire/PROTOCOL.md": "8218fb334c4eea7eb72cd792430f0b2104c26a7dc775d23b5e5d78323a9a8b42",
+  "experiments/kernel_benchmark/results/results.json": "bab8a5883f8f57b5bf00f29df29bdc19b88b121d28e77bc0c8f53e6df17c8e1c",
+  "papers/03-maxwells-perspective/build_assets.py": "179820380636bf631fcaac0fb5addb0f2533d986ff25868954c63bc94acab163",
+  "experiments/magnetic_mapping/dipole_field/results.json": "a60430ba7327fa12a0d6c06a3fb0c79cd730da43512bf5f8f9888924b6a644d6",
+  "experiments/magnetic_mapping/dipole_field/predictions.npz": "47bf166fd29272e9d1d929f002ead04b6dad8e8adcf87c3d1977ca1688e778eb",
+  "experiments/magnetic_mapping/results/results.json": "43ee063bb349365ad5875f9f1a2a5f611ce24e43722d782c5c2cc77ec3e67a95",
+  "experiments/hidden_wire/learner.py": "33a8e318844849d056670a88ff87e117f93ed7ccb5a1148269b713c4ee1cde18",
+  "experiments/hidden_wire/world.py": "c4f0623fce7fb27ab859ba7a81dad20505ac2a4313ea4e869ddae9830bde4d0f",
+  "experiments/hidden_wire/run_experiment.py": "c1f55e2367e9cdcd3948ab2f2f52370563179c881e144140012db8ac81101997"
+}

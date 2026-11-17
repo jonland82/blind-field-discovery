@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#e2cfa9">
+  <meta name="description" content="Three research notes by J. R. Landers: from observations to learned kernels, explicit magnetic-field functions, and Maxwell’s perspective on the mathematics we infer.">
+  <title>From readings to laws · J. R. Landers</title>
+  <link rel="preload" href="assets/site/fonts/eb-garamond.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/site/folio.css">
+  <script src="assets/site/folio.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to the research</a>
+  <div class="folio">
+    <header class="masthead">
+      <a class="signature" href="#" aria-label="J. R. Landers, back to top">J. R. Landers</a>
+      <span class="masthead-caption">An inquiry in three notes</span>
+      <nav aria-label="Main navigation">
+        <a href="#story">The inquiry</a>
+        <a href="#equations">The equations</a>
+        <a href="#papers">The papers <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="tiny-star" aria-hidden="true">✳</span> Field notes on learning &amp; physical law</p>
+          <p class="handwritten hero-hand">First, observe.</p>
+          <h1 id="hero-title">Then, find<br>the <em>form.</em></h1>
+          <p class="hero-description">A reading becomes a prediction. A prediction becomes an equation. When does an equation become a theory?</p>
+          <p class="hero-subtitle">Three experiments in turning learned magnetic fields into explicit mathematics—and asking what survives the translation.</p>
+          <a class="ink-link" href="#story">Follow the inquiry <span aria-hidden="true">↓</span></a>
+        </div>
+
+        <figure class="field-plate">
+          <svg viewBox="0 0 460 500" role="img" aria-labelledby="field-title field-description">
+            <title id="field-title">Observations around a current-carrying wire</title>
+            <desc id="field-description">A conceptual field-line engraving. Circular magnetic field lines surround a wire; rust-colored points represent sampled observations. The illustration is schematic, not experimental data.</desc>
+            <defs>
+              <marker id="field-arrow" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L6,3 L0,6" fill="none" stroke="currentColor" stroke-width="1.2"/></marker>
+              <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><path d="M0 0V6" stroke="currentColor" stroke-width=".4" opacity=".28"/></pattern>
+            </defs>
+            <g class="plate-guides">
+              <path d="M29 250H431 M230 49V451"/>
+              <path d="M230 250L370 136" stroke-dasharray="3 6"/>
+              <circle cx="230" cy="250" r="199" stroke-dasharray="1 7"/>
+              <path d="M37 37h16m-8-8v16 M407 37h16m-8-8v16 M37 463h16m-8-8v16 M407 463h16m-8-8v16"/>
+            </g>
+            <g class="field-rings">
+              <circle cx="230" cy="250" r="48"/>
+              <circle cx="230" cy="250" r="85"/>
+              <circle cx="230" cy="250" r="122"/>
+              <circle cx="230" cy="250" r="159"/>
+              <circle cx="230" cy="250" r="196"/>
+              <path d="M278 250a48 48 0 0 1-8 27 M309 219a85 85 0 0 1 6 31 M346 288a122 122 0 0 1-13 28 M112 356a159 159 0 0 1-16-21 M167 64a196 196 0 0 1 31-8" transform="translate(0 500) scale(1 -1)" marker-end="url(#field-arrow)"/>
+            </g>
+            <g class="wire-mark">
+              <circle cx="230" cy="250" r="15" fill="url(#hatch)"/>
+              <circle cx="230" cy="250" r="15" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <circle cx="230" cy="250" r="3.5" fill="currentColor"/>
+            </g>
+            <g class="observation-points">
+              <circle cx="255" cy="209" r="4"/><circle cx="189" cy="275" r="4"/>
+              <circle cx="290" cy="310" r="4"/><circle cx="151" cy="219" r="4"/>
+              <circle cx="247" cy="129" r="4"/><circle cx="118" cy="298" r="4"/>
+              <circle cx="347" cy="176" r="4"/><circle cx="177" cy="400" r="4"/>
+              <circle cx="367" cy="390" r="4"/><circle cx="63" cy="147" r="4"/>
+            </g>
+            <g class="plate-labels">
+              <text x="438" y="255">x</text><text x="235" y="38">y</text>
+              <text x="252" y="257" class="wire-label">I</text>
+              <text x="297" y="180" transform="rotate(-39 297 180)">r</text>
+              <text x="325" y="92" class="script-label">a field, sampled</text>
+              <text x="303" y="467" class="script-label">what is its form?</text>
+            </g>
+            <path class="annotation-line" d="M348 104q-9 16-2 52 M328 443q-9-14-25-18"/>
+          </svg>
+          <figcaption><span>Fig. I</span> &nbsp; A wire, a field, a handful of observations.<br><small>A schematic of the question, not measured data.</small></figcaption>
+        </figure>
+      </section>
+
+      <div class="folio-divider" aria-hidden="true"><span></span><b>❧</b><span></span></div>
+
+      <section class="premise" id="story" aria-labelledby="premise-title">
+        <p class="eyebrow">The thread running through the work</p>
+        <h2 id="premise-title">Can we learn the readings,<br>then recover the relationship?</h2>
+        <p>A flexible predictor can tell us what comes next. We ask it for something more: an explicit function we can inspect, differentiate, interpret, and test beyond the observations that produced it.</p>
+        <ol class="workflow" aria-label="The four steps of the research workflow">
+          <li><span class="step-number">I.</span><strong>Observe</strong><span>Sample the world.</span></li>
+          <li><span class="step-number">II.</span><strong>Learn</strong><span>Fit a smooth kernel.</span></li>
+          <li><span class="step-number">III.</span><strong>Express</strong><span>Construct a function.</span></li>
+          <li><span class="step-number">IV.</span><strong>Test</strong><span>Meet new observations.</span></li>
+        </ol>
+        <p class="workflow-footnote">The middle step changes across the experiments. The final judge remains prediction.</p>
+      </section>
+
+      <section class="chapter chapter-one" aria-labelledby="chapter-one-title">
+        <div class="chapter-marker"><span>01</span><p>The controlled beginning</p></div>
+        <div class="chapter-content">
+          <p class="eyebrow">First note · A hidden synthetic profile</p>
+          <h2 id="chapter-one-title">Hide the function.<br>See what comes back.</h2>
+          <p>We begin in a world whose answer we know. The learner receives sampled field and source values, with no knowledge of the hidden tanh/sech² formula. Its Gaussian kernel learns the readings; a sparse equation search finds a differential relationship.</p>
+          <div class="equation-path" aria-label="From the discovered differential equation to its analytic solution">
+            <div>
+              <span class="equation-label">The selected equation</span>
+              <math display="block" aria-label="d B over d x equals p minus q B squared"><mfrac><mrow><mi>d</mi><mi>B</mi></mrow><mrow><mi>d</mi><mi>x</mi></mrow></mfrac><mo>=</mo><mi>p</mi><mo>−</mo><mi>q</mi><msup><mi>B</mi><mn>2</mn></msup></math>
+            </div>
+            <span class="equation-arrow" aria-hidden="true">⟶</span>
+            <div>
+              <span class="equation-label">The recovered family</span>
+              <math display="block" aria-label="B of x equals A tanh of x minus x c over L"><mi>B</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><mi>A</mi><mi mathvariant="normal">tanh</mi><mo>(</mo><mfrac><mrow><mi>x</mi><mo>−</mo><msub><mi>x</mi><mi>c</mi></msub></mrow><mi>L</mi></mfrac><mo>)</mo></math>
+            </div>
+          </div>
+          <p class="margin-thought handwritten">A curve is a beginning.<br>A relationship goes further.</p>
+          <p>Solving the selected equation recovers the original function family. In the noisy run, its field error is <strong>0.045%</strong> on unseen positions. The tanh function was a consequence of the selected equation, not a regression feature.</p>
+          <p class="takeaway"><span>The lesson</span> A good fit and a recovered analytic form are separate achievements.</p>
+          <a class="text-link" href="papers/01-kernel-to-equation/kernel_to_equation.pdf">Read note I <span>PDF · 3 pages ↗</span></a>
+        </div>
+      </section>
+
+      <section class="chapter chapter-two" aria-labelledby="chapter-two-title">
+        <div class="chapter-marker"><span>02</span><p>Out of the ideal world</p></div>
+        <div class="chapter-content">
+          <p class="eyebrow">Second note · Public magnetic measurements</p>
+          <h2 id="chapter-two-title">A real room has no<br>answer at the back.</h2>
+          <p>Next, public Aalto recordings give us tracked positions and three magnetic channels. There is no known analytic function for the room. We fit a vector kernel, then reconstruct its predictions with a background field and equivalent magnetic dipoles.</p>
+          <div class="single-equation">
+            <span class="equation-label">A physical representation, with learned contributions</span>
+            <math display="block" aria-label="B D of r equals b zero plus the sum over j of the magnetic dipole response D of r and s j times q j"><msub><mi mathvariant="bold">B</mi><mi>D</mi></msub><mo>(</mo><mi mathvariant="bold">r</mi><mo>)</mo><mo>=</mo><msub><mi mathvariant="bold">b</mi><mn>0</mn></msub><mo>+</mo><munder><mo>∑</mo><mi>j</mi></munder><mi>D</mi><mo>(</mo><mi mathvariant="bold">r</mi><mo>,</mo><msub><mi mathvariant="bold">s</mi><mi>j</mi></msub><mo>)</mo><msub><mi mathvariant="bold">q</mi><mi>j</mi></msub></math>
+            <p>D is the magnetic dipole response; q is an inferred contribution; b₀ is a uniform background.</p>
+          </div>
+          <figure class="measurement-figure">
+            <img src="papers/02-kernel-to-magnetostatics/field_reconstruction.png" alt="All three magnetic components: measured readings, Gaussian kernel predictions and equivalent-dipole reconstruction along held-out trial 4, plus a fixed spatial model cut." width="1543" height="805" loading="lazy">
+            <figcaption><span>Fig. II</span> &nbsp; Measured readings and reconstructed fields. The right-hand cut compares models; it has no independent measured truth on that exact line.</figcaption>
+          </figure>
+          <div class="result-strip">
+            <div><span>Kernel RMSE</span><strong>8.09</strong></div>
+            <span class="result-arrow" aria-hidden="true">⟶</span>
+            <div><span>Reconstructed field RMSE</span><strong>5.22</strong></div>
+            <p>Stable reference-sensor trials<br>Reference recording units</p>
+          </div>
+          <p>The magnetic family is supplied here; its equivalent source weights are learned. A direct-data dipole fit gives a similar error, <strong>5.31</strong>. The sources are a useful representation, not identified objects in the room. These results reuse previously examined recordings and remain exploratory.</p>
+          <p class="takeaway"><span>The lesson</span> A physically structured function can improve prediction without uniquely explaining the sources.</p>
+          <a class="text-link" href="papers/02-kernel-to-magnetostatics/kernel_to_magnetostatics.pdf">Read note II <span>PDF · 3 pages ↗</span></a>
+        </div>
+      </section>
+
+      <section class="wire-chapter" id="equations" aria-labelledby="wire-title">
+        <div class="chapter-heading">
+          <p class="eyebrow">Third note · Maxwell’s Perspective</p>
+          <h2 id="wire-title">Two routes.<br><em>Almost the same field.</em></h2>
+          <p>What if the magnetic formula is withheld? In a simulated wire experiment, the kernel-to-function workflow searches general polynomial and rational expressions. The familiar shape comes back.</p>
+        </div>
+
+        <div class="field-comparison">
+          <article class="field-expression theoretical">
+            <p class="equation-label">The hidden ideal-wire field</p>
+            <math display="block" aria-label="B star equals 0.2 I over x squared plus y squared times the vector minus y, x, zero">
+              <msub><mi mathvariant="bold">B</mi><mo>∗</mo></msub><mo>=</mo>
+              <mfrac><mrow><mn>0.2</mn><mi>I</mi></mrow><mrow><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><msup><mi>y</mi><mn>2</mn></msup></mrow></mfrac>
+              <mo>(</mo><mtable><mtr><mtd><mo>−</mo><mi>y</mi></mtd></mtr><mtr><mtd><mi>x</mi></mtd></mtr><mtr><mtd><mn>0</mn></mtd></mtr></mtable><mo>)</mo>
+            </math>
+            <p>The steady straight-wire solution of Maxwell’s theory, from Ampère’s law and cylindrical symmetry.</p>
+          </article>
+          <article class="field-expression learned">
+            <p class="equation-label">The recovered analytic field</p>
+            <math class="wide-equation" display="block" aria-label="B theta equals I over 1.003060 x squared plus y squared times the vector minus 0.198992 y, 0.199601 x, zero">
+              <msub><mi mathvariant="bold">B</mi><mi>θ</mi></msub><mo>=</mo>
+              <mfrac><mi>I</mi><mrow><mn>1.003060</mn><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><msup><mi>y</mi><mn>2</mn></msup></mrow></mfrac>
+              <mo>(</mo><mtable><mtr><mtd><mo>−</mo><mn>0.198992</mn><mi>y</mi></mtd></mtr><mtr><mtd><mn>0.199601</mn><mi>x</mi></mtd></mtr><mtr><mtd><mn>0</mn></mtd></mtr></mtable><mo>)</mo>
+            </math>
+            <math class="compact-equation" display="block" aria-label="B theta equals I over 1.003060 x squared plus y squared times the vector minus 0.198992 y, 0.199601 x, zero">
+              <mtable rowspacing=".5em"><mtr><mtd>
+                <msub><mi mathvariant="bold">B</mi><mi>θ</mi></msub><mo>=</mo>
+                <mfrac><mi>I</mi><mrow><mn>1.003060</mn><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><msup><mi>y</mi><mn>2</mn></msup></mrow></mfrac>
+              </mtd></mtr><mtr><mtd>
+                <mo>×</mo><mo>(</mo><mtable><mtr><mtd><mo>−</mo><mn>0.198992</mn><mi>y</mi></mtd></mtr><mtr><mtd><mn>0.199601</mn><mi>x</mi></mtd></mtr><mtr><mtd><mn>0</mn></mtd></mtr></mtable><mo>)</mo>
+              </mtd></mtr></mtable>
+            </math>
+            <p>The first fixed run with 1% measurement noise. Coefficients shown rounded; scores use full precision.</p>
+          </article>
+        </div>
+        <p class="equation-units">x, y: position in metres &nbsp;·&nbsp; I: current in amperes &nbsp;·&nbsp; B: field in microtesla</p>
+        <div class="wire-conclusion">
+          <p class="handwritten">The form returns.<br>The coefficients bear the journey.</p>
+          <p>Current proportionality and inverse-distance scaling emerge in all 15 fits. Circular symmetry is approximate. The experiment verifies inference in a deliberately constructed world; it does not independently validate Maxwell’s theory.</p>
+        </div>
+
+        <div class="results-table-wrap">
+          <table class="results-table">
+            <caption>On unseen observations · 1% noise · mean across three seeds</caption>
+            <thead><tr><th scope="col">The route taken</th><th scope="col">Field error</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Observations → kernel</th><td>20.44<span>%</span></td></tr>
+              <tr class="featured-result"><th scope="row">Observations → kernel → equation</th><td>0.383<span>%</span></td></tr>
+              <tr><th scope="row">Observations → equation directly</th><td>0.056<span>%</span></td></tr>
+            </tbody>
+          </table>
+          <p class="table-footnote">Error is relative to clean vector-field RMS. The extracted equation also predicts unseen distances and currents. The tested kernel search is not an established optimum.</p>
+        </div>
+        <p class="honest-result"><span class="small-star" aria-hidden="true">✳</span><span><strong>The useful surprise:</strong> direct equation fitting does better. The kernel can be a bridge to mathematics, but this experiment gives us no reason to make that bridge compulsory.</span></p>
+        <a class="text-link" href="papers/03-maxwells-perspective/maxwells_perspective.pdf">Read note III <span>PDF · 4 pages ↗</span></a>
+      </section>
+
+      <section class="perspective" aria-labelledby="perspective-title">
+        <div class="chapter-heading">
+          <p class="eyebrow">The question underneath the equations</p>
+          <h2 id="perspective-title">The experiment helps<br>define the function.</h2>
+          <p>The world stays the same. Change what the learner can observe, and the function it can infer may change.</p>
+        </div>
+        <div class="thought-experiment">
+          <div class="thought-context">
+            <span class="equation-label">A thought experiment</span>
+            <p>Suppose the same wire carries equal and opposite currents with equal probability, independently of position. What does a learner see?</p>
+            <div class="observation-switch" role="group" aria-label="Choose the quantities available to the learner">
+              <button type="button" data-observation="complete" aria-pressed="true">Position + current</button>
+              <button type="button" data-observation="position" aria-pressed="false">Position only</button>
+            </div>
+            <p class="thought-caveat">An implication of the setup, not an additional fitted result.</p>
+          </div>
+          <div class="thought-answer" aria-live="polite" aria-atomic="true">
+            <div data-answer="complete">
+              <span class="equation-label">The current-conditioned target</span>
+              <math display="block" aria-label="The expected magnetic field given position and current equals the ideal-wire field"><mi mathvariant="double-struck">E</mi><mo>[</mo><mi mathvariant="bold">B</mi><mo>|</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>,</mo><mi>I</mi><mo>]</mo><mo>=</mo><msub><mi mathvariant="bold">B</mi><mo>∗</mo></msub><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>,</mo><mi>I</mi><mo>)</mo></math>
+              <h3>The field, with its conditions.</h3>
+              <p>The current tells the learner which direction and strength to predict. A single analytic function can express that dependence.</p>
+            </div>
+            <div data-answer="position" hidden>
+              <span class="equation-label">The position-only mean target</span>
+              <math display="block" aria-label="The expected magnetic field given position equals zero"><mi mathvariant="double-struck">E</mi><mo>[</mo><mi mathvariant="bold">B</mi><mo>|</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>]</mo><mo>=</mo><mi mathvariant="bold">0</mi></math>
+              <h3>The directions average away.</h3>
+              <p>Zero is the optimal squared-error mean predictor with these incomplete inputs. Individual fields remain nonzero; their variation cannot be resolved from position alone.</p>
+            </div>
+          </div>
+        </div>
+        <div class="reflection">
+          <p>Neither an analytic expression nor a learned predictor becomes <em>more real</em> through its notation. Each makes a claim about observations, under conditions. Its empirical reach is something to establish.</p>
+          <details>
+            <summary>Would the two routes converge on the same function?<span aria-hidden="true">+</span></summary>
+            <div class="details-body">
+              <p>They can converge in predictive content when they target the same calibrated quantity, include the relevant conditions, observe enough to distinguish candidate fields, and use estimators capable of recovering that target.</p>
+              <p>Different mathematical forms may describe the same field. Limited or noisy observations can also leave genuinely different functions indistinguishable on the tested domain. Our small wire experiment establishes close recovery within its search grammar, not a convergence theorem.</p>
+              <p>The next test is to change the experiment: move a source, observe another direction, resolve a finer scale, or introduce time dependence. Which relationships survive?</p>
+            </div>
+          </details>
+        </div>
+        <blockquote class="closing-thought">
+          <p>From readings to relationships.<br>From relationships to new tests.</p>
+          <span>The inquiry continues.</span>
+        </blockquote>
+      </section>
+
+      <section class="papers" id="papers" aria-labelledby="papers-title">
+        <div class="papers-heading"><div><p class="eyebrow">The complete inquiry</p><h2 id="papers-title">Three notes. One thread.</h2></div><span class="handwritten">Read, question, reproduce.</span></div>
+        <ol class="paper-list">
+          <li>
+            <span class="paper-number">I</span>
+            <div class="paper-description"><h3><a href="papers/01-kernel-to-equation/kernel_to_equation.pdf">From samples to an equation</a></h3><p>A magnetic-like kernel benchmark</p><span>Hidden samples → differential equation → recovered tanh/sech² functions.</span></div>
+            <div class="paper-actions"><a href="papers/01-kernel-to-equation/kernel_to_equation.pdf">Read PDF <span aria-hidden="true">↗</span></a><a href="papers/01-kernel-to-equation/kernel_to_equation.tex">LaTeX source</a><small>3 pages</small></div>
+          </li>
+          <li>
+            <span class="paper-number">II</span>
+            <div class="paper-description"><h3><a href="papers/02-kernel-to-magnetostatics/kernel_to_magnetostatics.pdf">From a learned kernel to a magnetic field</a></h3><p>Real-data reconstruction with equivalent dipoles</p><span>Public measurements → learned field → theoretical source representation.</span></div>
+            <div class="paper-actions"><a href="papers/02-kernel-to-magnetostatics/kernel_to_magnetostatics.pdf">Read PDF <span aria-hidden="true">↗</span></a><a href="papers/02-kernel-to-magnetostatics/kernel_to_magnetostatics.tex">LaTeX source</a><small>3 pages</small></div>
+          </li>
+          <li>
+            <span class="paper-number">III</span>
+            <div class="paper-description"><h3><a href="papers/03-maxwells-perspective/maxwells_perspective.pdf">Maxwell’s Perspective</a></h3><p>Observations, learned kernels and the analytic functions we infer</p><span>A hidden wire, two mathematical routes, and the role of the observer.</span></div>
+            <div class="paper-actions"><a href="papers/03-maxwells-perspective/maxwells_perspective.pdf">Read PDF <span aria-hidden="true">↗</span></a><a href="papers/03-maxwells-perspective/maxwells_perspective.tex">LaTeX source</a><small>4 pages</small></div>
+          </li>
+        </ol>
+        <div class="research-links"><a href="README.md">Project overview ↗</a><a href="experiments/hidden_wire/README.md">Hidden-wire protocol &amp; results ↗</a><a href="data/README.md">Dataset provenance ↗</a></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div><a class="signature" href="#">J. R. Landers</a><p>From learned kernels to magnetic-field equations<br>Research notes · November 2026</p></div>
+      <p class="footer-note">An inquiry inspired by Maxwell’s perspective.<br>Historical sources and full experimental qualifications<br>are included in the papers.</p>
+      <a class="back-top" href="#">Back to the beginning ↑</a>
+    </footer>
+  </div>
+</body>
+</html>

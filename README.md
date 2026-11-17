@@ -2,14 +2,19 @@
 
 Research notes by **J. R. Landers** on the path from sampled observations to learned kernels, explicit equations and theoretical field representations.
 
+Open [the research folio](index.html) in a browser for a visual introduction to the three-paper arc. The page is local and buildless; no deployment has been configured. [Design and asset notes](assets/site/README.md).
+
 ## The papers
 
 | | Paper | Read | Source and reproduction |
 | --- | --- | --- | --- |
 | **1** | **From samples to an equation** — A magnetic-like kernel benchmark | [PDF](papers/01-kernel-to-equation/kernel_to_equation.pdf) | [LaTeX and assets](papers/01-kernel-to-equation/README.md) · [Experiment](experiments/kernel_benchmark/README.md) |
 | **2** | **From a learned kernel to a magnetic field** — Real-data reconstruction with equivalent dipoles | [PDF](papers/02-kernel-to-magnetostatics/kernel_to_magnetostatics.pdf) | [LaTeX and assets](papers/02-kernel-to-magnetostatics/README.md) · [Theory and experiment](experiments/magnetic_mapping/dipole_field/THEORY.md) |
+| **3** | **Maxwell's Perspective** — Observations, learned kernels and the analytic functions we infer | [PDF](papers/03-maxwells-perspective/maxwells_perspective.pdf) | [LaTeX and assets](papers/03-maxwells-perspective/README.md) · [Hidden-wire experiment](experiments/hidden_wire/README.md) |
 
 The first note verifies the workflow on a hidden synthetic function: samples → Gaussian kernel → differential equation → recovered tanh/sech-squared functions. The second uses public measured magnetic data: a learned vector kernel → equivalent magnetic dipoles → held-out measurement predictions. The dipole reconstruction reduces reference-instrument vector RMSE from 8.09 to 5.22 in this exploratory study. The physical family is supplied; the equivalent moments are inferred. It does not uniquely identify the room's actual sources or independently discover Maxwell's equations.
+
+The third note connects the experiments through "Maxwell's Perspective": how observations and mathematical choices shape an inferred analytic function, and when different discovery processes could converge. It compares a hidden wire's theoretical field with the recovered expression, including noise, coverage and direct-fit controls.
 
 ## Repository map
 
@@ -17,8 +22,10 @@ The first note verifies the workflow on a hidden synthetic function: samples →
 papers/
   01-kernel-to-equation/       First paper: PDF, LaTeX, figures, tables, builder
   02-kernel-to-magnetostatics/ Follow-up: PDF, LaTeX, figures, tables, builder
+  03-maxwells-perspective/    Expository synthesis, wire equations and convergence
 experiments/
   kernel_benchmark/           Controlled synthetic workflow behind paper 1
+  hidden_wire/               Hidden wire: kernel to discovered analytic field
   magnetic_mapping/          Aalto/FIU studies and dipole reconstruction for paper 2
   radio_response/             Supporting measured radio-response investigation
   maxwell_control/            Earlier synthetic equation discovery and pose diagnostic
@@ -29,14 +36,14 @@ scripts/                     Paper builds and repository checks
 
 ## Rebuild the papers
 
-Python 3.10+ and a LaTeX installation with `pdflatex` are required. The checked-in result arrays are sufficient; no raw-data download is needed to build either paper.
+Python 3.10+ and a LaTeX installation with `pdflatex` are required. The checked-in result arrays are sufficient; no raw-data download is needed to build the papers.
 
 ```powershell
 python -m pip install -r requirements.txt
 python scripts/build_papers.py
 ```
 
-This rebuilds figures and tables from saved results, verifies their implementation hashes, and compiles each three-page PDF twice. The PDFs and source assets are included in the repository for direct reading.
+This rebuilds figures and tables from saved results, verifies their implementation hashes, and compiles each PDF twice. The first two papers are three pages each; the third is four pages. The PDFs and source assets are included in the repository for direct reading.
 
 ## Reproduce the central experiments
 
@@ -45,6 +52,7 @@ python experiments/kernel_benchmark/run_demo.py
 python experiments/magnetic_mapping/fetch_data.py
 python experiments/magnetic_mapping/run_experiment.py
 python experiments/magnetic_mapping/run_dipole_field.py
+python experiments/hidden_wire/run_experiment.py
 python scripts/build_papers.py
 ```
 
@@ -60,6 +68,7 @@ python scripts/check_repository.py
 The tests cover kernel calculus, analytic solutions, data leakage, magnetic identities and saved prediction scores. The optional radio artifact check skips when its unversioned 88 MB prediction archive has not been regenerated.
 
 - [Magnetic experiment overview](experiments/magnetic_mapping/README.md), including the independent FIU study and failed scalar equation candidates.
+- [Hidden-wire discovery and matched sensor comparison](experiments/hidden_wire/README.md): general algebra recovers the wire-field shape; includes noise, coverage and direct-fit controls.
 - [Radio-response theory and measurements](experiments/radio_response/README.md).
 - [Earlier Maxwell control](experiments/maxwell_control/README.md) and [mathematical walkthrough](docs/MATHEMATICS.md).
 - [Dataset provenance and attribution](data/README.md), [repository reorganization](docs/REORGANIZATION.md), and [rights and third-party material](NOTICE.md).

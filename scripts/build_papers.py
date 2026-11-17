@@ -1,4 +1,4 @@
-"""Rebuild both research notes from retained result arrays and compile twice."""
+"""Rebuild all research notes from retained result arrays and compile twice."""
 from pathlib import Path
 import shutil
 import subprocess
@@ -6,7 +6,8 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 PAPERS = (("01-kernel-to-equation", "kernel_to_equation"),
-          ("02-kernel-to-magnetostatics", "kernel_to_magnetostatics"))
+          ("02-kernel-to-magnetostatics", "kernel_to_magnetostatics"),
+          ("03-maxwells-perspective", "maxwells_perspective"))
 
 
 def main():
