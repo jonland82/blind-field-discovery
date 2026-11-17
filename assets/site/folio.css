@@ -139,6 +139,15 @@ h2 { font-size: clamp(37px, 4.1vw, 58px); letter-spacing: -1.25px; line-height: 
 .workflow strong { margin-top: 3px; font-size: 29px; font-weight: 500; }
 .workflow li > span:last-child { color: var(--muted); font-size: 16px; }
 .workflow-footnote { margin-top: 17px; color: var(--muted); font-size: 15px; font-style: italic; }
+.project-aims { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; margin: 34px 0 0; padding: 0; list-style: none; text-align: left; }
+.project-aims li { padding-top: 18px; border-top: 1px solid var(--rule); }
+.project-aims h3 { margin-top: 8px; font-size: 27px; line-height: 1.15; }
+.project-aims p { margin-top: 13px; color: var(--muted); font-size: 18px; line-height: 1.5; }
+.comparison-title { margin-top: 40px; font-size: 29px; line-height: 1.2; text-align: center; }
+.comparison-intro { max-width: 730px; margin: 18px auto 0; text-align: center; }
+.comparison-title + .field-comparison, .comparison-intro + .field-comparison { margin-top: 24px; }
+.profile-comparison .field-expression math { min-height: 0; margin-block: 24px; font-size: clamp(16px, 1.65vw, 23px); }
+.historical-context > p + p { margin-top: 20px; }
 
 .chapter { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 48px; padding: 66px 0 74px; border-top: 1px solid var(--rule); }
 .chapter-marker { padding-top: 1px; }
@@ -175,7 +184,7 @@ math { margin: 20px 0 5px; color: var(--ink); font-family: "Cambria Math", "STIX
 .chapter-heading h2 { margin-top: 16px; }
 .chapter-heading > p:last-child { max-width: 655px; margin: 22px auto 0; font-size: 21px; }
 .field-comparison { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 42px; border: 1px solid var(--rule); }
-.field-expression { padding: 28px 20px 25px; text-align: center; }
+.field-expression { min-width: 0; padding: 28px 20px 25px; text-align: center; }
 .field-expression + .field-expression { border-left: 1px solid var(--rule); background: #88502a08; }
 .field-expression math { min-height: 101px; margin: 25px 0 18px; font-size: clamp(17px, 1.8vw, 25px); }
 .field-expression > p:last-child { max-width: 340px; margin: 0 auto; color: var(--muted); font-size: 16px; line-height: 1.4; }
@@ -306,6 +315,9 @@ details[open] summary > span { transform: rotate(45deg); }
   h2 { font-size: 40px; letter-spacing: -.8px; }
   .premise > p:not(.eyebrow):not(.workflow-footnote) { font-size: 20px; }
   .workflow { grid-template-columns: repeat(2, 1fr); margin-top: 30px; }
+  .project-aims { grid-template-columns: 1fr; gap: 23px; }
+  .project-aims h3 { font-size: 27px; }
+  .profile-comparison .field-expression math { font-size: clamp(12px, 3.8vw, 23px); }
   .workflow li { padding-block: 16px; }
   .workflow li:nth-child(odd)::after { display: block; }
   .workflow li:nth-child(even)::after { display: none; }

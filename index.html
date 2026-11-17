@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#e2cfa9">
-  <meta name="description" content="Three research notes by J. R. Landers: from observations to learned kernels, explicit magnetic-field functions, and Maxwell’s perspective on the mathematics we infer.">
-  <title>From readings to laws · J. R. Landers</title>
+  <meta name="description" content="Learn an unknown function with a kernel, recover an analytic equation, and test whether it predicts better. Apply the method to real magnetic sensor data and ask how perspective shapes the equations we infer.">
+  <title>From data to analytic equations · J. R. Landers</title>
   <link rel="preload" href="assets/site/fonts/eb-garamond.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/site/folio.css">
   <script src="assets/site/folio.js" defer></script>
@@ -15,23 +15,22 @@
   <div class="folio">
     <header class="masthead">
       <a class="signature" href="#" aria-label="J. R. Landers, back to top">J. R. Landers</a>
-      <span class="masthead-caption">An inquiry in three notes</span>
+      <span class="masthead-caption">Kernels, equations &amp; magnetic fields</span>
       <nav aria-label="Main navigation">
-        <a href="#story">The inquiry</a>
-        <a href="#equations">The equations</a>
-        <a href="#papers">The papers <span aria-hidden="true">↗</span></a>
+        <a href="#story">The project</a>
+        <a href="#equations">Key equations</a>
+        <a href="#papers">Papers <span aria-hidden="true">↗</span></a>
       </nav>
     </header>
 
     <main id="main">
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="eyebrow"><span class="tiny-star" aria-hidden="true">✳</span> Field notes on learning &amp; physical law</p>
-          <p class="handwritten hero-hand">First, observe.</p>
-          <h1 id="hero-title">Then, find<br>the <em>form.</em></h1>
-          <p class="hero-description">A reading becomes a prediction. A prediction becomes an equation. When does an equation become a theory?</p>
-          <p class="hero-subtitle">Three experiments in turning learned magnetic fields into explicit mathematics—and asking what survives the translation.</p>
-          <a class="ink-link" href="#story">Follow the inquiry <span aria-hidden="true">↓</span></a>
+          <p class="eyebrow"><span class="tiny-star" aria-hidden="true">✳</span> Learning functions from observations</p>
+          <h1 id="hero-title">From data<br>to <em>equations.</em></h1>
+          <p class="hero-description">Learn a kernel approximation of an unknown function. Recover an analytic equation that predicts better.</p>
+          <p class="hero-subtitle">This repo tests that process on hidden synthetic functions and real magnetic sensor data, then asks how our measurements and mathematical choices shape the result.</p>
+          <a class="ink-link" href="#story">The three aims <span aria-hidden="true">↓</span></a>
         </div>
 
         <figure class="field-plate">
@@ -84,24 +83,22 @@
       <div class="folio-divider" aria-hidden="true"><span></span><b>❧</b><span></span></div>
 
       <section class="premise" id="story" aria-labelledby="premise-title">
-        <p class="eyebrow">The thread running through the work</p>
-        <h2 id="premise-title">Can we learn the readings,<br>then recover the relationship?</h2>
-        <p>A flexible predictor can tell us what comes next. We ask it for something more: an explicit function we can inspect, differentiate, interpret, and test beyond the observations that produced it.</p>
-        <ol class="workflow" aria-label="The four steps of the research workflow">
-          <li><span class="step-number">I.</span><strong>Observe</strong><span>Sample the world.</span></li>
-          <li><span class="step-number">II.</span><strong>Learn</strong><span>Fit a smooth kernel.</span></li>
-          <li><span class="step-number">III.</span><strong>Express</strong><span>Construct a function.</span></li>
-          <li><span class="step-number">IV.</span><strong>Test</strong><span>Meet new observations.</span></li>
+        <p class="eyebrow">What this repo is about</p>
+        <h2 id="premise-title">Three aims</h2>
+        <ol class="project-aims" aria-label="The three aims of the project">
+          <li><span class="step-number">01</span><h3>Recover an unknown function</h3><p>Learn its values with a kernel, translate that approximation into an analytic function, and compare prediction errors on unseen data.</p></li>
+          <li><span class="step-number">02</span><h3>Try it on real magnetic data</h3><p>Use the same process on sensor readings in an attempt to reverse engineer a Maxwell-like magnetic field equation.</p></li>
+          <li><span class="step-number">03</span><h3>Ask how perspective shapes the equation</h3><p>Connect our sensor experiment to Faraday and Maxwell: how do observations, available variables and mathematical choices affect the analytic form we recover?</p></li>
         </ol>
-        <p class="workflow-footnote">The middle step changes across the experiments. The final judge remains prediction.</p>
+        <p class="workflow-footnote">The experimental workflow: samples → kernel approximation → analytic function → test on unseen data.</p>
       </section>
 
       <section class="chapter chapter-one" aria-labelledby="chapter-one-title">
-        <div class="chapter-marker"><span>01</span><p>The controlled beginning</p></div>
+        <div class="chapter-marker"><span>01</span><p>Recover an unknown function</p></div>
         <div class="chapter-content">
-          <p class="eyebrow">First note · A hidden synthetic profile</p>
-          <h2 id="chapter-one-title">Hide the function.<br>See what comes back.</h2>
-          <p>We begin in a world whose answer we know. The learner receives sampled field and source values, with no knowledge of the hidden tanh/sech² formula. Its Gaussian kernel learns the readings; a sparse equation search finds a differential relationship.</p>
+          <p class="eyebrow">Synthetic data · Known truth, hidden from the learner</p>
+          <h2 id="chapter-one-title">Learn the function.<br>Recover its analytic form.</h2>
+          <p>We generate samples from a known function, but hide its formula from the learner. A Gaussian kernel approximates the sampled values. We then search for a simple differential equation using the learned function and its derivative, and solve that equation analytically.</p>
           <div class="equation-path" aria-label="From the discovered differential equation to its analytic solution">
             <div>
               <span class="equation-label">The selected equation</span>
@@ -113,23 +110,24 @@
               <math display="block" aria-label="B of x equals A tanh of x minus x c over L"><mi>B</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><mi>A</mi><mi mathvariant="normal">tanh</mi><mo>(</mo><mfrac><mrow><mi>x</mi><mo>−</mo><msub><mi>x</mi><mi>c</mi></msub></mrow><mi>L</mi></mfrac><mo>)</mo></math>
             </div>
           </div>
-          <p class="margin-thought handwritten">A curve is a beginning.<br>A relationship goes further.</p>
-          <p>Solving the selected equation recovers the original function family. In the noisy run, its field error is <strong>0.045%</strong> on unseen positions. The tanh function was a consequence of the selected equation, not a regression feature.</p>
-          <p class="takeaway"><span>The lesson</span> A good fit and a recovered analytic form are separate achievements.</p>
+          <p>Solving the selected equation recovers the hidden tanh function family. In the run with 0.1% scale noise, field error on unseen positions falls from <strong>0.085% for the kernel to 0.045% for the analytic function</strong>. Outside the sampled interval, it falls from <strong>23.98% to 0.029%</strong>. These are relative RMS errors.</p>
+          <p>The search uses polynomial terms; tanh and sech² appear when we solve the selected equation. The true and recovered formulas are shown in <a href="#equations">Key equations</a>.</p>
+          <p class="takeaway"><span>Result</span> The recovered analytic function predicts better in this controlled example, especially beyond the sampled interval.</p>
           <a class="text-link" href="papers/01-kernel-to-equation/kernel_to_equation.pdf">Read note I <span>PDF · 3 pages ↗</span></a>
         </div>
       </section>
 
       <section class="chapter chapter-two" aria-labelledby="chapter-two-title">
-        <div class="chapter-marker"><span>02</span><p>Out of the ideal world</p></div>
+        <div class="chapter-marker"><span>02</span><p>Use real magnetic measurements</p></div>
         <div class="chapter-content">
-          <p class="eyebrow">Second note · Public magnetic measurements</p>
-          <h2 id="chapter-two-title">A real room has no<br>answer at the back.</h2>
-          <p>Next, public Aalto recordings give us tracked positions and three magnetic channels. There is no known analytic function for the room. We fit a vector kernel, then reconstruct its predictions with a background field and equivalent magnetic dipoles.</p>
+          <p class="eyebrow">Real data · Public Aalto magnetic sensor recordings</p>
+          <h2 id="chapter-two-title">Can sensor data yield<br>a magnetic field equation?</h2>
+          <p>We repeat the process with real sensor readings: learn a vector kernel from positions and three magnetic channels, then turn its predictions into an analytic magnetic field model. The aim is to reverse engineer a Maxwell-like equation from measurements.</p>
+          <p>The current result uses a supplied magnetostatic model: a background field plus equivalent magnetic dipoles. We learn their contributions from the kernel. This improves prediction, but does not independently discover Maxwell’s equations.</p>
           <div class="single-equation">
-            <span class="equation-label">A physical representation, with learned contributions</span>
+            <span class="equation-label">Reconstructed analytic field · Supplied dipole family</span>
             <math display="block" aria-label="B D of r equals b zero plus the sum over j of the magnetic dipole response D of r and s j times q j"><msub><mi mathvariant="bold">B</mi><mi>D</mi></msub><mo>(</mo><mi mathvariant="bold">r</mi><mo>)</mo><mo>=</mo><msub><mi mathvariant="bold">b</mi><mn>0</mn></msub><mo>+</mo><munder><mo>∑</mo><mi>j</mi></munder><mi>D</mi><mo>(</mo><mi mathvariant="bold">r</mi><mo>,</mo><msub><mi mathvariant="bold">s</mi><mi>j</mi></msub><mo>)</mo><msub><mi mathvariant="bold">q</mi><mi>j</mi></msub></math>
-            <p>D is the magnetic dipole response; q is an inferred contribution; b₀ is a uniform background.</p>
+            <p>D is the supplied magnetic dipole response; sⱼ are assumed source positions; qⱼ and the background b₀ are fitted. The true analytic room field is unknown, so we compare predictions with held-out sensor readings.</p>
           </div>
           <figure class="measurement-figure">
             <img src="papers/02-kernel-to-magnetostatics/field_reconstruction.png" alt="All three magnetic components: measured readings, Gaussian kernel predictions and equivalent-dipole reconstruction along held-out trial 4, plus a fixed spatial model cut." width="1543" height="805" loading="lazy">
@@ -141,22 +139,41 @@
             <div><span>Reconstructed field RMSE</span><strong>5.22</strong></div>
             <p>Stable reference-sensor trials<br>Reference recording units</p>
           </div>
-          <p>The magnetic family is supplied here; its equivalent source weights are learned. A direct-data dipole fit gives a similar error, <strong>5.31</strong>. The sources are a useful representation, not identified objects in the room. These results reuse previously examined recordings and remain exploratory.</p>
-          <p class="takeaway"><span>The lesson</span> A physically structured function can improve prediction without uniquely explaining the sources.</p>
+          <p>The reconstructed field reduces held-out RMSE by about <strong>35%</strong>. Fitting dipoles directly to the readings gives a similar error, <strong>5.31</strong>. The equivalent dipoles do not uniquely identify the room’s actual sources. These results reuse previously examined recordings and remain exploratory.</p>
+          <p class="takeaway"><span>Result</span> An analytic magnetic model improves prediction here. Recovering a field equation without supplying its physical form remains an open goal for the real data.</p>
           <a class="text-link" href="papers/02-kernel-to-magnetostatics/kernel_to_magnetostatics.pdf">Read note II <span>PDF · 3 pages ↗</span></a>
         </div>
       </section>
 
       <section class="wire-chapter" id="equations" aria-labelledby="wire-title">
         <div class="chapter-heading">
-          <p class="eyebrow">Third note · Maxwell’s Perspective</p>
-          <h2 id="wire-title">Two routes.<br><em>Almost the same field.</em></h2>
-          <p>What if the magnetic formula is withheld? In a simulated wire experiment, the kernel-to-function workflow searches general polynomial and rational expressions. The familiar shape comes back.</p>
+          <p class="eyebrow">Key equations</p>
+          <h2 id="wire-title">True analytic functions<br>vs. recovered functions</h2>
+          <p>In the synthetic experiments, we know the true formulas and hide them during learning. These comparisons show what the kernel-to-equation process recovers.</p>
         </div>
 
+        <h3 class="comparison-title">Synthetic profile: field B and source J</h3>
+        <div class="field-comparison profile-comparison">
+          <article class="field-expression theoretical">
+            <p class="equation-label">True analytic functions · Hidden during learning</p>
+            <math display="block" aria-label="B star of x equals 1.7 tanh of x over 0.9"><msub><mi>B</mi><mo>∗</mo></msub><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><mn>1.7</mn><mi mathvariant="normal">tanh</mi><mo>(</mo><mfrac><mi>x</mi><mn>0.9</mn></mfrac><mo>)</mo></math>
+            <math display="block" aria-label="J star of x equals 0.8 sech squared of x over 0.9"><msub><mi>J</mi><mo>∗</mo></msub><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><mn>0.8</mn><msup><mi mathvariant="normal">sech</mi><mn>2</mn></msup><mo>(</mo><mfrac><mi>x</mi><mn>0.9</mn></mfrac><mo>)</mo></math>
+            <p>These functions generate the sampled field and source values.</p>
+          </article>
+          <article class="field-expression learned">
+            <p class="equation-label">Recovered analytic functions · 0.1% scale noise</p>
+            <math display="block" aria-label="B recovered of x approximately equals 1.699495 tanh of x plus 0.000644 over 0.899139"><msub><mi>B</mi><mi>θ</mi></msub><mo>(</mo><mi>x</mi><mo>)</mo><mo>≈</mo><mn>1.699495</mn><mi mathvariant="normal">tanh</mi><mo>(</mo><mfrac><mrow><mi>x</mi><mo>+</mo><mn>0.000644</mn></mrow><mn>0.899139</mn></mfrac><mo>)</mo></math>
+            <math display="block" aria-label="J recovered of x approximately equals 0.800351 sech squared of x plus 0.000644 over 0.899139"><msub><mi>J</mi><mi>θ</mi></msub><mo>(</mo><mi>x</mi><mo>)</mo><mo>≈</mo><mn>0.800351</mn><msup><mi mathvariant="normal">sech</mi><mn>2</mn></msup><mo>(</mo><mfrac><mrow><mi>x</mi><mo>+</mo><mn>0.000644</mn></mrow><mn>0.899139</mn></mfrac><mo>)</mo></math>
+            <p>Same function family, with fitted scales and center. Coefficients are rounded; scores use full precision.</p>
+          </article>
+        </div>
+        <p class="equation-units">Recovered by solving B′ = p − qB² and using B′ = aJ. <a href="experiments/kernel_benchmark/results/RESULTS.md">Full coefficients and errors ↗</a></p>
+
+        <h3 class="comparison-title">Simulated straight wire: a magnetic field control</h3>
+        <p class="comparison-intro">Can the process recover a familiar magnetic formula without a supplied dipole model? For this simulation, it searches general polynomial and rational expressions. The true and recovered fields are:</p>
         <div class="field-comparison">
           <article class="field-expression theoretical">
-            <p class="equation-label">The hidden ideal-wire field</p>
+            <p class="equation-label">True analytic field · Hidden during learning</p>
             <math display="block" aria-label="B star equals 0.2 I over x squared plus y squared times the vector minus y, x, zero">
               <msub><mi mathvariant="bold">B</mi><mo>∗</mo></msub><mo>=</mo>
               <mfrac><mrow><mn>0.2</mn><mi>I</mi></mrow><mrow><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><msup><mi>y</mi><mn>2</mn></msup></mrow></mfrac>
@@ -184,7 +201,7 @@
         </div>
         <p class="equation-units">x, y: position in metres &nbsp;·&nbsp; I: current in amperes &nbsp;·&nbsp; B: field in microtesla</p>
         <div class="wire-conclusion">
-          <p class="handwritten">The form returns.<br>The coefficients bear the journey.</p>
+          <p class="handwritten">Same structure.<br>Approximate coefficients.</p>
           <p>Current proportionality and inverse-distance scaling emerge in all 15 fits. Circular symmetry is approximate. The experiment verifies inference in a deliberately constructed world; it does not independently validate Maxwell’s theory.</p>
         </div>
 
@@ -200,15 +217,19 @@
           </table>
           <p class="table-footnote">Error is relative to clean vector-field RMS. The extracted equation also predicts unseen distances and currents. The tested kernel search is not an established optimum.</p>
         </div>
-        <p class="honest-result"><span class="small-star" aria-hidden="true">✳</span><span><strong>The useful surprise:</strong> direct equation fitting does better. The kernel can be a bridge to mathematics, but this experiment gives us no reason to make that bridge compulsory.</span></p>
+        <p class="honest-result"><span class="small-star" aria-hidden="true">✳</span><span><strong>Direct equation fitting does better in this control.</strong> The analytic function improves on the tested kernel, but the kernel stage is not required for the best result here.</span></p>
         <a class="text-link" href="papers/03-maxwells-perspective/maxwells_perspective.pdf">Read note III <span>PDF · 4 pages ↗</span></a>
       </section>
 
-      <section class="perspective" aria-labelledby="perspective-title">
+      <section class="perspective" id="perspective" aria-labelledby="perspective-title">
         <div class="chapter-heading">
-          <p class="eyebrow">The question underneath the equations</p>
-          <h2 id="perspective-title">The experiment helps<br>define the function.</h2>
-          <p>The world stays the same. Change what the learner can observe, and the function it can infer may change.</p>
+          <p class="eyebrow">03 · Faraday, Maxwell and perspective</p>
+          <h2 id="perspective-title">How much does perspective<br>shape the equation?</h2>
+          <p>Faraday organized experimental findings through lines of force. Maxwell developed those ideas mathematically. Our sensor experiment asks a related question: how do we get from observed readings to an analytic description?</p>
+        </div>
+        <div class="reflection historical-context">
+          <p>In <a href="https://en.wikisource.org/wiki/On_Faraday%27s_Lines_of_Force">On Faraday’s Lines of Force</a>, Maxwell explains how he uses Faraday’s ideas and physical analogies to develop mathematical relationships. The route to an equation includes choices about what to measure and how to represent it.</p>
+          <p>Our experiment makes some of those choices explicit: sensor axes, calibration, positions, available inputs and allowed equation forms. We ask how much the recovered function depends on these choices, and which relationships still predict correctly when the experiment changes.</p>
         </div>
         <div class="thought-experiment">
           <div class="thought-context">
@@ -236,7 +257,7 @@
           </div>
         </div>
         <div class="reflection">
-          <p>Neither an analytic expression nor a learned predictor becomes <em>more real</em> through its notation. Each makes a claim about observations, under conditions. Its empirical reach is something to establish.</p>
+          <p>Perspective can change the function we can infer. Omitting current changes the prediction target in this example; changing coordinates may only change how the same field is written. Limited measurements can leave several analytic functions consistent with the data. New experiments help distinguish them.</p>
           <details>
             <summary>Would the two routes converge on the same function?<span aria-hidden="true">+</span></summary>
             <div class="details-body">
@@ -247,17 +268,17 @@
           </details>
         </div>
         <blockquote class="closing-thought">
-          <p>From readings to relationships.<br>From relationships to new tests.</p>
-          <span>The inquiry continues.</span>
+          <p>Which equations keep working<br>when the experiment changes?</p>
+          <span>The next research question.</span>
         </blockquote>
       </section>
 
       <section class="papers" id="papers" aria-labelledby="papers-title">
-        <div class="papers-heading"><div><p class="eyebrow">The complete inquiry</p><h2 id="papers-title">Three notes. One thread.</h2></div><span class="handwritten">Read, question, reproduce.</span></div>
+        <div class="papers-heading"><div><p class="eyebrow">Methods, results and limitations</p><h2 id="papers-title">Read the three papers</h2></div><span class="handwritten">Read, question, reproduce.</span></div>
         <ol class="paper-list">
           <li>
             <span class="paper-number">I</span>
-            <div class="paper-description"><h3><a href="papers/01-kernel-to-equation/kernel_to_equation.pdf">From samples to an equation</a></h3><p>A magnetic-like kernel benchmark</p><span>Hidden samples → differential equation → recovered tanh/sech² functions.</span></div>
+            <div class="paper-description"><h3><a href="papers/01-kernel-to-equation/kernel_to_equation.pdf">From samples to an equation</a></h3><p>Recover an unknown synthetic function</p><span>Samples → kernel → differential equation → recovered tanh/sech² functions.</span></div>
             <div class="paper-actions"><a href="papers/01-kernel-to-equation/kernel_to_equation.pdf">Read PDF <span aria-hidden="true">↗</span></a><a href="papers/01-kernel-to-equation/kernel_to_equation.tex">LaTeX source</a><small>3 pages</small></div>
           </li>
           <li>
@@ -277,7 +298,7 @@
 
     <footer class="footer">
       <div><a class="signature" href="#">J. R. Landers</a><p>From learned kernels to magnetic-field equations<br>Research notes · November 2026</p></div>
-      <p class="footer-note">An inquiry inspired by Maxwell’s perspective.<br>Historical sources and full experimental qualifications<br>are included in the papers.</p>
+      <p class="footer-note">Learn a function. Recover an equation.<br>Test it on data. Examine the role of perspective.<br>Full methods and limitations are in the papers.</p>
       <a class="back-top" href="#">Back to the beginning ↑</a>
     </footer>
   </div>
