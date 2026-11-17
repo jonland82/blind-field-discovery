@@ -1,0 +1,153 @@
+{
+  "purpose": "Verify the numerical kernel-to-equation workflow on known synthetic functions.",
+  "physical_discovery_claim": false,
+  "implementation_sha256": "3122c3c4c96184a9758023a222957487e32302ac74cb97b4836f18e64822995d",
+  "cases": {
+    "noiseless": {
+      "synthetic_data": true,
+      "noise_fraction_of_fixed_channel_scales": 0.0,
+      "seed": 20261116,
+      "train_count": 80,
+      "kernel_validation_count": 60,
+      "equation_fit_count": 100,
+      "equation_validation_count": 100,
+      "kernel_length": 0.5,
+      "kernel_ridge": 1e-12,
+      "kernel_validation_standardized_mse": 1.498473694739586e-14,
+      "equation_terms": [
+        "J"
+      ],
+      "equation_coefficients": [
+        2.3611110752451023
+      ],
+      "equation_validation_relative_residual": 9.226792725421077e-07,
+      "equation_met_predeclared_one_percent_tolerance": true,
+      "oracle_a_revealed_after_fit": 2.3611111111111107,
+      "coefficient_relative_error": 1.519030945473787e-08,
+      "field_relative_rmse": 1.176182485365497e-05,
+      "source_relative_rmse": 4.667938710925505e-06,
+      "derivative_relative_rmse": 0.0004387159391371416,
+      "equation_test_relative_residual": 0.0004387161699513021,
+      "integrated_law_field_relative_rmse": 1.2581500702604903e-07,
+      "extrapolated_field_relative_rmse": 0.1995992972256274,
+      "extrapolated_derivative_relative_rmse": 278.9681850677214,
+      "test_scope": "Dense unseen positions within the sampled interval; same analytic generator.",
+      "symbolic_recovery": {
+        "candidate_powers": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "maximum_support": 3,
+        "selected_powers": [
+          0,
+          2
+        ],
+        "coefficients": [
+          1.888888707274707,
+          -0.653594618808717
+        ],
+        "validation_relative_residual": 9.229307179714272e-07,
+        "met_one_percent_tolerance": true,
+        "closed_form_recovered": true,
+        "status": "Bounded tanh branch selected by an interior kernel reference value.",
+        "p": 1.888888707274707,
+        "q": 0.653594618808717,
+        "amplitude": 1.7000001165129048,
+        "length": 0.9000001482171328,
+        "center": 4.6537927067547e-08,
+        "reference_x": -0.5797383936149945,
+        "reference_kernel_b": -0.9651259932965294,
+        "coupling_a": 2.3611110752451023,
+        "source_amplitude": 0.799999935233299,
+        "field_relative_rmse": 5.6738728667251205e-08,
+        "source_relative_rmse": 1.1486602528971148e-07,
+        "derivative_relative_rmse": 1.15685808376215e-07,
+        "extrapolated_field_relative_rmse": 6.727158230987103e-08,
+        "extrapolated_source_relative_rmse": 1.2149733049435074e-06,
+        "extrapolated_derivative_relative_rmse": 1.1998094154228466e-06,
+        "oracle_p_after_fit": 1.8888888888888888,
+        "oracle_q_after_fit": 0.6535947712418301,
+        "amplitude_relative_error": 6.853700296183263e-08,
+        "length_relative_error": 1.646857030745963e-07,
+        "center_absolute_error": 4.6537927067547e-08,
+        "source_amplitude_relative_error": 8.095837622512647e-08
+      }
+    },
+    "noisy": {
+      "synthetic_data": true,
+      "noise_fraction_of_fixed_channel_scales": 0.001,
+      "seed": 20261116,
+      "train_count": 80,
+      "kernel_validation_count": 60,
+      "equation_fit_count": 100,
+      "equation_validation_count": 100,
+      "kernel_length": 0.8,
+      "kernel_ridge": 1e-06,
+      "kernel_validation_standardized_mse": 7.5607809734182556e-06,
+      "equation_terms": [
+        "J"
+      ],
+      "equation_coefficients": [
+        2.3616325160163507
+      ],
+      "equation_validation_relative_residual": 0.006045506216947301,
+      "equation_met_predeclared_one_percent_tolerance": true,
+      "oracle_a_revealed_after_fit": 2.3611111111111107,
+      "coefficient_relative_error": 0.0002208303128075073,
+      "field_relative_rmse": 0.0008535269923531445,
+      "source_relative_rmse": 0.001230433676495881,
+      "derivative_relative_rmse": 0.012065841104929406,
+      "equation_test_relative_residual": 0.01206337268918576,
+      "integrated_law_field_relative_rmse": 0.0022887324740080146,
+      "extrapolated_field_relative_rmse": 0.23980446836506017,
+      "extrapolated_derivative_relative_rmse": 244.04253947811492,
+      "test_scope": "Dense unseen positions within the sampled interval; same analytic generator.",
+      "symbolic_recovery": {
+        "candidate_powers": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "maximum_support": 3,
+        "selected_powers": [
+          0,
+          2
+        ],
+        "coefficients": [
+          1.8901350953201592,
+          -0.6544148739498513
+        ],
+        "validation_relative_residual": 0.006355613893038455,
+        "met_one_percent_tolerance": true,
+        "closed_form_recovered": true,
+        "status": "Bounded tanh branch selected by an interior kernel reference value.",
+        "p": 1.8901350953201592,
+        "q": 0.6544148739498513,
+        "amplitude": 1.6994948080569197,
+        "length": 0.899139332561333,
+        "center": -0.000643923169978966,
+        "reference_x": -0.5797383936149945,
+        "reference_kernel_b": -0.9647245049600595,
+        "coupling_a": 2.3616325160163507,
+        "source_amplitude": 0.8003510633011088,
+        "field_relative_rmse": 0.00044623711346079023,
+        "source_relative_rmse": 0.0008857181835927893,
+        "derivative_relative_rmse": 0.0009032995593105247,
+        "extrapolated_field_relative_rmse": 0.0002890777885709785,
+        "extrapolated_source_relative_rmse": 0.007890929888111244,
+        "extrapolated_derivative_relative_rmse": 0.0076721503271510085,
+        "oracle_p_after_fit": 1.8888888888888888,
+        "oracle_q_after_fit": 0.6535947712418301,
+        "amplitude_relative_error": 0.0002971717312236777,
+        "length_relative_error": 0.0009562971540744147,
+        "center_absolute_error": 0.000643923169978966,
+        "source_amplitude_relative_error": 0.0004388291263859312
+      }
+    }
+  }
+}

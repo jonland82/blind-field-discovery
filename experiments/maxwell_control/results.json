@@ -1,0 +1,292 @@
+{
+  "control_only": true,
+  "generator_encodes_Maxwell": true,
+  "learner_inputs": "unnamed scalar channels; generic raw terms, quadratic products, and first coordinate derivatives",
+  "measurement_noise_fraction": 0.0001,
+  "finite_difference_step": 0.02,
+  "train_experiments": 12,
+  "validation_experiments": 4,
+  "test_experiments": 4,
+  "train_samples": 6144,
+  "test_samples": 2048,
+  "candidate_terms": 106,
+  "learner_diagnostics": {
+    "nullity": 9,
+    "gap_ratio": 139.5220629997156,
+    "gap_index": 96
+  },
+  "discovered_equations": [
+    {
+      "terms": [
+        "u6",
+        "d0(u0)",
+        "d1(u1)",
+        "d2(u2)"
+      ],
+      "indices": [
+        7,
+        11,
+        16,
+        21
+      ],
+      "coefficients": [
+        1.0,
+        -1.0004663160680922,
+        -1.0004805382557689,
+        -1.000483638295403
+      ],
+      "train_relative_residual": 0.0009053149464894518,
+      "validation_relative_residual": 0.000920804397660335,
+      "test_relative_residual": 0.0010086748007191967,
+      "interpreted_equation": "+1.00000 rho -1.00047 d_x(Ex) -1.00048 d_y(Ey) -1.00048 d_z(Ez) = 0"
+    },
+    {
+      "terms": [
+        "u7",
+        "d3(u0)",
+        "d2(u4)",
+        "d1(u5)"
+      ],
+      "indices": [
+        8,
+        14,
+        29,
+        32
+      ],
+      "coefficients": [
+        1.0,
+        1.0004259677793679,
+        1.0005425334677644,
+        -1.0005148955501562
+      ],
+      "train_relative_residual": 0.0012018191268971096,
+      "validation_relative_residual": 0.0011857406339489181,
+      "test_relative_residual": 0.0012060835619238772,
+      "interpreted_equation": "+1.00000 Jx +1.00043 d_t(Ex) +1.00054 d_z(By) -1.00051 d_y(Bz) = 0"
+    },
+    {
+      "terms": [
+        "u8",
+        "d3(u1)",
+        "d2(u3)",
+        "d0(u5)"
+      ],
+      "indices": [
+        9,
+        18,
+        25,
+        31
+      ],
+      "coefficients": [
+        1.0,
+        1.0004664347502974,
+        -1.0005476582227786,
+        1.0005578516902047
+      ],
+      "train_relative_residual": 0.0011446101685009308,
+      "validation_relative_residual": 0.0011529557738194597,
+      "test_relative_residual": 0.0012516960143523575,
+      "interpreted_equation": "+1.00000 Jy +1.00047 d_t(Ey) -1.00055 d_z(Bx) +1.00056 d_x(Bz) = 0"
+    },
+    {
+      "terms": [
+        "u9",
+        "d3(u2)",
+        "d1(u3)",
+        "d0(u4)"
+      ],
+      "indices": [
+        10,
+        22,
+        24,
+        27
+      ],
+      "coefficients": [
+        1.0,
+        1.0003787354367102,
+        1.0004520563343873,
+        -1.0004435776101361
+      ],
+      "train_relative_residual": 0.0011992517517785113,
+      "validation_relative_residual": 0.0011636104683740282,
+      "test_relative_residual": 0.0012389010579508134,
+      "interpreted_equation": "+1.00000 Jz +1.00038 d_t(Ez) +1.00045 d_y(Bx) -1.00044 d_x(By) = 0"
+    },
+    {
+      "terms": [
+        "d1(u0)",
+        "d0(u1)",
+        "d3(u5)"
+      ],
+      "indices": [
+        12,
+        15,
+        34
+      ],
+      "coefficients": [
+        1.0,
+        -1.0000519250096054,
+        -1.0000034037837353
+      ],
+      "train_relative_residual": 0.0018665956418381896,
+      "validation_relative_residual": 0.0018960181051236428,
+      "test_relative_residual": 0.0018073281556221198,
+      "interpreted_equation": "+1.00000 d_y(Ex) -1.00005 d_x(Ey) -1.00000 d_t(Bz) = 0"
+    },
+    {
+      "terms": [
+        "d2(u0)",
+        "d0(u2)",
+        "d3(u4)"
+      ],
+      "indices": [
+        13,
+        19,
+        30
+      ],
+      "coefficients": [
+        1.0,
+        -0.9999391234083801,
+        0.9998193170361975
+      ],
+      "train_relative_residual": 0.001874905788543129,
+      "validation_relative_residual": 0.0018905929060311839,
+      "test_relative_residual": 0.0018327004295227562,
+      "interpreted_equation": "+1.00000 d_z(Ex) -0.99994 d_x(Ez) +0.99982 d_t(By) = 0"
+    },
+    {
+      "terms": [
+        "d2(u1)",
+        "d1(u2)",
+        "d3(u3)"
+      ],
+      "indices": [
+        17,
+        20,
+        26
+      ],
+      "coefficients": [
+        1.0,
+        -0.9999455733169031,
+        -0.999838106349168
+      ],
+      "train_relative_residual": 0.001835496050563604,
+      "validation_relative_residual": 0.0018872101730724577,
+      "test_relative_residual": 0.0019714740396295713,
+      "interpreted_equation": "+1.00000 d_z(Ey) -0.99995 d_y(Ez) -0.99984 d_t(Bx) = 0"
+    },
+    {
+      "terms": [
+        "d0(u3)",
+        "d1(u4)",
+        "d2(u5)"
+      ],
+      "indices": [
+        23,
+        28,
+        33
+      ],
+      "coefficients": [
+        1.0,
+        0.9999980036294491,
+        1.0000818208737623
+      ],
+      "train_relative_residual": 0.0018604949599792507,
+      "validation_relative_residual": 0.0018203745607837855,
+      "test_relative_residual": 0.0020405432587127415,
+      "interpreted_equation": "+1.00000 d_x(Bx) +1.00000 d_y(By) +1.00008 d_z(Bz) = 0"
+    },
+    {
+      "terms": [
+        "d3(u6)",
+        "d0(u7)",
+        "d1(u8)",
+        "d2(u9)"
+      ],
+      "indices": [
+        38,
+        39,
+        44,
+        49
+      ],
+      "coefficients": [
+        1.0,
+        1.0002034673720521,
+        1.0001276157453498,
+        1.0001642654571237
+      ],
+      "train_relative_residual": 0.0016797562571115867,
+      "validation_relative_residual": 0.001615867252234646,
+      "test_relative_residual": 0.0016904597535581855,
+      "interpreted_equation": "+1.00000 d_t(rho) +1.00020 d_x(Jx) +1.00013 d_y(Jy) +1.00016 d_z(Jz) = 0"
+    }
+  ],
+  "ablation_and_negative_controls": {
+    "B_only_volume_control": {
+      "equations": [
+        {
+          "terms": [
+            "d0(u3)",
+            "d1(u4)",
+            "d2(u5)"
+          ],
+          "indices": [
+            4,
+            9,
+            14
+          ],
+          "coefficients": [
+            1.0,
+            0.9999980036294491,
+            1.0000818208737627
+          ],
+          "train_relative_residual": 0.0018604949599792511,
+          "validation_relative_residual": 0.0018203745607837853,
+          "test_relative_residual": 0.0020405432587127354,
+          "interpreted_equation": "+1.00000 d_x(Bx) +1.00000 d_y(By) +1.00008 d_z(Bz) = 0"
+        }
+      ],
+      "diagnostics": {
+        "nullity": 1,
+        "gap_ratio": 278.4323693119384,
+        "gap_index": 20
+      },
+      "candidate_terms": 22
+    },
+    "independently_shuffled_columns_control": {
+      "equations": [],
+      "diagnostics": {
+        "nullity": 0,
+        "gap_ratio": 2.1186896806993643
+      }
+    }
+  },
+  "real_recording_diagnostic": {
+    "position_variance_fractions": [
+      0.8500292714523924,
+      0.1499401807288275,
+      3.0547818780005734e-05
+    ],
+    "variance_in_best_fit_plane": 0.9999694521812199,
+    "normal_rms_metres": 0.10471806126537578,
+    "largest_rms_metres": 17.46821107413498,
+    "best_fit_plane_normal": [
+      -0.009287345957783818,
+      0.9999565575488804,
+      -0.0007926033388361303
+    ],
+    "missing_measurements": [
+      "electric field",
+      "charge density",
+      "current density"
+    ],
+    "conclusion": "The phone recording cannot identify the full electromagnetic equations."
+  },
+  "limitations": [
+    "Synthetic recovery validates the algorithm, not real-world discovery.",
+    "Coordinates, derivatives, polynomial library and sparsity are supplied mathematical priors.",
+    "Dimensionless generator units set electromagnetic constants to one.",
+    "Observations include all E, B, rho and J channels, unlike the phone recording.",
+    "Generic finite differences use dense local sampling unavailable on the phone route."
+  ]
+}

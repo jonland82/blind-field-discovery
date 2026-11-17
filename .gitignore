@@ -1,0 +1,34 @@
+# Downloaded public datasets are kept locally; provenance accompanies results.
+/data/*
+!/data/README.md
+!/data/manifests/
+
+# Regenerable, large artifact from the supporting radio study (88 MB).
+/experiments/radio_response/results/predictions.npz
+
+# Python and editor/build caches.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# LaTeX intermediates; PDFs and source assets are deliberately versioned.
+*.aux
+*.log
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+preview-*.png
+
+# Local configuration and credentials.
+.env
+.env.*
+*.pem
+*.key
+.reorganize.py

@@ -1,0 +1,214 @@
+{
+  "repository": "https://github.com/LABDSP/FIUMARGDB_marg_signals_and_reference_orientations",
+  "commit": "998c9ebbd243b3e13ba2dc8bbf94e958b6be1b8b",
+  "paper": "https://doi.org/10.3390/s23083786",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 3151,
+      "sha256": "677f65f6905686eb1c19028dddd1a8e79c416db83646a230ebb3d65897043e86"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 35149,
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    {
+      "path": "readDBFile.m",
+      "bytes": 1817,
+      "sha256": "9a31887af3e3b972c19a1c225cf81fe1cb90dcf93fc85f19a3dd2bc50d837e7a"
+    },
+    {
+      "path": "showTrioOut.m",
+      "bytes": 2814,
+      "sha256": "fcb234060142aa3bc3c089ec381d32f2e3c0c28a040ff08c4f123ded94ffa356"
+    },
+    {
+      "path": "showDifTrioKF.m",
+      "bytes": 3327,
+      "sha256": "bb1640e00b8e26af65613f9b8aba868cf07c71474c067f927cafbf45750cea69"
+    },
+    {
+      "path": "REC_01-05.zip",
+      "bytes": 4891309,
+      "sha256": "d466fea4d8bee0e1e9c6cf3d45cfb703a95fa2537b8d7d22b861eef58325525b"
+    },
+    {
+      "path": "recordings/rec01.csv",
+      "bytes": 2835529,
+      "sha256": "59144550cf6c2d33c13bd67f9fc8b77608feb93560ad0b3eee2e318ac106fa44"
+    },
+    {
+      "path": "recordings/rec02.csv",
+      "bytes": 2240804,
+      "sha256": "0d7e206d65102fd880a23a1a4f44b2de60f55529041b0005f6aed68b6791d9a1"
+    },
+    {
+      "path": "recordings/rec03.csv",
+      "bytes": 4663785,
+      "sha256": "2e28f80819a9e0fae01482e6c7b4191faf40dc82e9a9b980fc97e7b45c4094a9"
+    },
+    {
+      "path": "recordings/rec04.csv",
+      "bytes": 3404027,
+      "sha256": "559090e5c5eb544d89ea54b9e40462dee11aef9742fc60e8f6ba8faf8a54b97c"
+    },
+    {
+      "path": "recordings/rec05.csv",
+      "bytes": 3467206,
+      "sha256": "e464d4c3355b48f00fc568209859433058b97fa737dce93d27ece7f8c5dd3101"
+    },
+    {
+      "path": "REC_06-10.zip",
+      "bytes": 4231603,
+      "sha256": "cf88aba0cb9987ab27939a8d777bf5b1be39c5d1327f21f490dac63dece84d6f"
+    },
+    {
+      "path": "recordings/rec06.csv",
+      "bytes": 2520104,
+      "sha256": "ef6ee21a744c6fddc6d9305cd8a653c4b78a4fa289d4fe7204c78cc37c1e3fed"
+    },
+    {
+      "path": "recordings/rec07.csv",
+      "bytes": 3481469,
+      "sha256": "b64f39d4ea74a23377c447374dd81430ae87070e9d89be1bf4ded5b4e2c20025"
+    },
+    {
+      "path": "recordings/rec08.csv",
+      "bytes": 2929274,
+      "sha256": "2ea73c882ae3fde64f8c20aaed2bdfc400f0404378e03df5ac77e3028b6c118a"
+    },
+    {
+      "path": "recordings/rec09.csv",
+      "bytes": 2036666,
+      "sha256": "e955ae061a8bf14465690373d2ca5d32b1397e94cf8a4cacd2b53ab5ee8858a5"
+    },
+    {
+      "path": "recordings/rec10.csv",
+      "bytes": 3261365,
+      "sha256": "50fafaccde0ab746bd881142059409c48bba199273be385fb6f4e5e4c2736199"
+    },
+    {
+      "path": "REC_11-15.zip",
+      "bytes": 3835314,
+      "sha256": "d2d5def9d8bbb2a32a491ac46e6d939ae3c7ddafa43a354c5d1f500b777bf405"
+    },
+    {
+      "path": "recordings/rec11.csv",
+      "bytes": 1731149,
+      "sha256": "bdec50035132f22f7aab3fe8ae3d8732bc320e99f7e7a395a1de9b1813f3b0b5"
+    },
+    {
+      "path": "recordings/rec12.csv",
+      "bytes": 3631604,
+      "sha256": "9f7da0765836bf359dc984b1fcc34e98212fe1890a52eda7025fd6c910acb347"
+    },
+    {
+      "path": "recordings/rec13.csv",
+      "bytes": 3246498,
+      "sha256": "5380d75d9b674b8577649ccc83637f65b99dd0d8c3385baebe0289f0f06df7a8"
+    },
+    {
+      "path": "recordings/rec14.csv",
+      "bytes": 1553024,
+      "sha256": "5354f393dbe8f88f1380cb79224a76102ab00c031eb9749ec6a1b4fe706457df"
+    },
+    {
+      "path": "recordings/rec15.csv",
+      "bytes": 2897676,
+      "sha256": "b582c316e1d7d4483f4f5b36344e902e8d86db234fd16f3a41665e4eccce735a"
+    },
+    {
+      "path": "REC_16-20.zip",
+      "bytes": 4372885,
+      "sha256": "d0017d971f47797d3909f42c1ed1fe1d2283f321033f2932286516f3e5b3d6f6"
+    },
+    {
+      "path": "recordings/rec16.csv",
+      "bytes": 3951723,
+      "sha256": "64e8170008fe87f48beec9eb84cfd64964200d75bbf2abc3171ac86aabdcee73"
+    },
+    {
+      "path": "recordings/rec17.csv",
+      "bytes": 2420895,
+      "sha256": "4a0ea5a88875829f325ee6dc99532f7462e52c7c693d469275fb6ba9542df829"
+    },
+    {
+      "path": "recordings/rec18.csv",
+      "bytes": 2335222,
+      "sha256": "bb59af3db4b62f090dab5bd4953e903ff64fca6481eca0b42b8300aa38e4cd92"
+    },
+    {
+      "path": "recordings/rec19.csv",
+      "bytes": 4356382,
+      "sha256": "747243f00dcc1c8f45cc72891f2defceb669e968e63516e66fad2e57e336b7dd"
+    },
+    {
+      "path": "recordings/rec20.csv",
+      "bytes": 1885973,
+      "sha256": "1154d596393d7c5f7970e28bbb7b4dd7d56cfc6dae0492f69416ab11e60c9485"
+    },
+    {
+      "path": "REC_21-25.zip",
+      "bytes": 4516179,
+      "sha256": "d5d9ef91f09a5abb07bc4e54366df9938a0c48ec7b082887b25072a700b91efd"
+    },
+    {
+      "path": "recordings/rec21.csv",
+      "bytes": 2091280,
+      "sha256": "c2a4f0cc910e89af51705f45da8c677dac6b802d018766e8fb9882991196957f"
+    },
+    {
+      "path": "recordings/rec22.csv",
+      "bytes": 1990481,
+      "sha256": "873d9fb0d993f62ccce93acd1cd541e64a3ad8e690ea9fbc082be71c75e3a51d"
+    },
+    {
+      "path": "recordings/rec23.csv",
+      "bytes": 4021408,
+      "sha256": "76482da63a27fb903bcdd4e73cba3ee362d26f3abb428982358170545254e966"
+    },
+    {
+      "path": "recordings/rec24.csv",
+      "bytes": 3165090,
+      "sha256": "5e45b2df55dc0c6b5faab0c20d37e4650e9472e3db46010575a5876d6aacef73"
+    },
+    {
+      "path": "recordings/rec25.csv",
+      "bytes": 4118720,
+      "sha256": "34c31e193050994481723101ee4806728285fc3153d36ef75b33f79c234bf98c"
+    },
+    {
+      "path": "REC_26-30.zip",
+      "bytes": 4528840,
+      "sha256": "1f67f4491ec540e818991aef56be4ef5200cb0c3495db06ed77826a2707c30ca"
+    },
+    {
+      "path": "recordings/rec26.csv",
+      "bytes": 2953436,
+      "sha256": "9868adc339e6550ffdeff988385dc6f81c571aae87a003998fbe4f5d067d8110"
+    },
+    {
+      "path": "recordings/rec27.csv",
+      "bytes": 3147274,
+      "sha256": "43025260b80dd462e7a1c27d15ca0238dcbc48356346ef631679373bbc0cc180"
+    },
+    {
+      "path": "recordings/rec28.csv",
+      "bytes": 2467481,
+      "sha256": "14342a650c4b52fb7f28ac3383f16f6cfc2dd25a0f2aafb62f7e7ff3d4b03858"
+    },
+    {
+      "path": "recordings/rec29.csv",
+      "bytes": 2817910,
+      "sha256": "657bfa8a6b359f9c435ee5b25aefa52a2beba36fe74baf97e815d48de1fbd8dc"
+    },
+    {
+      "path": "recordings/rec30.csv",
+      "bytes": 3795428,
+      "sha256": "a2bfa438327cdb4c5e7ac62b8da9c5369d90c2d1b57a86c136eea1e7f599a5a3"
+    }
+  ],
+  "recording_type": "Measured MARG magnetic channels and independent optical position/orientation",
+  "licence": "See the retained upstream LICENSE (GNU GPL v3) and paper attribution."
+}

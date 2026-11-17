@@ -1,0 +1,7 @@
+numpy
+scipy
+matplotlib
+requests
+google-crc32c
+threadpoolctl
+pytest

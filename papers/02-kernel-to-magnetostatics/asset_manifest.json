@@ -1,0 +1,6 @@
+{
+  "experiments/magnetic_mapping/dipole_field/results.json": "a60430ba7327fa12a0d6c06a3fb0c79cd730da43512bf5f8f9888924b6a644d6",
+  "experiments/magnetic_mapping/dipole_field/predictions.npz": "47bf166fd29272e9d1d929f002ead04b6dad8e8adcf87c3d1977ca1688e778eb",
+  "experiments/magnetic_mapping/results/results.json": "43ee063bb349365ad5875f9f1a2a5f611ce24e43722d782c5c2cc77ec3e67a95",
+  "papers/02-kernel-to-magnetostatics/build_assets.py": "bb35379288eafc4f7238971d835bd5d3e33553fe392492d7c7147d3948871386"
+}

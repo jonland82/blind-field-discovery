@@ -1,0 +1,12 @@
+* text=auto eol=lf
+*.py text eol=lf
+*.md text eol=lf
+*.tex text eol=lf
+# Result JSON files reference each other by byte hashes. Preserve their bytes.
+*.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
+*.txt text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.pdf binary
+*.png binary
+*.npz binary
