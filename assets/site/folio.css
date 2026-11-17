@@ -301,7 +301,7 @@ details[open] summary > span { transform: rotate(45deg); }
   .folio { padding-inline: 25px; }
   .masthead { flex-wrap: wrap; justify-content: space-between; gap: 14px; padding-block: 22px 17px; min-height: auto; }
   .signature { font-size: 31px; }
-  .masthead nav { gap: 17px; }
+  .masthead nav { width: 100%; flex-wrap: wrap; gap: 12px 20px; margin-left: 0; }
   .masthead nav a { font-size: 15px; }
   .hero { grid-template-columns: 1fr; gap: 27px; padding: 41px 0 33px; }
   .hero .eyebrow { font-size: 10px; letter-spacing: 1.6px; }

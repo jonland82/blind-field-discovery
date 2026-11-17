@@ -1,8 +1,10 @@
 # From learned kernels to magnetic-field equations
 
+**[Live site →](https://jonland82.github.io/blind-field-discovery/)**
+
 Research notes by **J. R. Landers** on the path from sampled observations to learned kernels, explicit equations and theoretical field representations.
 
-Open [the research folio](index.html) in a browser for a visual introduction to the three-paper arc. The page is local and buildless; no deployment has been configured. [Design and asset notes](assets/site/README.md).
+Visit [the live research site](https://jonland82.github.io/blind-field-discovery/) for an introduction to the three-paper arc, or open [index.html](index.html) locally. GitHub Pages serves the buildless site from the root of `master`. [Design and asset notes](assets/site/README.md).
 
 ## The papers
 
