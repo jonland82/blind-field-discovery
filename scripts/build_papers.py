@@ -7,7 +7,8 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 PAPERS = (("01-kernel-to-equation", "kernel_to_equation"),
           ("02-kernel-to-magnetostatics", "kernel_to_magnetostatics"),
-          ("03-maxwells-perspective", "maxwells_perspective"))
+          ("03-maxwells-perspective", "maxwells_perspective"),
+          ("04-measurement-influence", "measurement_influence"))
 
 
 def main():

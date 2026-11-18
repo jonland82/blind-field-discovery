@@ -1,0 +1,9 @@
+{
+  "experiments/magnetic_mapping/dipole_field/predictions.npz": "47bf166fd29272e9d1d929f002ead04b6dad8e8adcf87c3d1977ca1688e778eb",
+  "experiments/magnetic_mapping/dipole_field/results.json": "a60430ba7327fa12a0d6c06a3fb0c79cd730da43512bf5f8f9888924b6a644d6",
+  "experiments/magnetic_mapping/results/results.json": "43ee063bb349365ad5875f9f1a2a5f611ce24e43722d782c5c2cc77ec3e67a95",
+  "papers/04-measurement-influence/build_assets.py": "cc2e66fb29f16b66add1d34f337ea16c29f746fbfe5f264ac31eae5c55697a43",
+  "experiments/magnetic_mapping/models.py": "769a66e217ac7be3ce1f784eb86591e98a4f8f04e5f1d019bd0e387de6276bf2",
+  "experiments/magnetic_mapping/dipole_models.py": "18dbba42e0779f3d6f213a9b9a27c8b78ce54309fbdb1ce4316ee1515eafe36f",
+  "experiments/magnetic_mapping/run_experiment.py": "e8f0f952a7ab744cbffd710bee4645f61cb2abfac65368a6ee74ec5df8cf9260"
+}

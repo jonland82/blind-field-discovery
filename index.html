@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#e2cfa9">
-  <meta name="description" content="Learn an unknown function with a kernel, recover an analytic equation, and test whether it predicts better. Apply the method to real magnetic sensor data and ask how perspective shapes the equations we infer.">
+  <meta name="description" content="Four research notes on learning analytic equations from data, reconstructing magnetic fields, and tracing how individual measurements shape a prediction.">
   <title>From data to analytic equations · J. R. Landers</title>
   <link rel="preload" href="assets/site/fonts/eb-garamond.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/site/folio.css">
@@ -30,7 +30,7 @@
           <p class="eyebrow"><span class="tiny-star" aria-hidden="true">✳</span> Learning functions from observations</p>
           <h1 id="hero-title">From data<br>to <em>equations.</em></h1>
           <p class="hero-description">Learn a kernel approximation of an unknown function. Recover an analytic equation that predicts better.</p>
-          <p class="hero-subtitle">This repo tests that process on hidden synthetic functions and real magnetic sensor data, then asks how our measurements and mathematical choices shape the result.</p>
+          <p class="hero-subtitle">Four research notes test that process on hidden synthetic functions and real magnetic data, then trace how observations and mathematical choices shape the field we infer.</p>
           <a class="ink-link" href="#story">The three aims <span aria-hidden="true">↓</span></a>
         </div>
 
@@ -88,8 +88,8 @@
         <h2 id="premise-title">Three aims</h2>
         <ol class="project-aims" aria-label="The three aims of the project">
           <li><span class="step-number">01</span><h3>Recover an unknown function</h3><p>Learn its values with a kernel, translate that approximation into an analytic function, and compare prediction errors on unseen data.</p></li>
-          <li><span class="step-number">02</span><h3>Try it on real magnetic data</h3><p>Use the same process on sensor readings in an attempt to reverse engineer a Maxwell-like magnetic field equation.</p></li>
-          <li><span class="step-number">03</span><h3>Ask how perspective shapes the equation</h3><p>Connect our sensor experiment to Faraday and Maxwell: how do observations, available variables and mathematical choices affect the analytic form we recover?</p></li>
+          <li><span class="step-number">02</span><h3>Reconstruct a measured field</h3><p>Fit a textbook dipole representation to a learned magnetic field and test its predictions on held-out readings.</p></li>
+          <li><span class="step-number">03</span><h3>Ask what shapes the prediction</h3><p>Use a hidden wire to ask what the learner can infer, then trace how each magnetic reading contributes to the reconstructed field.</p></li>
         </ol>
         <p class="workflow-footnote">The experimental workflow: samples → kernel approximation → analytic function → test on unseen data.</p>
       </section>
@@ -274,8 +274,24 @@
         </blockquote>
       </section>
 
+      <section class="chapter" id="measurement-influence" aria-labelledby="influence-title">
+        <div class="chapter-marker"><span>04</span><p>Trace each measurement</p></div>
+        <div class="chapter-content">
+          <h2 id="influence-title">The magnetic field as a learned function</h2>
+          <p>Note II fits textbook dipole fields to the Gaussian model’s predictions. Note IV follows that fit back to the robot’s original readings. With the geometry and fit settings fixed, the reconstructed field has two exactly equivalent forms.</p>
+          <div class="single-equation">
+            <span class="equation-label">One reconstruction · A sum over dipoles or a sum over readings</span>
+            <math display="block" aria-label="The fitted background plus the sum of the fitted dipole responses equals the sum of the matrix-weighted measured field vectors"><msub><mover><mi mathvariant="bold">b</mi><mo>^</mo></mover><mn>0</mn></msub><mo>+</mo><munder><mo>∑</mo><mi>j</mi></munder><msub><mi>D</mi><mi>j</mi></msub><msub><mover><mi mathvariant="bold">q</mi><mo>^</mo></mover><mi>j</mi></msub><mo>=</mo><munder><mo>∑</mo><mi>i</mi></munder><msub><mi>W</mi><mi>i</mi></msub><msub><mi mathvariant="bold">b</mi><mi>i</mi></msub></math>
+            <p>At a given query, Dⱼ is the classical dipole response. Wᵢ is a matrix that gives the exact change in the predicted field when reading bᵢ changes. The Gaussian model also sums over the readings, using a scalar weight for each.</p>
+          </div>
+          <p>At one held-out position inside a gap in the training data, a one-unit increase in a nearby vertical reading raises the Gaussian prediction by <strong>0.579</strong> units and lowers the dipole prediction by <strong>0.085</strong> units. The paper maps both sets of weights and verifies the reversal by refitting the models. The reading illustrates the largest weight difference at that query.</p>
+          <p>Fitting equivalent dipoles to magnetic observations is an established method. The contribution here is the exact comparison of how the Gaussian fit and its dipole reconstruction use the same individual readings. <a href="https://pubs.geoscienceworld.org/seg/geophysics/article-abstract/38/2/339/71420/Equivalent-Sources-Used-As-An-Analytic-Base-For">Emilia’s 1973 equivalent-source study</a>.</p>
+          <a class="text-link" href="papers/04-measurement-influence/measurement_influence.pdf">Read note IV <span>PDF · 4 pages ↗</span></a>
+        </div>
+      </section>
+
       <section class="papers" id="papers" aria-labelledby="papers-title">
-        <div class="papers-heading"><div><p class="eyebrow">Methods, results and limitations</p><h2 id="papers-title">Read the three papers</h2></div><span class="handwritten">Read, question, reproduce.</span></div>
+        <div class="papers-heading"><div><p class="eyebrow">Methods, results and limitations</p><h2 id="papers-title">Read the four papers</h2></div><span class="handwritten">Read, question, reproduce.</span></div>
         <ol class="paper-list">
           <li>
             <span class="paper-number">I</span>
@@ -292,6 +308,11 @@
             <div class="paper-description"><h3><a href="papers/03-maxwells-perspective/maxwells_perspective.pdf">Maxwell’s Perspective</a></h3><p>Observations, learned kernels and the analytic functions we infer</p><span>A hidden wire, two mathematical routes, and the role of the observer.</span></div>
             <div class="paper-actions"><a href="papers/03-maxwells-perspective/maxwells_perspective.pdf">Read PDF <span aria-hidden="true">↗</span></a><a href="papers/03-maxwells-perspective/maxwells_perspective.tex">LaTeX source</a><small>4 pages</small></div>
           </li>
+          <li>
+            <span class="paper-number">IV</span>
+            <div class="paper-description"><h3><a href="papers/04-measurement-influence/measurement_influence.pdf">The magnetic field as a learned function</a></h3><p>From textbook dipoles to a sum over training measurements</p><span>Exact measurement weights show where the Gaussian and dipole predictions differ.</span></div>
+            <div class="paper-actions"><a href="papers/04-measurement-influence/measurement_influence.pdf">Read PDF <span aria-hidden="true">↗</span></a><a href="papers/04-measurement-influence/measurement_influence.tex">LaTeX source</a><a href="papers/04-measurement-influence/influence_map.pdf">Influence maps</a><small>4 pages</small></div>
+          </li>
         </ol>
         <div class="research-links"><a href="README.md">Project overview ↗</a><a href="experiments/hidden_wire/README.md">Hidden-wire protocol &amp; results ↗</a><a href="data/README.md">Dataset provenance ↗</a></div>
       </section>
@@ -299,7 +320,7 @@
 
     <footer class="footer">
       <div><a class="signature" href="#">J. R. Landers</a><p>From learned kernels to magnetic-field equations<br>Research notes · November 2026</p></div>
-      <p class="footer-note">Learn a function. Recover an equation.<br>Test it on data. Examine the role of perspective.<br>Full methods and limitations are in the papers.</p>
+      <p class="footer-note">From observed values to equations,<br>and from equations back to the measurements that shape them.</p>
       <a class="back-top" href="#">Back to the beginning ↑</a>
     </footer>
   </div>
