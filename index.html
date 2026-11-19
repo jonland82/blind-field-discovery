@@ -29,8 +29,8 @@
         <div class="hero-copy">
           <p class="eyebrow"><span class="tiny-star" aria-hidden="true">✳</span> Learning functions from observations</p>
           <h1 id="hero-title">From data<br>to <em>equations.</em></h1>
-          <p class="hero-description">Learn a kernel approximation of an unknown function. Recover an analytic equation that predicts better.</p>
-          <p class="hero-subtitle">Four research notes test that process on hidden synthetic functions and real magnetic data, then trace how observations and mathematical choices shape the field we infer.</p>
+          <p class="hero-description">Start with a robot’s magnetic readings. See how textbook physics helps turn those readings into a field map.</p>
+          <p class="hero-subtitle">A room shows how each reading shapes a prediction. A simulated wire shows how much of the equation the readings can reveal.</p>
           <a class="ink-link" href="#story">The three aims <span aria-hidden="true">↓</span></a>
         </div>
 
@@ -87,11 +87,11 @@
         <p class="eyebrow">What this repo is about</p>
         <h2 id="premise-title">Three aims</h2>
         <ol class="project-aims" aria-label="The three aims of the project">
-          <li><span class="step-number">01</span><h3>Recover an unknown function</h3><p>Learn its values with a kernel, translate that approximation into an analytic function, and compare prediction errors on unseen data.</p></li>
-          <li><span class="step-number">02</span><h3>Reconstruct a measured field</h3><p>Fit a textbook dipole representation to a learned magnetic field and test its predictions on held-out readings.</p></li>
-          <li><span class="step-number">03</span><h3>Ask what shapes the prediction</h3><p>Use a hidden wire to ask what the learner can infer, then trace how each magnetic reading contributes to the reconstructed field.</p></li>
+          <li><span class="step-number">01</span><h3>Map the room</h3><p>Use a Gaussian kernel to turn 500 robot readings into a magnetic field map. Test its predictions on other trips through the room.</p></li>
+          <li><span class="step-number">02</span><h3>Fit a textbook field</h3><p>Fit dipoles to the map and directly to the readings. Then write the dipole field as an exact weighted sum of the original readings.</p></li>
+          <li><span class="step-number">03</span><h3>Recover the wire equation</h3><p>Give the learner simulated readings and a library of formulas. See which features of the wire’s field it recovers.</p></li>
         </ol>
-        <p class="workflow-footnote">The experimental workflow: samples → kernel approximation → analytic function → test on unseen data. <a href="#unified-paper">Follow the full story in the unified paper.</a></p>
+        <p class="workflow-footnote"><a href="#unified-paper">Follow the full story in the unified paper.</a></p>
       </section>
 
       <section class="chapter chapter-one" aria-labelledby="chapter-one-title">
