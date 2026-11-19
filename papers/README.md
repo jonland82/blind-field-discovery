@@ -8,4 +8,6 @@
 
 4. **The magnetic field as a learned function** [PDF](04-measurement-influence/measurement_influence.pdf) · [Source and build instructions](04-measurement-influence/README.md). A classical dipole superposition becomes an exact sum over training measurements, connecting physical field representations with kernel learning.
 
+**Unified arXiv draft.** [Magnetic Fields from Measurements](arxiv-draft-maxwell/arxiv-draft.pdf) · [Source and build instructions](arxiv-draft-maxwell/README.md). The paper follows a path from Maxwell's field equations through the measured room to a controlled recovery of the field around a wire.
+
 The first two papers are three pages each. The third and fourth are four pages each. From the repository root, run `python scripts/build_papers.py` to rebuild all figures, tables and PDFs from retained experiment outputs.

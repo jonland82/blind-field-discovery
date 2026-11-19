@@ -1,0 +1,631 @@
+\documentclass[11pt]{article}
+\usepackage[margin=0.8in]{geometry}
+\usepackage{amsmath,amssymb,booktabs,graphicx}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[hidelinks]{hyperref}
+
+\title{Magnetic Fields from Measurements}
+\author{J. R. Landers}
+\date{November 2026}
+\hypersetup{pdftitle={Magnetic Fields from Measurements},pdfauthor={J. R. Landers}}
+
+\newcommand{\B}{\mathbf B}
+\newcommand{\x}{\mathbf x}
+\newcommand{\rr}{\mathbf r}
+\newcommand{\bvec}{\mathbf b}
+\newcommand{\sech}{\operatorname{sech}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+How does a magnetic field equation acquire information from measurements?
+We fit a Gaussian kernel to readings from a robot, then fit a superposition
+of textbook dipoles to the learned field. The resulting field has two exact
+representations at fixed settings. It is a sum over assumed sources and a
+matrix-weighted sum over the original readings. On two held-out reference
+sensor trials the vector root mean square error in reference recording units
+is 8.09 for the Gaussian map,
+5.22 for dipoles fitted to its predictions, and 5.31 for the same dipoles
+fitted directly to the readings. At one point in a training gap, increasing
+a selected vertical reading by one unit changes the vertical prediction by
+\(+0.579\), \(-0.085\), and \(-0.025\), respectively. We then hide the form
+of the field in a controlled experiment. A rational search recovers the
+current and distance scaling of a straight wire, with direct fitting
+giving the lowest mean error in all five tested cases.
+\end{abstract}
+
+\section{From an experiment to a field}
+
+Switch on a current beside a compass and the needle turns. A field equation
+gives that deflection a place in a larger account of electricity and magnetism.
+In his 1865 paper Maxwell began with the problem of reducing observed forces
+to mathematical form and went on to develop a dynamical theory of the
+electromagnetic field~\cite{maxwell}. The theory grew from experiment and
+mathematical reasoning together. Once we have the equations, we can turn
+the problem around. Given readings from a particular experiment, what can
+they tell us about the field that produced them?
+
+Consider a robot crossing a room with a magnetometer. Each record along
+its route pairs a position with three numbers giving the local field.
+We can use those readings to fit a Gaussian kernel and predict a field
+at positions the robot has yet to visit. We can also express the field as
+a sum of textbook dipole responses. When we fit those dipoles to the
+Gaussian predictions, what does the textbook field inherit from the
+readings, and what does it gain from the form of the equation?
+
+We answer the first question by writing a background plus 100 fitted dipoles
+as an exact sum over 500 measurements. To answer the second, we fit the same
+dipoles directly to the readings. A simulated wire lets us test how much
+of the field's form can be recovered from data. Appendix~\ref{sec:scalar}
+checks the recovery and solution of a differential law in one dimension.
+
+\section{What the robot records}
+
+The Aalto robot mapped an area of roughly \(6\,\mathrm m\times6\,\mathrm m\).
+Each sample has a time \(t\) in seconds since the start of the trial, a sensor
+position \(\x(t)=(x(t),y(t))\) in metres, and a calibrated, orientation-corrected
+magnetic vector \(\B=(B_x,B_y,B_z)^{\mathsf T}\), with \(B_z\) vertical
+and \({}^{\mathsf T}\) denoting transpose.
+Solin et al.\ mapped these readings with a Gaussian process on a scalar
+potential~\cite{solin}. Later work used this archive to estimate field
+magnitude sequentially~\cite{chang} and combined local Gaussian process
+maps to cover a building~\cite{abdulraouf}. We predict all three components
+from position. Time orders the predictions \(\widehat{\B}(\x(t))\) along
+the robot's route.
+
+\subsection{A Gaussian map from the readings}
+
+At each of \(n\) planar training positions \(\x_i\), the robot records a
+three-component vector \(\bvec_i\). The Gaussian kernel of length scale
+\(\ell>0\) assigns two positions a similarity
+\(k_\ell(\x,\x')=\exp(-\|\x-\x'\|^2/(2\ell^2))\), where \(\|\cdot\|\)
+is the Euclidean norm. The map at a query position \(\x_*\) adds one response
+for each training position to the mean reading \(\overline{\B}\),
+\begin{equation}
+ \widehat{\B}_K(\x_*)=\overline{\B}+
+ \sum_{i=1}^{n} k_\ell(\x_*,\x_i)\boldsymbol\alpha_i .
+ \label{eq:gaussian_response}
+\end{equation}
+The fitted vector \(\boldsymbol\alpha_i\) sets the size and direction of
+the response centered at \(\x_i\). To see how the original readings enter
+these coefficients, write \(Y\) for the matrix with rows \(\bvec_i^{\mathsf T}\).
+Let \(\mathbf1\) be the \(n\)-vector of ones, \(m^{\mathsf T}=\mathbf1^{\mathsf T}/n\)
+the averaging row, and \(P=\mathbf1m^{\mathsf T}\). Every row of \(PY\) is
+the mean field \(\overline{\B}^{\mathsf T}=m^{\mathsf T}Y\). Write \(I_d\)
+for the \(d\)-dimensional identity. The Gaussian training matrix has
+entries \(K_{ai}=k_\ell(\x_a,\x_i)\). The query row \(k_*^{\mathsf T}\)
+has entries \(k_\ell(\x_*,\x_i)\) at position \(\x_*\).
+Write \(Z=(I_n-P)Y\) for the centered readings. With effective penalty
+\(\rho>0\), including numerical jitter, kernel ridge regression minimizes
+\(\|K\alpha-Z\|_F^2+\rho\,\mathrm{tr}(\alpha^{\mathsf T}K\alpha)\), where
+\(\|\cdot\|_F\) is the Frobenius norm and \(\mathrm{tr}\) is the trace.
+Since \(K\) is positive semidefinite, solving \((K+\rho I_n)\alpha=Z\)
+gives a minimizer. The resulting matrix \(\alpha=(K+\rho I_n)^{-1}Z\)
+has row \(\boldsymbol\alpha_i^{\mathsf T}\) for training example \(i\).
+Substituting \(\alpha\) into \(\widehat{\B}_K(\x_*)^{\mathsf T}
+=\overline{\B}^{\mathsf T}+k_*^{\mathsf T}\alpha\) and evaluating at the
+training positions gives the query weights and the matrix \(T\) of fitted readings,
+\begin{align}
+ \widehat{\B}_K(\x_*)^{\mathsf T}&=g_*^{\mathsf T}Y,
+ &g_*^{\mathsf T}&=m^{\mathsf T}+k_*^{\mathsf T}(K+\rho I_n)^{-1}(I_n-P),\\
+ T&=HY,
+ & H&=P+K(K+\rho I_n)^{-1}(I_n-P).
+ \label{eq:teacher}
+\end{align}
+The row \(g_*^{\mathsf T}\) gives reading \(i\) the scalar weight
+\(g_{*i}\) in all three components. Row \(a\) of \(H\) gives those weights
+at training position \(\x_a\). Those fitted vectors, one at each measured
+position, are the targets for our first dipole fit.
+
+\section{Giving the map a textbook form}
+
+In a static region of air with no electric currents and uniform permeability,
+Maxwell's magnetic equations give \(\nabla\cdot\B=0\) and
+\(\nabla\times\B=0\), where the derivatives are spatial. A harmonic scalar
+potential therefore supplies a local field through its negative gradient.
+Equivalent-source methods use this idea to construct magnetic maps from
+measured fields, sometimes fitting sources at several depths to represent
+different spatial scales~\cite{emilia,uppal}. Here we place \(M\) equivalent
+dipoles below the observation plane
+\(z=0\). Dipole \(j\) is at \(\mathbf s_j\) and has effective moment
+\(\mathbf q_j\), which absorbs the factor \(\mu_0/(4\pi)\) in SI units
+(\(\mu_0\) is the vacuum permeability). At position \(\rr\)
+write \(\mathbf R=\rr-\mathbf s_j\) and \(R=\|\mathbf R\|>0\).
+Using \(\nabla R^{-3}=-3\mathbf R/R^5\), the negative gradient of the
+dipole potential gives
+\[
+ -\nabla\!\left(\frac{\mathbf q_j^{\mathsf T}\mathbf R}{R^3}\right)
+ =\underbrace{\left(\frac{3\mathbf R\mathbf R^{\mathsf T}}{R^5}
+                     -\frac{I_3}{R^3}\right)}_{D(\rr,\mathbf s_j)}\mathbf q_j.
+\]
+For fitted moments \(\widehat{\mathbf q}_j\) and a fitted uniform background
+\(\widehat{\bvec}_0\), the resulting textbook superposition is
+\begin{equation}
+ \widehat{\B}_D(\rr)=\widehat{\bvec}_0+
+ \sum_{j=1}^{M} D(\rr,\mathbf s_j)\widehat{\mathbf q}_j .
+ \label{eq:dipole_response}
+\end{equation}
+The dipole potential equals \(-\mathbf q_j^{\mathsf T}\nabla(1/R)\), with
+\(\nabla\) taken in \(\rr\). Since \(1/R\) is harmonic for \(R>0\), so is
+the potential. Its negative gradient therefore has zero divergence
+and, like any smooth gradient, zero curl.
+
+Equations~\eqref{eq:gaussian_response} and \eqref{eq:dipole_response} both
+add responses to a background. A Gaussian response is a scalar centered at
+a measurement. A dipole response is a matrix centered at an assumed source.
+The difference will matter when we ask how a reading affects the field far
+from where it was taken.
+
+\subsection{Fitting the moments and background}
+
+Let \(D_a=[D(\rr_a,\mathbf s_1)\ \cdots\ D(\rr_a,\mathbf s_M)]\) at
+\(\rr_a=(\x_a,0)\), and let \(D_*\) be the same block row at
+\(\rr_*=(\x_*,0)\). Stack the \(D_a\) into \(D\), the moments into
+\(\mathbf q\), and the fitting targets \(\mathbf t_a\) into \(\mathbf t\).
+The matrix \(C=(I_n-P)\otimes I_3\) subtracts the mean of each component
+from stacked vectors, with \(\otimes\) the Kronecker product. Let \(S\) be
+diagonal with the column norms of \(CD\), floored at \(10^{-12}\).
+For background \(\bvec_0\) and ridge penalty \(\lambda>0\), the fit solves
+\begin{equation}
+ \min_{\bvec_0,\mathbf q}
+ \sum_a\|\mathbf t_a-\bvec_0-D_a\mathbf q\|^2+\lambda\|S\mathbf q\|^2.
+ \label{eq:dipole_fit}
+\end{equation}
+For fixed moments, setting the background gradient to zero gives
+\(\bvec_0=\bar{\mathbf t}-\bar D\mathbf q\), where the bars average
+\(\mathbf t_a\) and \(D_a\) over training positions. With \(A=CDS^{-1}\)
+and \(\mathbf w=S\mathbf q\), Eq.~\eqref{eq:dipole_fit} reduces to
+\(\min_{\mathbf w}\|C\mathbf t-A\mathbf w\|^2+\lambda\|\mathbf w\|^2\).
+Solving \((A^{\mathsf T}A+\lambda I_{3M})\mathbf w=A^{\mathsf T}C\mathbf t\)
+gives the map \(L\) from targets to moments,
+\begin{equation}
+ \widehat{\mathbf q}=L\mathbf t,\qquad
+ L=S^{-1}(A^{\mathsf T}A+\lambda I_{3M})^{-1}A^{\mathsf T}C,\qquad
+ \widehat{\bvec}_0=\bar{\mathbf t}-\bar D\widehat{\mathbf q}.
+ \label{eq:ridge}
+\end{equation}
+The implementation evaluates the ridge solution by singular value
+decomposition. In the direct fit, the targets are \(\mathbf t_a=\bvec_a\).
+In the two-stage fit, the targets are the Gaussian predictions from
+Eq.~\eqref{eq:teacher} at the same training positions.
+
+\subsection{Testing the three maps on robot routes}
+
+We train on 500 readings from Invensense trials 1--2, select settings on
+trial 3, and test on trials 4--5 in the stable room and 6--9 after metal
+tool shelves were introduced.
+The rectangle
+\([1.5,2.5]\,\mathrm m\times[-2,-1]\,\mathrm m\), with a \(0.15\)-m buffer, is
+excluded from training and validation. Nexus phone and Trivisio data are
+put on the reference scale using sensor-wise affine alignments from trial 1.
+Field values are in reference recording units.
+
+The selected Gaussian length is \(0.35\) m and \(\rho=0.1+10^{-10}\)
+(ridge plus jitter). The dipole search uses grids that
+span the training positions along each planar coordinate. It combines grid
+sides \(4,7,10\), depths \(0.25,0.5,1\) m, and
+\(\lambda\in\{10^{-5},10^{-3},0.1,1\}\). The two-stage validation error
+selects a \(10\times10\) grid at a depth of 1 m and \(\lambda=10^{-3}\).
+We reuse that grid and penalty for the direct fit so that only the targets
+change. The constant baseline predicts the mean training reading everywhere.
+The project previously examined both sets of test recordings, so we treat
+the comparison as exploratory.
+
+\begin{table}[!htbp]
+\centering
+\caption{Vector RMSE against held-out measurements in reference recording
+units. Scores pool the trials within each environment.}
+\label{tab:mag}
+\small
+\begin{tabular}{@{}llrrrr@{}}
+\toprule
+Environment & Instrument & Constant & Gaussian & Two-stage & Direct \\
+\midrule
+Stable & Invensense  & 16.48 &  8.09 &  5.22 &  5.31 \\
+       & Nexus phone & 16.32 & 10.34 &  8.83 &  8.85 \\
+       & Trivisio    & 16.42 &  8.03 &  5.56 &  5.71 \\
+\addlinespace
+Changed & Invensense  & 17.62 &  8.64 &  7.33 &  7.36 \\
+        & Nexus phone & 27.53 & 24.16 & 23.81 & 23.79 \\
+        & Trivisio    & 17.24 &  8.69 &  7.43 &  7.50 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Prediction error.}
+For \(N\) test samples, vector RMSE is \((N^{-1}\sum_{i=1}^N
+\|\widehat{\B}_i-\bvec_i\|^2)^{1/2}\), where \(\widehat{\B}_i\) is the
+prediction and \(\bvec_i\) the reading at test sample \(i\).
+The Gaussian map and the two-stage dipole map start from the same readings.
+Their errors on the stable Invensense trials are \(8.09\) and \(5.22\), a
+reduction of \(35\%\) (Table~\ref{tab:mag}). The direct fit tells us how much
+of that reduction we can get by choosing the dipole form alone. Its error is
+\(5.31\), within \(0.09\) units of the two-stage fit. Both dipole fits still
+have substantial error on changed-environment phone data.
+
+\begin{figure}[!htbp]
+\centering
+\begin{minipage}[c]{0.60\linewidth}
+\includegraphics[width=\linewidth]{trial4_trajectory.pdf}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.37\linewidth}
+\caption{Magnetic vectors from 501 samples at 85--95 s, near the midpoint
+of held-out Invensense trial 4. Color shows measurement time, from the
+start circle to the end square. The lines evaluate the fitted models at
+the same recorded positions. Axes show field components in reference
+recording units.}
+\label{fig:trajectory}
+\end{minipage}
+\end{figure}
+
+Ten seconds of the held-out route put those errors in view
+(Figure~\ref{fig:trajectory}). The three axes are the components of the
+measured field. As the robot moves, the tip of its field vector traces a
+curve. All three predictions follow the turn toward lower \(B_z\) and
+underestimate its depth. The measured minimum is \(-44.3\) units, compared
+with \(-41.4\) for the Gaussian and \(-41.5\) to \(-41.6\) for the dipoles.
+The two dipole tracks lie close together. To see what smoothing can change
+in those maps, we can follow a single reading through the fit.
+
+\section{One field, two sums}
+
+The dipole sum in Eq.~\eqref{eq:dipole_response} starts from source moments.
+Those moments, and the uniform background, are linear in the targets once
+we fix the measurement positions, source geometry, and penalties. We can
+therefore write the same predicted field starting from the readings.
+
+Partition \(L\) into block columns \(L_a\) so that \(L\mathbf t=\sum_aL_a\mathbf t_a\).
+Substituting the fitted moments and background gives the dipole field
+\(\widehat{\B}_D\) as a weighted sum of its targets:
+\begin{equation}
+ \widehat{\B}_D(\rr_*)=\bar{\mathbf t}+(D_*-\bar D)L\mathbf t
+  =\sum_a U_a(\rr_*)\mathbf t_a,\qquad
+ U_a(\rr_*)=\frac{I_3}{n}+(D_*-\bar D)L_a.
+ \label{eq:direct}
+\end{equation}
+Each \(U_a\) is a \(3\times3\) weight matrix on a raw reading in the direct fit.
+Substituting \(\mathbf t_a=\sum_i H_{ai}\bvec_i\) into the same expression
+gives the corresponding weights for the two-stage fit,
+\begin{equation}
+ \widehat{\B}_{\rm two}(\rr_*)=\sum_i W_i(\rr_*)\bvec_i,\qquad
+ W_i(\rr_*)=\sum_a H_{ai}U_a(\rr_*).
+ \label{eq:weights}
+\end{equation}
+Equating the source representation in Eq.~\eqref{eq:dipole_response}
+with the measurement representation in Eq.~\eqref{eq:weights} gives
+\begin{equation}
+ \widehat{\B}_{\rm two}(\rr_*)=
+ \widehat{\bvec}_0+\sum_{j=1}^{M}D(\rr_*,\mathbf s_j)\widehat{\mathbf q}_j
+ =\sum_{i=1}^{n}W_i(\rr_*)\bvec_i .
+ \label{eq:dipole_identity}
+\end{equation}
+The left sum follows the superposition of physical responses. The right
+sum follows each piece of measured information into that same field.
+In the two-stage fit, reading \(i\) contributes to target \(a\) through
+the scalar \(H_{ai}\).
+\(U_a\) carries that target to the query. Smoothing therefore changes its weight
+by \(W_i-U_i=\sum_a(H_{ai}-\delta_{ai})U_a\), where \(\delta_{ai}=1\) for \(a=i\)
+and zero otherwise. At fixed positions and settings, adding a vector \(\Delta\)
+to reading \(i\) changes the direct prediction by \(U_i\Delta\) and the
+two-stage prediction by \(W_i\Delta\). Off-diagonal entries give the effect
+of changing one measured component on another predicted component. Both fits
+preserve a common offset because centering removes it from the moment fit
+and the background restores it. Thus \(\sum_i U_i=\sum_i W_i=I_3\).
+
+Geomagnetic inversions use similar weights to assess resolution and
+variance~\cite{hammer}. In self-distillation, fitting model
+predictions can suppress noise and weaken signal~\cite{mobahi,wu}. Our
+two-stage procedure fits to predictions once and changes the model family.
+Equation~\eqref{eq:weights} gives the change in each reading's weight.
+
+\subsection{The effect of one reading}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=.90\linewidth]{influence_map.pdf}
+\caption{Effect of increasing one measured \(B_z\) by one unit on predicted
+\(B_z\) at the cross. Dots mark training positions, the dashed box marks the
+spatial gap, and a ring marks the reading with the largest absolute difference
+in vertical weights between models at the query. The panels share a signed
+color scale, linear within \(\pm 0.01\) and logarithmic beyond. Larger absolute
+weights are drawn on top.}
+\label{fig:influence}
+\end{figure}
+
+We choose the retained trial-4 position in the gap nearest its center, using only
+coordinates. The query is at \((1.990,-1.316)\) m, \(0.482\) m from the
+nearest training reading. Figure~\ref{fig:influence} compares \(g_{*i}\) with
+\([W_i]_{zz}\), the entry that maps measured \(B_z\) to predicted \(B_z\).
+The plotted weights differ most at \((2.109,-0.849)\) m. Raising that reading's
+\(B_z\) by one unit changes predicted \(B_z\) by \(+0.579\) for the Gaussian,
+\(-0.025\) for direct dipoles and \(-0.085\) for two-stage dipoles. The direct
+dipole fit already reverses the sign here. Smoothing makes the response more
+negative. Small changes in route error can thus coexist with a substantial
+change in how a specific reading is used. For all three models, the weights
+reproduce the archived query prediction and the change in all three
+components after refitting to within \(10^{-9}\) recording units.
+
+Beyond 1 m from this query lie \(33.0\%\) of the absolute vertical weight
+in the Gaussian fit and \(67.2\%\) in the two-stage fit. The absolute sum
+rises from \(3.562\) to \(6.680\), with both signed sums equal to one.
+The largest absolute weight from a horizontal component to \(B_z\) is
+\(0.469\) in the two-stage fit.
+
+\section{Hiding the law in a wire experiment}
+
+Return to the compass beside a current. In the room we chose the dipole
+response before fitting its coefficients. With a simulated wire we can
+ask the learner to choose the form as well. We fix the geometry and vary
+the current. The exact field supplies an independent reference for
+scoring both fits.
+
+For a steady signed current \(I\) along the \(z\) axis of an ideal infinite
+wire, Amp\`ere's law gives \(\oint\B\cdot d\boldsymbol\ell=\mu_0 I\),
+where \(d\boldsymbol\ell\) is the oriented line element. Cylindrical symmetry
+makes the field tangent to a circle of radius \(r=\sqrt{x^2+y^2}\) and
+constant in magnitude along it. Its signed tangential component is
+\(B_\varphi=\mu_0 I/(2\pi r)\). The tangent unit vector is
+\((-y,x,0)^{\mathsf T}/r\). In the simulator this gives
+\begin{equation}
+ \B_*(x,y,I)=0.2I\frac{(-y,x,0)^{\mathsf T}}{x^2+y^2}
+ \label{eq:wire_truth}
+\end{equation}
+in microtesla when \(x,y\) are in metres and \(I\) is in amperes. The learner
+sees sampled inputs \((x,y,I)\) and field readings. For kernel fitting we
+standardize the three inputs using the training data.
+
+Both routes search polynomial fields through degree 4 and rational fields
+of degree 1 or 2. The candidate rational field has components
+\(p_c(\mathbf u)/q(\mathbf u)\) for \(c=1,2,3\), with a shared denominator
+\(q\), polynomial numerators \(p_c\), and input \(\mathbf u=(x,y,I)\).
+For target \(t_{ic}\) in component \(c\) at input \(\mathbf u_i\), we
+initialize by fitting \(t_{ic}q(\mathbf u_i)-p_c(\mathbf u_i)\approx0\)
+with homogeneous least squares. We prune coefficients, fix the scale of
+the denominator, and refit to the field values by nonlinear least squares.
+The two-stage route uses the Gaussian predictions as targets, and the
+direct route uses the readings. Each selects the sparsest candidate within
+\(5\%\) of its best measured validation mean squared error, plus a numerical
+tolerance. The true law supplies the simulated data and the test reference.
+
+Gaussian process smoothing has been used to prepare data for equation
+discovery~\cite{hsin}. Input ranges affect symbolic recovery~\cite{matsubara},
+and expression size
+trades off against prediction error~\cite{fong}. We hold both the search
+space and the selection rule fixed across the two routes.
+
+\begin{table}[!htbp]
+\centering
+\caption{Hidden-wire error on independent inputs in each training domain.
+For each seed we divide vector RMSE by the root mean square of the true field
+magnitudes. Entries are percentages averaged over three seeds. The noiseless
+direct error rounds to zero.}
+\label{tab:wire}
+\small
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Case & Gaussian & Two-stage expression & Direct expression\\
+\midrule
+Noiseless                & 20.4176 & 0.3529 & 0.0000 \\
+Main, \(1\%\) noise      & 20.4393 & 0.3827 & 0.0557 \\
+Higher noise, \(5\%\)    & 21.1762 & 0.6030 & 0.2783 \\
+Sparse, \(1\%\) noise    & 51.1045 & 6.2307 & 0.1047 \\
+Limited angles, \(1\%\)  &  3.6235 & 0.1577 & 0.0385 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The main case uses 480 training and 180 validation readings at radii
+\(0.25\)--\(2\) m, all angles, and \(|I|=0.5\)--\(4\) A. Independent
+Gaussian noise has standard deviation \(1\%\) of the pooled RMS of the clean
+training components. Sparse training uses 80 readings, and limited angles
+span \(\pm\pi/6\) radians. Each test domain has 800 fresh points.
+
+\begin{samepage}
+All 15 two-stage fits select the same monomials. Here is the generating
+field beside the reconstruction from the first seed in the main case,
+with fitted coefficients rounded for display.
+\[
+\begin{array}{c@{\qquad}c}
+\text{Generating field} & \text{Field recovered through the kernel}\\[4pt]
+\displaystyle\frac{0.2 I}{x^2+y^2}
+  \begin{pmatrix}-y\\x\\0\end{pmatrix}
+&
+\displaystyle\frac{I}{1.003060 x^2+y^2}
+  \begin{pmatrix}-0.198992 y\\0.199601 x\\0\end{pmatrix}.
+\end{array}
+\]
+\par
+\end{samepage}
+\begin{samepage}
+Every recovered expression can be written as
+\(I(-a y,b x,0)^{\mathsf T}/(c x^2+y^2)\) after scaling the \(y^2\)
+coefficient to one. Doubling the current doubles the field. Doubling both
+coordinates at fixed current halves it. Those two properties follow
+exactly from the recovered form. Circular symmetry, which also depends on
+the three coefficients, is approximate.
+\par
+\end{samepage}
+
+The two-stage fit brings the main-case error down from \(20.4393\%\) to
+\(0.3827\%\) and stays close at larger radii (\(0.3795\%\)) and unseen currents
+(\(0.3798\%\)). The direct fit gives \(0.0557\%\) in the main case and has the
+lowest mean error in every row of Table~\ref{tab:wire}. The expression library
+contains the generating family, and the main Gaussian fits select the shortest
+length scale tested. These comparisons describe the estimators and domains
+used here.
+
+The wire also shows why it matters what the instrument records. At fixed
+position the field is proportional to signed current. With equally likely
+signs at each position and magnitude, the conditional mean given position
+alone is zero. Under squared error, that is the best prediction a
+position-only model can make.
+
+\section{What the readings determine}
+
+Both experiments move from measurements to an equation that can be evaluated
+at new inputs. In the room, the choice of dipole responses explains most of
+the observed improvement over the Gaussian map. In the wire, the expression
+search must also choose the terms, and the same search works best on raw
+readings in the cases we tested.
+
+The indoor comparison covers one room and previously examined trials.
+Trial 3 selected the shared settings for the two-stage fit. Comparing fully
+tuned procedures would require separate selection for the direct fit.
+A scalar-potential Gaussian process is another physics-based baseline~\cite{solin}.
+Both grid size and depth reach the upper search limits, and planar readings
+leave the three-dimensional sources underdetermined. The trial scores measure
+accuracy along routes. Room-wide accuracy requires a sampling design for
+that area~\cite{wadoux}.
+
+\begin{samepage}
+The indoor experiment lets us see how learning enters a textbook field.
+We can collect Eqs.~\eqref{eq:gaussian_response}, \eqref{eq:teacher},
+and \eqref{eq:dipole_identity} for comparison. Superscripts \(d,s\) mark
+coefficients fitted to raw and smoothed targets. Write
+\(k_{*i}=k_\ell(\x_*,\x_i)\) and \(D_{*j}=D(\rr_*,\mathbf s_j)\).
+\[
+\begin{array}{lccc}
+ & \text{Sum of fitted responses} && \text{Sum over training readings}\\[3pt]
+\text{Gaussian} &
+\displaystyle\overline{\B}+\sum_i k_{*i}\boldsymbol\alpha_i
+&=& \displaystyle\sum_i g_{*i}\bvec_i\\[7pt]
+\text{Direct dipoles} &
+\displaystyle\widehat{\bvec}_0^d+\sum_j D_{*j}\widehat{\mathbf q}_j^d
+&=& \displaystyle\sum_i U_i(\rr_*)\bvec_i\\[7pt]
+\text{Two-stage dipoles} &
+\displaystyle\widehat{\bvec}_0^s+\sum_j D_{*j}\widehat{\mathbf q}_j^s
+&=& \displaystyle\sum_i W_i(\rr_*)\bvec_i .
+\end{array}
+\]
+\par
+\end{samepage}
+Each dipole row gives one field as a sum over 100 assumed sources (\(j\))
+or 500 actual readings (\(i\)). Classical theory supplies \(D_{*j}\), the
+response of a source, and the observations determine its fitted moment
+along with the background. On the right, we can read off the exact change
+in a prediction if a sensor value changes. That is a precise sense in
+which a field with a textbook form can learn from examples.
+
+\paragraph{Data and code.}
+The \href{https://github.com/AaltoML/magnetic-data/tree/b45da3bc7ab623fdef6e01247021daebf7983f29}{Aalto recordings}
+are pinned to commit \texttt{b45da3b}. The
+\href{https://github.com/jonland82/blind-field-discovery/tree/3c575973eb5d926cba3c181ee3543b9a0b8ee8bd}{project repository}
+contains the four companion notes, code, fixed protocols, saved predictions,
+and fitted dipole coefficients.
+
+\clearpage
+\appendix
+\section{A scalar check with a known differential law}
+\label{sec:scalar}
+
+The known dimensionless field and source at position \(x\) are
+\(B_*(x)=1.7\tanh(x/0.9)\) and \(J_*(x)=0.8\sech^2(x/0.9)\), where
+\(\sech u=1/\cosh u\). Gaussian models fit both channels at 80 positions.
+The derivative of the fitted field \(\widehat B\) supplies targets for
+sparse regression. With field \(B\) and source \(J\) available as terms, the
+search selects \(B'=aJ\), where the prime denotes differentiation in \(x\).
+Differentiating the known field gives \(a_*=1.7/(0.9\cdot0.8)=85/36\).
+The fitted \(a\) has \(0.02208\%\) relative error with noise at \(0.1\%\)
+of each channel's amplitude. Integrating from the observed boundary value
+\(b_0\) at \(x_0=-3\) gives \(b_0+a\int_{x_0}^x\widehat J(u)\,du\).
+A search using powers of \(B\) alone selects
+\(B'=p-qB^2\), with fitted \(p,q>0\). Separation of variables gives the
+solution on the branch \(|B|<A\), with amplitude \(A\), width \(L\), and center \(x_c\).
+\[
+ B(x)=A\tanh((x-x_c)/L),\qquad J(x)=(p/a)\sech^2((x-x_c)/L),
+ \qquad A=\sqrt{p/q},\quad L=1/\sqrt{pq}.
+\]
+The fitted field at the median training position sets \(x_c\). On the noisy
+test grid, relative Euclidean errors are \(0.04462\%\) for the solved field,
+\(0.08535\%\) for the Gaussian, and \(0.2289\%\) for the integral reconstruction.
+Both reconstructions use the recovered channel relation. Only the field-only
+equation also recovers the shape of the generating function.
+
+{\small
+\begin{thebibliography}{99}
+\bibitem{maxwell}
+J.~C. Maxwell.
+A dynamical theory of the electromagnetic field.
+\emph{Philosophical Transactions of the Royal Society of London}, 155:459--512, 1865.
+\href{https://doi.org/10.1098/rstl.1865.0008}{doi:10.1098/rstl.1865.0008}.
+
+\bibitem{solin}
+A. Solin, M. Kok, N. Wahlstr\"om, T.~B. Sch\"on, and S. S\"arkk\"a.
+Modeling and interpolation of the ambient magnetic field by Gaussian processes.
+\emph{IEEE Transactions on Robotics}, 34(4):1112--1127, 2018.
+\href{https://doi.org/10.1109/TRO.2018.2830326}{doi:10.1109/TRO.2018.2830326}.
+
+\bibitem{chang}
+P.~E. Chang, P. Verma, S.~T. John, A. Solin, and M.~E. Khan.
+Memory-based dual Gaussian processes for sequential learning.
+\emph{Proceedings of the 40th International Conference on Machine Learning},
+PMLR 202:4035--4054, 2023.
+\href{https://proceedings.mlr.press/v202/chang23a.html}{Proceedings}.
+
+\bibitem{abdulraouf}
+I. Abdul-Raouf, V. Gay-Bellile, C. Joly, S. Bourgeois, and A. Paljic.
+Large scale mapping of indoor magnetic field by local and sparse Gaussian
+processes.
+\emph{Proceedings of the 8th Conference on Robot Learning},
+PMLR 270:2104--2119, 2025.
+\href{https://proceedings.mlr.press/v270/abdul-raouf25a.html}{Proceedings}.
+
+\bibitem{emilia}
+D.~A. Emilia.
+Equivalent sources used as an analytic base for processing total magnetic
+field profiles.
+\emph{Geophysics}, 38(2):339--348, 1973.
+\href{https://doi.org/10.1190/1.1440344}{doi:10.1190/1.1440344}.
+
+\bibitem{uppal}
+I. Uppal and R. Holme.
+Dual-layer gradient-boosted equivalent sources for magnetic data.
+\emph{Geophysical Journal International}, 243(3):ggaf359, 2025.
+\href{https://doi.org/10.1093/gji/ggaf359}{doi:10.1093/gji/ggaf359}.
+
+\bibitem{hammer}
+M.~D. Hammer and C.~C. Finlay.
+Local averages of the core--mantle boundary magnetic field from satellite observations.
+\emph{Geophysical Journal International}, 216(3):1901--1918, 2019.
+\href{https://doi.org/10.1093/gji/ggy515}{doi:10.1093/gji/ggy515}.
+
+\bibitem{mobahi}
+H. Mobahi, M. Farajtabar, and P.~L. Bartlett.
+Self-distillation amplifies regularization in Hilbert space.
+\emph{Advances in Neural Information Processing Systems}, 33, 2020.
+\href{https://proceedings.neurips.cc/paper/2020/hash/2288f691b58edecadcc9a8691762b4fd-Abstract.html}{Proceedings}.
+
+\bibitem{wu}
+M. Wu, A.~Y. Yang, and Q. Sun.
+Why self-distillation helps and hurts: Denoising vs. signal forgetting.
+\emph{Proceedings of the 43rd International Conference on Machine Learning},
+PMLR 306:137334--137367, 2026.
+\href{https://proceedings.mlr.press/v306/wu26bs.html}{Proceedings}.
+
+\bibitem{hsin}
+J. Hsin, S. Agarwal, A. Thorpe, L. Sentis, and D. Fridovich-Keil.
+Symbolic regression on sparse and noisy data with Gaussian processes.
+\href{https://arxiv.org/abs/2309.11076}{arXiv:2309.11076}, 2024.
+
+\bibitem{matsubara}
+Y. Matsubara, N. Chiba, R. Igarashi, and Y. Ushiku.
+Rethinking symbolic regression datasets and benchmarks for scientific discovery.
+\emph{Journal of Data-centric Machine Learning Research}, 2024.
+\href{https://data.mlr.press/assets/pdf/v01-3.pdf}{Article}.
+
+\bibitem{fong}
+K.~S. Fong and M. Motani.
+Pareto-optimal fronts for benchmarking symbolic regression algorithms.
+\emph{Proceedings of the 42nd International Conference on Machine Learning},
+PMLR 267:17392--17410, 2025.
+\href{https://proceedings.mlr.press/v267/fong25b.html}{Proceedings}.
+
+\bibitem{wadoux}
+A.~M.~J.-C. Wadoux, G.~B.~M. Heuvelink, S. de Bruin, and D.~J. Brus.
+Spatial cross-validation is not the right way to evaluate map accuracy.
+\emph{Ecological Modelling}, 457:109692, 2021.
+\href{https://doi.org/10.1016/j.ecolmodel.2021.109692}{doi:10.1016/j.ecolmodel.2021.109692}.
+\end{thebibliography}}
+\end{document}
