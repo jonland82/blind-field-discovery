@@ -27,10 +27,8 @@
     <main id="main">
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="eyebrow"><span class="tiny-star" aria-hidden="true">✳</span> Learning functions from observations</p>
           <h1 id="hero-title">From data<br>to <em>equations.</em></h1>
-          <p class="hero-description">Start with a robot’s magnetic readings. See how textbook physics helps turn those readings into a field map.</p>
-          <p class="hero-subtitle">A room shows how each reading shapes a prediction. A simulated wire shows how much of the equation the readings can reveal.</p>
+          <p class="hero-description">What can a textbook equation learn from a robot crossing a room—and vice versa?</p>
           <a class="ink-link" href="#story">The three aims <span aria-hidden="true">↓</span></a>
         </div>
 
@@ -84,22 +82,22 @@
       <div class="folio-divider" aria-hidden="true"><span></span><b>❧</b><span></span></div>
 
       <section class="premise" id="story" aria-labelledby="premise-title">
-        <p class="eyebrow">What this repo is about</p>
         <h2 id="premise-title">Three aims</h2>
         <ol class="project-aims" aria-label="The three aims of the project">
-          <li><span class="step-number">01</span><h3>Map the room</h3><p>Use a Gaussian kernel to turn 500 robot readings into a magnetic field map. Test its predictions on other trips through the room.</p></li>
-          <li><span class="step-number">02</span><h3>Fit a textbook field</h3><p>Fit dipoles to the map and directly to the readings. Then write the dipole field as an exact weighted sum of the original readings.</p></li>
-          <li><span class="step-number">03</span><h3>Recover the wire equation</h3><p>Give the learner simulated readings and a library of formulas. See which features of the wire’s field it recovers.</p></li>
+          <li><span class="step-number" aria-hidden="true">01</span><h3>Map the room</h3><p>Turn 500 robot readings into a Gaussian map and test it on other trips through the room.</p></li>
+          <li><span class="step-number" aria-hidden="true">02</span><h3>Fit a textbook field</h3><p>Fit dipoles to the map and directly to the readings. Write the fitted field as an exact sum over readings.</p></li>
+          <li><span class="step-number" aria-hidden="true">03</span><h3>Recover the wire equation</h3><p>Use simulated measurements to recover the field’s dependence on current and distance.</p></li>
         </ol>
         <p class="workflow-footnote"><a href="#unified-paper">Follow the full story in the unified paper.</a></p>
       </section>
 
-      <section class="chapter chapter-one" aria-labelledby="chapter-one-title">
-        <div class="chapter-marker"><span>01</span><p>Recover an unknown function</p></div>
+      <section class="chapter" aria-labelledby="chapter-one-title">
         <div class="chapter-content">
-          <p class="eyebrow">Synthetic data · Known truth, hidden from the learner</p>
-          <h2 id="chapter-one-title">Learn the function.<br>Recover its analytic form.</h2>
-          <p>We generate samples from a known function, but hide its formula from the learner. A Gaussian kernel approximates the sampled values. We then search for a simple differential equation using the learned function and its derivative, and solve that equation analytically.</p>
+          <header class="chapter-heading">
+            <p class="eyebrow">Synthetic benchmark</p>
+            <h2 id="chapter-one-title">From samples to an equation</h2>
+            <p>We fit a Gaussian kernel to samples from a hidden function, then use the fit and its derivative to select a differential equation we can solve.</p>
+          </header>
           <div class="equation-path" aria-label="From the discovered differential equation to its analytic solution">
             <div>
               <span class="equation-label">The selected equation</span>
@@ -111,49 +109,52 @@
               <math display="block" aria-label="B of x equals A tanh of x minus x c over L"><mi>B</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><mi>A</mi><mi mathvariant="normal">tanh</mi><mo>(</mo><mfrac><mrow><mi>x</mi><mo>−</mo><msub><mi>x</mi><mi>c</mi></msub></mrow><mi>L</mi></mfrac><mo>)</mo></math>
             </div>
           </div>
-          <p>Solving the selected equation recovers the hidden tanh function family. In the run with 0.1% scale noise, field error on unseen positions falls from <strong>0.085% for the kernel to 0.045% for the analytic function</strong>. Outside the sampled interval, it falls from <strong>23.98% to 0.029%</strong>. These are relative RMS errors.</p>
-          <p>The search uses polynomial terms; tanh and sech² appear when we solve the selected equation. The true and recovered formulas are shown in <a href="#equations">Key equations</a>.</p>
-          <p class="takeaway"><span>Result</span> The recovered analytic function predicts better in this controlled example, especially beyond the sampled interval.</p>
+          <p>The search selects polynomial terms. Solving the equation recovers the tanh field and sech² source. With 0.1% scale noise, relative RMS field error falls from <strong>0.085% to 0.045%</strong> on unseen points and from <strong>23.98% to 0.029%</strong> beyond the sampled interval.</p>
           <a class="text-link" href="papers/01-kernel-to-equation/kernel_to_equation.pdf">Read note I <span>PDF · 3 pages ↗</span></a>
         </div>
       </section>
 
-      <section class="chapter chapter-two" aria-labelledby="chapter-two-title">
-        <div class="chapter-marker"><span>02</span><p>Use real magnetic measurements</p></div>
+      <section class="chapter" aria-labelledby="chapter-two-title">
         <div class="chapter-content">
-          <p class="eyebrow">Real data · Public Aalto magnetic sensor recordings</p>
-          <h2 id="chapter-two-title">Can sensor data yield<br>a magnetic field equation?</h2>
-          <p>We repeat the process with real sensor readings: learn a vector kernel from positions and three magnetic channels, then turn its predictions into an analytic magnetic field model. The aim is to reverse engineer a Maxwell-like equation from measurements.</p>
-          <p>The current result uses a supplied magnetostatic model: a background field plus equivalent magnetic dipoles. We learn their contributions from the kernel. This improves prediction, but does not independently discover Maxwell’s equations.</p>
+          <header class="chapter-heading">
+            <p class="eyebrow">Aalto robot recordings</p>
+            <h2 id="chapter-two-title">From a learned map to a magnetic field</h2>
+            <p>We map the three field components with a Gaussian kernel, then fit a background field and 100 textbook dipoles to the map.</p>
+          </header>
           <div class="single-equation">
-            <span class="equation-label">Reconstructed analytic field · Supplied dipole family</span>
+            <span class="equation-label">Dipole field</span>
             <math display="block" aria-label="B D of r equals b zero plus the sum over j of the magnetic dipole response D of r and s j times q j"><msub><mi mathvariant="bold">B</mi><mi>D</mi></msub><mo>(</mo><mi mathvariant="bold">r</mi><mo>)</mo><mo>=</mo><msub><mi mathvariant="bold">b</mi><mn>0</mn></msub><mo>+</mo><munder><mo>∑</mo><mi>j</mi></munder><mi>D</mi><mo>(</mo><mi mathvariant="bold">r</mi><mo>,</mo><msub><mi mathvariant="bold">s</mi><mi>j</mi></msub><mo>)</mo><msub><mi mathvariant="bold">q</mi><mi>j</mi></msub></math>
-            <p>D is the supplied magnetic dipole response; sⱼ are assumed source positions; qⱼ and the background b₀ are fitted. The true analytic room field is unknown, so we compare predictions with held-out sensor readings.</p>
+            <p>D is the textbook response. The source positions sⱼ are assumed, and we fit the moments qⱼ and background b₀.</p>
           </div>
           <figure class="measurement-figure">
             <img src="papers/02-kernel-to-magnetostatics/field_reconstruction.png" alt="All three magnetic components: measured readings, Gaussian kernel predictions and equivalent-dipole reconstruction along held-out trial 4, plus a fixed spatial model cut." width="1543" height="805" loading="lazy">
-            <figcaption><span>Fig. II</span> &nbsp; Measured readings and reconstructed fields. The right-hand cut compares models; it has no independent measured truth on that exact line.</figcaption>
+            <figcaption><span>Fig. II</span> &nbsp; Held-out readings along the robot’s route, alongside a model-only cut through the room.</figcaption>
           </figure>
-          <div class="result-strip">
-            <div><span>Kernel RMSE</span><strong>8.09</strong></div>
-            <span class="result-arrow" aria-hidden="true">⟶</span>
-            <div><span>Reconstructed field RMSE</span><strong>5.22</strong></div>
-            <p>Stable reference-sensor trials<br>Reference recording units</p>
+          <div class="results-table-wrap">
+            <table class="results-table">
+              <caption>Two held-out routes in the stable room</caption>
+              <thead><tr><th scope="col">Fit</th><th scope="col">Field RMSE</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Gaussian map</th><td>8.09</td></tr>
+                <tr class="featured-result"><th scope="row">Dipoles fitted to the Gaussian map</th><td>5.22</td></tr>
+                <tr><th scope="row">Dipoles fitted directly to readings</th><td>5.31</td></tr>
+              </tbody>
+            </table>
+            <p class="table-footnote">Errors use the reference sensor’s recording units. The analysis reuses previously examined recordings and remains exploratory.</p>
           </div>
-          <p>The reconstructed field reduces held-out RMSE by about <strong>35%</strong>. Fitting dipoles directly to the readings gives a similar error, <strong>5.31</strong>. The equivalent dipoles do not uniquely identify the room’s actual sources. These results reuse previously examined recordings and remain exploratory.</p>
-          <p class="takeaway"><span>Result</span> An analytic magnetic model improves prediction here. Recovering a field equation without supplying its physical form remains an open goal for the real data.</p>
+          <p>The two dipole fits give similar errors. Each is an equivalent source model, and the room’s actual source arrangement remains undetermined.</p>
           <a class="text-link" href="papers/02-kernel-to-magnetostatics/kernel_to_magnetostatics.pdf">Read note II <span>PDF · 3 pages ↗</span></a>
         </div>
       </section>
 
-      <section class="wire-chapter" id="equations" aria-labelledby="wire-title">
-        <div class="chapter-heading">
+      <section class="chapter" id="equations" aria-labelledby="wire-title">
+        <header class="chapter-heading">
           <p class="eyebrow">Key equations</p>
-          <h2 id="wire-title">True analytic functions<br>vs. recovered functions</h2>
-          <p>In the synthetic experiments, we know the true formulas and hide them during learning. These comparisons show what the kernel-to-equation process recovers.</p>
-        </div>
+          <h2 id="wire-title">True and recovered equations</h2>
+          <p>We set aside the formulas used to generate the synthetic data, then compare them with the recovered equations.</p>
+        </header>
 
-        <h3 class="comparison-title">Synthetic profile: field B and source J</h3>
+        <h3 class="comparison-title">Synthetic field and source</h3>
         <div class="field-comparison profile-comparison">
           <article class="field-expression theoretical">
             <p class="equation-label">True analytic functions · Hidden during learning</p>
@@ -170,8 +171,8 @@
         </div>
         <p class="equation-units">Recovered by solving B′ = p − qB² and using B′ = aJ. <a href="experiments/kernel_benchmark/results/RESULTS.md">Full coefficients and errors ↗</a></p>
 
-        <h3 class="comparison-title">Simulated straight wire: a magnetic field control</h3>
-        <p class="comparison-intro">Can the process recover a familiar magnetic formula without a supplied dipole model? For this simulation, it searches general polynomial and rational expressions. The true and recovered fields are:</p>
+        <h3 class="comparison-title">Magnetic field around a straight wire</h3>
+        <p class="comparison-intro">The learner searches a library of polynomial and rational expressions.</p>
         <div class="field-comparison">
           <article class="field-expression theoretical">
             <p class="equation-label">True analytic field · Hidden during learning</p>
@@ -200,142 +201,116 @@
             <p>The first fixed run with 1% measurement noise. Coefficients shown rounded; scores use full precision.</p>
           </article>
         </div>
-        <p class="equation-units">x, y: position in metres &nbsp;·&nbsp; I: current in amperes &nbsp;·&nbsp; B: field in microtesla</p>
-        <div class="wire-conclusion">
-          <p class="handwritten">Same structure.<br>Approximate coefficients.</p>
-          <p>Current proportionality and inverse-distance scaling emerge in all 15 fits. Circular symmetry is approximate. The experiment verifies inference in a deliberately constructed world; it does not independently validate Maxwell’s theory.</p>
-        </div>
+        <p class="equation-units">Position x, y in metres · Current I in amperes · Field B in microtesla</p>
 
         <div class="results-table-wrap">
           <table class="results-table">
             <caption>On unseen observations · 1% noise · mean across three seeds</caption>
-            <thead><tr><th scope="col">The route taken</th><th scope="col">Field error</th></tr></thead>
+            <thead><tr><th scope="col">Fit</th><th scope="col">Field error</th></tr></thead>
             <tbody>
-              <tr><th scope="row">Observations → kernel</th><td>20.44<span>%</span></td></tr>
-              <tr class="featured-result"><th scope="row">Observations → kernel → equation</th><td>0.383<span>%</span></td></tr>
-              <tr><th scope="row">Observations → equation directly</th><td>0.056<span>%</span></td></tr>
+              <tr><th scope="row">Gaussian map</th><td>20.44<span>%</span></td></tr>
+              <tr><th scope="row">Equation fitted to the Gaussian map</th><td>0.383<span>%</span></td></tr>
+              <tr class="featured-result"><th scope="row">Equation fitted directly to readings</th><td>0.056<span>%</span></td></tr>
             </tbody>
           </table>
-          <p class="table-footnote">Error is relative to clean vector-field RMS. The extracted equation also predicts unseen distances and currents. The tested kernel search is not an established optimum.</p>
+          <p class="table-footnote">Error is relative to clean vector-field RMS. The recovered equation also predicts at unseen distances and currents.</p>
         </div>
-        <p class="honest-result"><span class="small-star" aria-hidden="true">✳</span><span><strong>Direct equation fitting does better in this control.</strong> The analytic function improves on the tested kernel, but the kernel stage is not required for the best result here.</span></p>
+        <p>All 15 two-stage fits recover proportionality to current and inverse-distance scaling. Circular symmetry is approximate. Direct fitting gives the lowest mean error in each tested case.</p>
         <a class="text-link" href="papers/03-maxwells-perspective/maxwells_perspective.pdf">Read note III <span>PDF · 4 pages ↗</span></a>
       </section>
 
-      <section class="perspective" id="perspective" aria-labelledby="perspective-title">
-        <div class="chapter-heading">
-          <p class="eyebrow">03 · Faraday, Maxwell and perspective</p>
-          <h2 id="perspective-title">How much does perspective<br>shape the equation?</h2>
-          <p>Faraday organized experimental findings through lines of force. Maxwell developed those ideas mathematically. Our sensor experiment asks a related question: how do we get from observed readings to an analytic description?</p>
-        </div>
-        <div class="reflection historical-context">
-          <p>In <a href="https://en.wikisource.org/wiki/On_Faraday%27s_Lines_of_Force">On Faraday’s Lines of Force</a>, Maxwell explains how he uses Faraday’s ideas and physical analogies to develop mathematical relationships. The route to an equation includes choices about what to measure and how to represent it.</p>
-          <p>Our experiment makes some of those choices explicit: sensor axes, calibration, positions, available inputs and allowed equation forms. We ask how much the recovered function depends on these choices, and which relationships still predict correctly when the experiment changes.</p>
-        </div>
+      <section class="chapter" id="perspective" aria-labelledby="perspective-title">
+        <header class="chapter-heading">
+          <p class="eyebrow">Maxwell’s perspective</p>
+          <h2 id="perspective-title">What the learner can observe</h2>
+          <p>Maxwell translated Faraday’s lines of force into mathematical relationships. In the wire experiment, the inputs we give the learner determine which field it can predict. <a href="https://en.wikisource.org/wiki/On_Faraday%27s_Lines_of_Force">On Faraday’s Lines of Force ↗</a></p>
+        </header>
         <div class="thought-experiment">
           <div class="thought-context">
             <span class="equation-label">A thought experiment</span>
-            <p>Suppose the same wire carries equal and opposite currents with equal probability, independently of position. What does a learner see?</p>
+            <p>Suppose a wire carries equal and opposite currents with equal probability at every position. Choose what the learner can observe.</p>
             <div class="observation-switch" role="group" aria-label="Choose the quantities available to the learner">
               <button type="button" data-observation="complete" aria-pressed="true">Position + current</button>
               <button type="button" data-observation="position" aria-pressed="false">Position only</button>
             </div>
-            <p class="thought-caveat">An implication of the setup, not an additional fitted result.</p>
           </div>
           <div class="thought-answer" aria-live="polite" aria-atomic="true">
             <div data-answer="complete">
               <span class="equation-label">The current-conditioned target</span>
               <math display="block" aria-label="The expected magnetic field given position and current equals the ideal-wire field"><mi mathvariant="double-struck">E</mi><mo>[</mo><mi mathvariant="bold">B</mi><mo>|</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>,</mo><mi>I</mi><mo>]</mo><mo>=</mo><msub><mi mathvariant="bold">B</mi><mo>∗</mo></msub><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>,</mo><mi>I</mi><mo>)</mo></math>
-              <h3>The field, with its conditions.</h3>
-              <p>The current tells the learner which direction and strength to predict. A single analytic function can express that dependence.</p>
+              <h3>Current determines the field</h3>
+              <p>Position and signed current together specify the ideal field.</p>
             </div>
             <div data-answer="position" hidden>
               <span class="equation-label">The position-only mean target</span>
               <math display="block" aria-label="The expected magnetic field given position equals zero"><mi mathvariant="double-struck">E</mi><mo>[</mo><mi mathvariant="bold">B</mi><mo>|</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>]</mo><mo>=</mo><mi mathvariant="bold">0</mi></math>
-              <h3>The directions average away.</h3>
-              <p>Zero is the optimal squared-error mean predictor with these incomplete inputs. Individual fields remain nonzero; their variation cannot be resolved from position alone.</p>
+              <h3>The two directions cancel on average</h3>
+              <p>With position alone, zero minimizes mean squared error even though each current produces a field.</p>
             </div>
           </div>
         </div>
-        <div class="reflection">
-          <p>Perspective can change the function we can infer. Omitting current changes the prediction target in this example; changing coordinates may only change how the same field is written. Limited measurements can leave several analytic functions consistent with the data. New experiments help distinguish them.</p>
-          <details>
-            <summary>Would the two routes converge on the same function?<span aria-hidden="true">+</span></summary>
-            <div class="details-body">
-              <p>They can converge in predictive content when they target the same calibrated quantity, include the relevant conditions, observe enough to distinguish candidate fields, and use estimators capable of recovering that target.</p>
-              <p>Different mathematical forms may describe the same field. Limited or noisy observations can also leave genuinely different functions indistinguishable on the tested domain. Our small wire experiment establishes close recovery within its search grammar, not a convergence theorem.</p>
-              <p>The next test is to change the experiment: move a source, observe another direction, resolve a finer scale, or introduce time dependence. Which relationships survive?</p>
-            </div>
-          </details>
-        </div>
-        <blockquote class="closing-thought">
-          <p>Which equations keep working<br>when the experiment changes?</p>
-          <span>The next research question.</span>
-        </blockquote>
+        <details>
+          <summary>When do the two routes converge?<span aria-hidden="true">+</span></summary>
+          <div class="details-body">
+            <p>They can yield the same predictions when they use the same observable inputs and calibrated target, the data distinguish candidate functions, and both estimators can recover that target. New experimental conditions can distinguish functions that agree on the original data.</p>
+          </div>
+        </details>
       </section>
 
       <section class="chapter" id="measurement-influence" aria-labelledby="influence-title">
-        <div class="chapter-marker"><span>04</span><p>Trace each measurement</p></div>
         <div class="chapter-content">
-          <h2 id="influence-title">The magnetic field as a learned function</h2>
-          <p>Note II fits textbook dipole fields to the Gaussian model’s predictions. Note IV follows that fit back to the robot’s original readings. With the geometry and fit settings fixed, the reconstructed field has two exactly equivalent forms.</p>
+          <header class="chapter-heading">
+            <p class="eyebrow">Measurement weights</p>
+            <h2 id="influence-title">The magnetic field as a learned function</h2>
+            <p>With the geometry and fitting settings fixed, summing over the fitted sources gives exactly the same field as summing over the readings.</p>
+          </header>
           <div class="single-equation">
             <span class="equation-label">One reconstruction · A sum over dipoles or a sum over readings</span>
             <math display="block" aria-label="The fitted background plus the sum of the fitted dipole responses equals the sum of the matrix-weighted measured field vectors"><msub><mover><mi mathvariant="bold">b</mi><mo>^</mo></mover><mn>0</mn></msub><mo>+</mo><munder><mo>∑</mo><mi>j</mi></munder><msub><mi>D</mi><mi>j</mi></msub><msub><mover><mi mathvariant="bold">q</mi><mo>^</mo></mover><mi>j</mi></msub><mo>=</mo><munder><mo>∑</mo><mi>i</mi></munder><msub><mi>W</mi><mi>i</mi></msub><msub><mi mathvariant="bold">b</mi><mi>i</mi></msub></math>
-            <p>At a given query, Dⱼ is the classical dipole response. Wᵢ is a matrix that gives the exact change in the predicted field when reading bᵢ changes. The Gaussian model also sums over the readings, using a scalar weight for each.</p>
+            <p>At a fixed position, the matrix Wᵢ turns a change in reading bᵢ into the change in the predicted field. The Gaussian map weights each reading with a scalar.</p>
           </div>
-          <p>At one held-out position inside a gap in the training data, a one-unit increase in a nearby vertical reading raises the Gaussian prediction by <strong>0.579</strong> units and lowers the dipole prediction by <strong>0.085</strong> units. The paper maps both sets of weights and verifies the reversal by refitting the models. The reading illustrates the largest weight difference at that query.</p>
-          <p>Fitting equivalent dipoles to magnetic observations is an established method. The contribution here is the exact comparison of how the Gaussian fit and its dipole reconstruction use the same individual readings. <a href="https://pubs.geoscienceworld.org/seg/geophysics/article-abstract/38/2/339/71420/Equivalent-Sources-Used-As-An-Analytic-Base-For">Emilia’s 1973 equivalent-source study</a>.</p>
+          <p>At a held-out position inside the training gap, increasing one nearby vertical reading by one unit raises the Gaussian prediction by <strong>0.579</strong> and lowers the reconstructed dipole prediction by <strong>0.085</strong>. This reading has the largest weight difference at that position. Refitting verifies the change. <a href="papers/04-measurement-influence/influence_map.pdf">See the influence maps ↗</a></p>
+          <p>Equivalent-source fitting has a long history. The measurement weights let us compare exactly how these two models use an individual reading. <a href="https://pubs.geoscienceworld.org/seg/geophysics/article-abstract/38/2/339/71420/Equivalent-Sources-Used-As-An-Analytic-Base-For">Emilia’s 1973 study ↗</a></p>
           <a class="text-link" href="papers/04-measurement-influence/measurement_influence.pdf">Read note IV <span>PDF · 4 pages ↗</span></a>
         </div>
       </section>
 
-      <section class="chapter" id="unified-paper" aria-labelledby="unified-paper-title">
-        <div class="chapter-marker"><p>Unified paper</p></div>
-        <div class="chapter-content">
-          <h2 id="unified-paper-title">Magnetic Fields from Measurements</h2>
-          <p>What can a textbook equation learn from a robot crossing a room—and vice versa? The paper starts with Maxwell and follows 500 robot readings into a Gaussian map and a textbook dipole field. On two held-out runs in the stable room, prediction error falls from 8.09 for the Gaussian map to 5.22 for the dipole field, in the reference sensor’s recording units. Fitting dipoles directly to the readings comes close at 5.31.</p>
-          <p>The field can be written exactly as a weighted sum of those original readings. A simulated straight wire takes the question one step further by asking the learner to choose the form of the equation itself.</p>
-          <a class="text-link" href="papers/arxiv-draft-maxwell/arxiv-draft.pdf">Read the unified paper <span>Draft PDF · 8 pages ↗</span></a>
-        </div>
-      </section>
-
-      <section class="papers" id="papers" aria-labelledby="papers-title">
-        <div class="papers-heading"><div><p class="eyebrow">Methods, results and limitations</p><h2 id="papers-title">Papers and research notes</h2></div><span class="handwritten">Read, question, reproduce.</span></div>
-        <ol class="paper-list">
-          <li>
-            <span class="paper-number">I</span>
-            <div class="paper-description"><h3><a href="papers/01-kernel-to-equation/kernel_to_equation.pdf">From samples to an equation</a></h3><p>Recover an unknown synthetic function</p><span>Samples → kernel → differential equation → recovered tanh/sech² functions.</span></div>
-            <div class="paper-actions"><a href="papers/01-kernel-to-equation/kernel_to_equation.pdf">Read PDF <span aria-hidden="true">↗</span></a><a href="papers/01-kernel-to-equation/kernel_to_equation.tex">LaTeX source</a><small>3 pages</small></div>
+      <section class="chapter papers" id="papers" aria-labelledby="papers-title">
+        <header class="chapter-heading">
+          <h2 id="papers-title">Papers and research notes</h2>
+        </header>
+        <ul class="paper-list">
+          <li id="unified-paper">
+            <div class="paper-description">
+              <p class="eyebrow">Unified arXiv draft</p>
+              <h3>Magnetic Fields from Measurements</h3>
+              <p>The room and wire experiments in one paper, with the full derivation of the measurement weights.</p>
+            </div>
+            <div class="paper-actions"><a href="papers/arxiv-draft-maxwell/arxiv-draft.pdf">PDF · 8 pages</a><a href="papers/arxiv-draft-maxwell/arxiv-draft.tex">LaTeX source</a></div>
           </li>
           <li>
-            <span class="paper-number">II</span>
-            <div class="paper-description"><h3><a href="papers/02-kernel-to-magnetostatics/kernel_to_magnetostatics.pdf">From a learned kernel to a magnetic field</a></h3><p>Real-data reconstruction with equivalent dipoles</p><span>Public measurements → learned field → theoretical source representation.</span></div>
-            <div class="paper-actions"><a href="papers/02-kernel-to-magnetostatics/kernel_to_magnetostatics.pdf">Read PDF <span aria-hidden="true">↗</span></a><a href="papers/02-kernel-to-magnetostatics/kernel_to_magnetostatics.tex">LaTeX source</a><small>3 pages</small></div>
+            <div class="paper-description"><h3>From samples to an equation</h3><p>Recover the tanh field and sech² source by solving a learned differential equation.</p></div>
+            <div class="paper-actions"><a href="papers/01-kernel-to-equation/kernel_to_equation.pdf">PDF · 3 pages</a><a href="papers/01-kernel-to-equation/kernel_to_equation.tex">LaTeX source</a></div>
           </li>
           <li>
-            <span class="paper-number">III</span>
-            <div class="paper-description"><h3><a href="papers/03-maxwells-perspective/maxwells_perspective.pdf">Maxwell’s Perspective</a></h3><p>Observations, learned kernels and the analytic functions we infer</p><span>A hidden wire, two mathematical routes, and the role of the observer.</span></div>
-            <div class="paper-actions"><a href="papers/03-maxwells-perspective/maxwells_perspective.pdf">Read PDF <span aria-hidden="true">↗</span></a><a href="papers/03-maxwells-perspective/maxwells_perspective.tex">LaTeX source</a><small>4 pages</small></div>
+            <div class="paper-description"><h3>From a learned kernel to a magnetic field</h3><p>Fit equivalent dipoles to the Gaussian map of the measured room.</p></div>
+            <div class="paper-actions"><a href="papers/02-kernel-to-magnetostatics/kernel_to_magnetostatics.pdf">PDF · 3 pages</a><a href="papers/02-kernel-to-magnetostatics/kernel_to_magnetostatics.tex">LaTeX source</a></div>
           </li>
           <li>
-            <span class="paper-number">IV</span>
-            <div class="paper-description"><h3><a href="papers/04-measurement-influence/measurement_influence.pdf">The magnetic field as a learned function</a></h3><p>From textbook dipoles to a sum over training measurements</p><span>Exact measurement weights show where the Gaussian and dipole predictions differ.</span></div>
-            <div class="paper-actions"><a href="papers/04-measurement-influence/measurement_influence.pdf">Read PDF <span aria-hidden="true">↗</span></a><a href="papers/04-measurement-influence/measurement_influence.tex">LaTeX source</a><a href="papers/04-measurement-influence/influence_map.pdf">Influence maps</a><small>4 pages</small></div>
+            <div class="paper-description"><h3>Maxwell’s Perspective</h3><p>Recover the wire equation and examine the role of the available observations.</p></div>
+            <div class="paper-actions"><a href="papers/03-maxwells-perspective/maxwells_perspective.pdf">PDF · 4 pages</a><a href="papers/03-maxwells-perspective/maxwells_perspective.tex">LaTeX source</a></div>
           </li>
           <li>
-            <span class="paper-number">V</span>
-            <div class="paper-description"><h3><a href="papers/arxiv-draft-maxwell/arxiv-draft.pdf">Magnetic Fields from Measurements</a></h3><p>Unified arXiv draft</p><span>From robot readings to a textbook field, then from simulated readings to a recovered wire equation.</span></div>
-            <div class="paper-actions"><a href="papers/arxiv-draft-maxwell/arxiv-draft.pdf">Read PDF <span aria-hidden="true">↗</span></a><a href="papers/arxiv-draft-maxwell/arxiv-draft.tex">LaTeX source</a><small>8 pages</small></div>
+            <div class="paper-description"><h3>The magnetic field as a learned function</h3><p>Derive exact measurement weights for the Gaussian and reconstructed dipole maps.</p></div>
+            <div class="paper-actions"><a href="papers/04-measurement-influence/measurement_influence.pdf">PDF · 4 pages</a><a href="papers/04-measurement-influence/measurement_influence.tex">LaTeX source</a></div>
           </li>
-        </ol>
+        </ul>
         <div class="research-links"><a href="README.md">Project overview ↗</a><a href="experiments/hidden_wire/README.md">Hidden-wire protocol &amp; results ↗</a><a href="data/README.md">Dataset provenance ↗</a></div>
       </section>
     </main>
 
     <footer class="footer">
       <div><a class="signature" href="#">J. R. Landers</a><p>From learned kernels to magnetic-field equations<br>Research notes · November 2026</p></div>
-      <p class="footer-note">From observed values to equations,<br>and from equations back to the measurements that shape them.</p>
       <a class="back-top" href="#">Back to the beginning ↑</a>
     </footer>
   </div>
