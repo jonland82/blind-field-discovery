@@ -20,20 +20,18 @@
 \maketitle
 
 \begin{abstract}
-How does a magnetic field equation acquire information from measurements?
-We fit a Gaussian kernel to readings from a robot, then fit a superposition
-of textbook dipoles to the learned field. The resulting field has two exact
-representations at fixed settings. It is a sum over assumed sources and a
-matrix-weighted sum over the original readings. On two held-out reference
-sensor trials the vector root mean square error in reference recording units
-is 8.09 for the Gaussian map,
-5.22 for dipoles fitted to its predictions, and 5.31 for the same dipoles
-fitted directly to the readings. At one point in a training gap, increasing
-a selected vertical reading by one unit changes the vertical prediction by
-\(+0.579\), \(-0.085\), and \(-0.025\), respectively. We then hide the form
-of the field in a controlled experiment. A rational search recovers the
-current and distance scaling of a straight wire, with direct fitting
-giving the lowest mean error in all five tested cases.
+What can a textbook equation learn from a robot crossing a room---and vice versa?
+A Gaussian kernel turns 500 magnetic readings into a smooth map. The
+textbook dipole response gives the learner a physical form for the field.
+We fit 100 dipoles and a uniform background to the map. On two held-out runs,
+the vector root mean square error drops from 8.09 to 5.22 in the sensor's
+recording units. Fitting dipoles directly to the readings gives 5.31.
+At fixed settings, the dipole field is exactly a weighted sum of the
+original readings. In a simulated wire experiment, the learner chooses a
+formula from a library and recovers the field's proportionality to current
+and inverse scaling with distance. Direct fitting gives the lowest mean error in all
+five cases. The wire shows how readings can guide the choice of a formula,
+and the room shows exactly how a textbook field learns from examples.
 \end{abstract}
 
 \section{From an experiment to a field}

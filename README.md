@@ -8,6 +8,8 @@ The four notes follow observations into fitted equations, then trace those equat
 
 ## The papers
 
+**Unified paper.** *Magnetic Fields from Measurements* starts with Maxwell and follows 500 robot readings into a Gaussian map and a fitted dipole field. It shows how that same field is exactly a weighted sum of the readings, then asks whether a learner can choose the equation for a simulated wire. [Draft PDF](papers/arxiv-draft-maxwell/arxiv-draft.pdf) · [LaTeX and build instructions](papers/arxiv-draft-maxwell/README.md) · [The paper in the research story](https://jonland82.github.io/blind-field-discovery/#unified-paper)
+
 | | Paper | Read | Source and reproduction |
 | --- | --- | --- | --- |
 | **1** | **From samples to an equation** — A magnetic-like kernel benchmark | [PDF](papers/01-kernel-to-equation/kernel_to_equation.pdf) | [LaTeX and assets](papers/01-kernel-to-equation/README.md) · [Experiment](experiments/kernel_benchmark/README.md) |
@@ -29,6 +31,7 @@ papers/
   02-kernel-to-magnetostatics/ Follow-up: PDF, LaTeX, figures, tables, builder
   03-maxwells-perspective/    Expository synthesis, wire equations and convergence
   04-measurement-influence/   Measurement weights for the Gaussian and dipole fields
+  arxiv-draft-maxwell/       Unified paper, LaTeX source and figures
 experiments/
   kernel_benchmark/           Controlled synthetic workflow behind paper 1
   hidden_wire/               Hidden wire: kernel to discovered analytic field
