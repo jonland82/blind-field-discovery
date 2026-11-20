@@ -1,0 +1,154 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlength{\abovedisplayskip}{6pt}
+\setlength{\belowdisplayskip}{6pt}
+\newcommand{\E}{\mathbf E}
+\newcommand{\B}{\mathbf B}
+\newcommand{\F}{\mathbf F}
+\newcommand{\J}{\mathbf J}
+\begin{document}
+\begin{center}
+{\Large\bfseries Equivalent Descriptions of Light}\\[4pt]
+{\normalsize Mathematical representation, Maxwell's equations, and physical interpretation}\\[6pt]
+{\normalsize Jonathan R. Landers}
+\end{center}
+\textbf{Abstract.} A physical prediction can survive substantial changes in mathematical representation. This paper defines exact equivalence, derives a complex-field reformulation of Maxwell's equations, and follows a light wave through time, frequency, square-loop, and continuous-forest descriptions. A circuit model then illustrates the stronger achievement of deriving wave propagation from local dynamics. Each construction identifies its assumptions and the measurements it preserves.
+
+\textbf{1. Equivalence of mathematical descriptions.}
+Let $u$ denote a system's state, $t$ time, and $\dot u=K[u]$ its evolution law, with a dot meaning a time derivative. For an invertible, time-independent change of variables $v=\Phi(u)$, the chain rule gives
+\begin{equation}
+\dot v=D\Phi(u)K[u]
+=D\Phi\bigl(\Phi^{-1}(v)\bigr)K\bigl[\Phi^{-1}(v)\bigr].
+\end{equation}
+Here $D\Phi$ is the derivative of the transformation. If a measured quantity is $M(u)$, its expression in the new variables is $\widetilde M(v)=M(\Phi^{-1}(v))$. Corresponding initial states therefore evolve into corresponding states and give identical measurements. For fields, the same reasoning applies pointwise or through suitable transformations of functions. Domains, boundary conditions, and any redundant variables must also be accounted for.
+
+For example, Cartesian coordinates $x,y$ and polar coordinates $r,\theta$ obey $x=r\cos\theta$, $y=r\sin\theta$. A circle of radius $R$ with angular speed $\omega$ is $x=R\cos\omega t$, $y=R\sin\omega t$, or simply $r=R$, $\theta=\omega t$ modulo $2\pi$. Coordinate patches handle the angle ambiguity and the origin. The trajectory and detector crossings agree. Exact reformulation of a theory requires this correspondence for its full set of solutions. Matching one waveform establishes a more restricted correspondence.
+
+\textbf{2. Maxwell's equations and an exact reformulation.}
+In vacuum with prescribed sources, the electric field $\E(\mathbf x,t)$ and magnetic field $\B(\mathbf x,t)$ are real vectors at position $\mathbf x=(x,y,z)$. In SI units,
+\begin{align}
+\nabla\cdot\E&=\rho/\varepsilon_0,& \nabla\cdot\B&=0,\label{eq:div}\\
+\partial_t\E&=c^2\nabla\times\B-\J/\varepsilon_0,&
+\partial_t\B&=-\nabla\times\E.\label{eq:curl}
+\end{align}
+Here $\rho$ is charge per unit volume, $\J$ is electric current per unit area, $\varepsilon_0$ is vacuum permittivity, and $c=(\mu_0\varepsilon_0)^{-1/2}$ is the vacuum light speed, with $\mu_0$ the vacuum permeability. The operator $\partial_t$ differentiates at fixed position. With $\nabla=(\partial_x,\partial_y,\partial_z)$, divergence $\nabla\cdot$ measures local outward flux and curl $\nabla\times$ measures local circulation. These are coupled partial differential equations. Compatible sources satisfy $\partial_t\rho+\nabla\cdot\J=0$, obtained by taking the divergence of the electric evolution equation.
+
+Define the complex vector $\F=\E+ic\B$, where $i^2=-1$. Both terms have electric-field units. Direct substitution yields
+\begin{align}
+\nabla\cdot\F&=\rho/\varepsilon_0,\\
+\partial_t\F
+&=c^2\nabla\times\B-\J/\varepsilon_0-ic\nabla\times\E
+=-ic\nabla\times\F-\J/\varepsilon_0.
+\end{align}
+Thus the entire system becomes
+\begin{equation}\boxed{
+\nabla\cdot\F=\rho/\varepsilon_0,\qquad
+i\partial_t\F=c\nabla\times\F-i\J/\varepsilon_0.}
+\end{equation}
+The inverse is $\E=\operatorname{Re}\F$, $\B=\operatorname{Im}\F/c$. Taking real and imaginary parts recovers all four original equations, including their sources. Initial and boundary data translate by the same rule. For a test particle of charge $Q$ and velocity $\mathbf v$, the measured Lorentz force remains $\mathbf f=Q(\E+\mathbf v\times\B)$ after this reconstruction.
+
+\textbf{3. Deriving light waves from the field equations.}
+Set $\rho=0$ and $\J=0$ throughout the region considered. Differentiate the electric evolution equation and use the magnetic evolution equation,
+\begin{equation}
+\partial_t^2\E=c^2\nabla\times\partial_t\B
+=-c^2\nabla\times(\nabla\times\E)
+=c^2\nabla^2\E.
+\end{equation}
+The last step uses $\nabla\times(\nabla\times\E)=\nabla(\nabla\cdot\E)-\nabla^2\E$ and zero electric divergence. The Laplacian $\nabla^2=\partial_x^2+\partial_y^2+\partial_z^2$ acts on each component. Similarly,
+\begin{equation}
+\partial_t^2\B=-c^2\nabla\times(\nabla\times\B)=c^2\nabla^2\B.
+\end{equation}
+Both fields obey a wave equation with propagation speed $c$. Recovering Maxwell solutions from these second-order equations also requires the original divergence and first-order curl constraints on the initial data.
+
+Consider a plane wave with real wavevector $\mathbf k$, positive angular frequency $\omega$, and constant complex amplitudes $\mathbf e,\mathbf b$,
+\begin{equation}
+\E=\operatorname{Re}\!\left[\mathbf e\,e^{i(\mathbf k\cdot\mathbf x-\omega t)}\right],\qquad
+\B=\operatorname{Re}\!\left[\mathbf b\,e^{i(\mathbf k\cdot\mathbf x-\omega t)}\right].
+\end{equation}
+Complex notation records amplitude and phase, with the real part giving each physical field. On these exponentials, $\nabla$ becomes $i\mathbf k$ and $\partial_t$ becomes $-i\omega$. Substituting into Maxwell's equations gives
+\begin{equation}
+\mathbf k\cdot\mathbf e=\mathbf k\cdot\mathbf b=0,\qquad
+\mathbf k\times\mathbf e=\omega\mathbf b,\qquad
+\mathbf k\times\mathbf b=-\frac{\omega}{c^2}\mathbf e.
+\end{equation}
+Taking $\mathbf k\times$ the third relation and using the fourth gives
+\begin{equation}
+-|\mathbf k|^2\mathbf e
+=\mathbf k\times(\mathbf k\times\mathbf e)
+=-\frac{\omega^2}{c^2}\mathbf e.
+\end{equation}
+For a nonzero wave, therefore,
+\begin{equation}\boxed{
+\omega=c|\mathbf k|,\qquad
+\mathbf b=\frac1c\widehat{\mathbf k}\times\mathbf e,\qquad
+\widehat{\mathbf k}=\mathbf k/|\mathbf k|.}
+\end{equation}
+Transverse polarization, propagation speed, and the relation between the two fields follow from the equations. For a linearly polarized wave traveling along $+z$, choose $\mathbf e=A\hat{\mathbf x}$ with real amplitude $A$. Then
+\begin{equation}
+\E=A\hat{\mathbf x}\cos(kz-\omega t),\qquad
+\B=\frac A c\hat{\mathbf y}\cos(kz-\omega t),\qquad \omega=ck,
+\end{equation}
+where $k=|\mathbf k|$ and $\hat{\mathbf x},\hat{\mathbf y}$ are unit vectors along the coordinate axes. At a fixed position, each nonzero component satisfies the ordinary differential equation $\ddot E_x=-\omega^2E_x$ or $\ddot B_y=-\omega^2B_y$. More general Maxwell fields need not have a single frequency.
+
+\textbf{4. How the same wave can look different.}
+For a scalar field component $h(t)$ at a detector, define its Fourier transform and inverse by
+\begin{equation}
+\widehat h(\Omega)=\int_{-\infty}^{\infty}h(t)e^{i\Omega t}\,dt,\qquad
+h(t)=\frac1{2\pi}\int_{-\infty}^{\infty}\widehat h(\Omega)e^{-i\Omega t}\,d\Omega.
+\end{equation}
+Here $\Omega$ is the frequency variable. These formulas hold for suitable integrable signals and extend to ideal infinite waves as distributions. For $h(t)=A\cos\omega t$,
+\begin{equation}
+\widehat h(\Omega)=\pi A\bigl[\delta(\Omega-\omega)+\delta(\Omega+\omega)\bigr],
+\end{equation}
+where the Dirac delta $\delta$ has unit integral and selects its argument's zero. The time graph oscillates and the frequency description has two spectral lines. The inverse transform reconstructs the oscillation exactly. For general signals, both amplitude and phase must be retained. Likewise, the time-independent phasor $\mathbf e\,e^{i\mathbf k\cdot\mathbf x}$ reproduces the field when multiplied by $e^{-i\omega t}$ and its real part is taken. A detector's prediction is preserved through the decoding rule.
+
+\textbf{5. Square loops and continuous forests as waveform representations.}
+For a particle running around a square of perimeter $P$ at constant perimeter speed $u$, let $s$ be distance traveled modulo $P$. Define its phase $\theta=2\pi s/P$. The equations
+\begin{equation}
+\dot s=u,\qquad \dot\theta=\omega=\frac{2\pi u}{P},\qquad
+h=A\cos\theta
+\quad\Longrightarrow\quad \ddot h=-\omega^2h
+\end{equation}
+produce an exact sinusoidal readout. The particle's location encodes phase. A traveling Maxwell wave results if copies at different $z$ are assigned $\theta(z,t)=\omega t-kz$, with $\omega=ck$, and the electric and magnetic readouts of the preceding section. Those spatial and field relationships are additional assumptions. The square trajectory alone supplies a periodic clock.
+
+A second encoding uses a continuous average of threshold trees. Let $q=(kz-\omega t)\bmod 2\pi$ be wrapped phase, and let each tree have a threshold $a$ chosen uniformly in $[0,2\pi)$. Define its scalar output with the indicator $\mathbf1_{q\geq a}$, equal to one when the condition holds and zero otherwise,
+\begin{equation}
+T_a(q)=2\pi\cos a\,\mathbf1_{q\geq a},\qquad
+H(q)=\mathbb E_a[T_a(q)]
+=\frac1{2\pi}\int_0^q2\pi\cos a\,da=\sin q.
+\end{equation}
+The symbol $\mathbb E_a$ denotes averaging over the threshold distribution. This is an explicitly constructed continuous ensemble of decision stumps. Its exact average is smooth. A finite random sample gives a stepwise approximation. Choosing $\E=A\hat{\mathbf x}H(q)$ and $\B=(A/c)\hat{\mathbf y}H(q)$ with $\omega=ck$ again reproduces a Maxwell plane wave. The selected weights encode the sinusoid, and the selected phase encodes its motion. These constructions represent a family of waves with specified frequency and polarization. An exact reformulation of all Maxwell solutions would require a representation and evolution rule covering the full solution space.
+
+\textbf{6. A stronger result from local dynamics.}
+An ideal lossless circuit chain illustrates how wave behavior can instead follow from independently specified local laws. Put nodes at $x=na$, where $n$ is an integer and $a$ the spacing. Each node has capacitance $C$ to ground, and each neighboring pair is connected by inductance $L$. With node voltage $V_n$ and current $I_n$ flowing from $n$ to $n+1$, the component and charge-conservation laws give
+\begin{equation}
+L\dot I_n=V_n-V_{n+1},\qquad C\dot V_n=I_{n-1}-I_n.
+\end{equation}
+Differentiate the second equation and substitute the first for both currents,
+\begin{equation}
+\ddot V_n=\frac{V_{n-1}-2V_n+V_{n+1}}{LC}.
+\end{equation}
+Define inductance and capacitance per unit length $\ell=L/a$ and $\gamma=C/a$. Taking $a\to0$ with $\ell,\gamma$ fixed, for sufficiently smooth fields, yields
+\begin{equation}
+\partial_xV=-\ell\,\partial_t I,\qquad
+\partial_xI=-\gamma\,\partial_t V,
+\qquad \partial_t^2V=\frac1{\ell\gamma}\partial_x^2V.
+\end{equation}
+For a right-moving pulse $V=f(x-vt)$, where $f$ is its profile, the equations give
+\begin{equation}
+v=\frac1{\sqrt{\ell\gamma}},\qquad
+I=\frac VZ,\qquad Z=\ell v=\sqrt{\frac\ell\gamma},
+\end{equation}
+assuming zero constant background current. Substitution into the two first-order equations verifies both relations. The speed $v$ and impedance $Z$ follow from component parameters. For a finite spacing, inserting $V_n=V_*e^{i(kna-\Omega t)}$, with constant amplitude $V_*$, gives
+\begin{equation}
+\Omega^2=\frac4{LC}\sin^2\!\left(\frac{ka}{2}\right).
+\end{equation}
+Thus long wavelengths ($|ka|\ll1$) approach the continuum law $\Omega^2=v^2k^2$, while shorter wavelengths expose the underlying spacing. The continuum system has the same form as one-dimensional, single-polarization vacuum Maxwell evolution after rescaling the variables. Its circuit assumptions are themselves electromagnetic, so this derives wave behavior within a model rather than supplying an independent foundation for electromagnetism. Exact translations preserve every mapped prediction. A proposed microscopic mechanism must additionally account for its laws, scope, and any observable departures.
+\end{document}

@@ -136,7 +136,7 @@ h2 { font-size: clamp(28px, 4vw, 36px); letter-spacing: -.7px; line-height: 1.07
 .workflow strong { margin-top: 3px; font-size: 23px; font-weight: 500; }
 .workflow li > span:last-child { color: var(--muted); font-size: 16px; }
 .workflow-footnote { margin-top: 17px; color: var(--muted); font-size: 15px; font-style: italic; }
-.project-aims { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin: 26px 0 0; padding: 0; list-style: none; text-align: left; }
+.project-aims { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; margin: 26px 0 0; padding: 0; list-style: none; text-align: left; }
 .project-aims li { padding-top: 18px; border-top: 1px solid var(--rule); }
 .project-aims h3 { margin-top: 8px; font-size: 22px; line-height: 1.15; }
 .project-aims p { margin-top: 13px; color: var(--muted); font-size: 16px; line-height: 1.5; }

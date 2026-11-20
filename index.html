@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#e2cfa9">
-  <meta name="description" content="Research notes and a unified paper on learning analytic equations from data and tracing how individual measurements shape a magnetic-field prediction.">
+  <meta name="description" content="Five research notes and a unified paper on learning field equations from measurements, tracing their predictions, and understanding equivalent descriptions of light.">
   <title>From data to analytic equations · J. R. Landers</title>
   <link rel="preload" href="assets/site/fonts/eb-garamond.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/site/folio.css?v=18451ec">
+  <link rel="stylesheet" href="assets/site/folio.css?v=equivalence-20261120">
   <script src="assets/site/folio.js" defer></script>
 </head>
 <body>
@@ -29,7 +29,7 @@
         <div class="hero-copy">
           <h1 id="hero-title">From data<br>to <em>equations.</em></h1>
           <p class="hero-description">What can a textbook equation learn from a robot crossing a room—and vice versa?</p>
-          <a class="ink-link" href="#story">The three aims <span aria-hidden="true">↓</span></a>
+          <a class="ink-link" href="#story">The research arc <span aria-hidden="true">↓</span></a>
         </div>
 
         <figure class="field-plate">
@@ -82,13 +82,14 @@
       <div class="folio-divider" aria-hidden="true"><span></span><b>❧</b><span></span></div>
 
       <section class="premise" id="story" aria-labelledby="premise-title">
-        <h2 id="premise-title">Three aims</h2>
-        <ol class="project-aims" aria-label="The three aims of the project">
+        <h2 id="premise-title">The research arc</h2>
+        <ol class="project-aims" aria-label="The research arc from measurements to equivalent descriptions">
           <li><span class="step-number" aria-hidden="true">01</span><h3>Map the room</h3><p>Turn 500 robot readings into a Gaussian map and test it on other trips through the room.</p></li>
           <li><span class="step-number" aria-hidden="true">02</span><h3>Fit a textbook field</h3><p>Fit dipoles to the map and directly to the readings. Write the fitted field as an exact sum over readings.</p></li>
           <li><span class="step-number" aria-hidden="true">03</span><h3>Recover the wire equation</h3><p>Use simulated measurements to recover the field’s dependence on current and distance.</p></li>
+          <li><span class="step-number" aria-hidden="true">04</span><h3>Compare equivalent descriptions</h3><p>Follow Maxwell’s fields through different mathematical representations and ask what each predicts a detector will measure.</p></li>
         </ol>
-        <p class="workflow-footnote"><a href="#unified-paper">Follow the full story in the unified paper.</a></p>
+        <p class="workflow-footnote"><a href="#unified-paper">Read the experimental synthesis.</a> <a href="#equivalent-descriptions">Explore the equivalence of field descriptions.</a></p>
       </section>
 
       <section class="chapter" aria-labelledby="chapter-one-title">
@@ -275,6 +276,19 @@
         </div>
       </section>
 
+      <section class="chapter" id="equivalent-descriptions" aria-labelledby="equivalence-title">
+        <div class="chapter-content">
+          <header class="chapter-heading">
+            <p class="eyebrow">Equivalent descriptions</p>
+            <h2 id="equivalence-title">What survives a change of mathematics?</h2>
+            <p>The measurement weights express one fitted field in two ways. The next note asks what makes descriptions equivalent across an entire physical theory.</p>
+          </header>
+          <p>Starting with a change of variables, the paper combines the electric and magnetic fields into one complex field and recovers Maxwell’s equations in both directions. It derives light’s speed and polarization, then translates an oscillation into a frequency spectrum, a square-loop clock, and a continuous forest of threshold trees.</p>
+          <p>The square and forest constructions encode a chosen waveform. A circuit chain goes further by deriving wave propagation from local component laws. Each example identifies the assumptions and measurements needed to assess its equivalence.</p>
+          <a class="text-link" href="papers/05-equivalent-descriptions/equivalent_descriptions.pdf">Read note V <span>PDF · 4 pages ↗</span></a>
+        </div>
+      </section>
+
       <section class="chapter papers" id="papers" aria-labelledby="papers-title">
         <header class="chapter-heading">
           <h2 id="papers-title">Papers and research notes</h2>
@@ -284,9 +298,9 @@
             <div class="paper-description">
               <p class="eyebrow">Unified arXiv draft</p>
               <h3>Magnetic Fields from Measurements</h3>
-              <p>The room and wire experiments in one paper, with the full derivation of the measurement weights.</p>
+              <p>The room and wire experiments compare direct physical fitting with kernel smoothing and derive exactly how individual readings shape the fitted field.</p>
             </div>
-            <div class="paper-actions"><a href="papers/arxiv-draft-maxwell/arxiv-draft.pdf">PDF · 8 pages</a><a href="papers/arxiv-draft-maxwell/arxiv-draft.tex">LaTeX source</a></div>
+            <div class="paper-actions"><a href="papers/arxiv-draft-maxwell/arxiv-draft.pdf">PDF · 9 pages</a><a href="papers/arxiv-draft-maxwell/arxiv-draft.tex">LaTeX source</a></div>
           </li>
           <li>
             <div class="paper-description"><h3>From samples to an equation</h3><p>Recover the tanh field and sech² source by solving a learned differential equation.</p></div>
@@ -303,6 +317,10 @@
           <li>
             <div class="paper-description"><h3>The magnetic field as a learned function</h3><p>Derive exact measurement weights for the Gaussian and reconstructed dipole maps.</p></div>
             <div class="paper-actions"><a href="papers/04-measurement-influence/measurement_influence.pdf">PDF · 4 pages</a><a href="papers/04-measurement-influence/measurement_influence.tex">LaTeX source</a></div>
+          </li>
+          <li>
+            <div class="paper-description"><h3>Equivalent Descriptions of Light</h3><p>Derive equivalent Maxwell formulations and examine what wave, square-loop, forest, and circuit descriptions predict.</p></div>
+            <div class="paper-actions"><a href="papers/05-equivalent-descriptions/equivalent_descriptions.pdf">PDF · 4 pages</a><a href="papers/05-equivalent-descriptions/equivalent_descriptions.tex">LaTeX source</a></div>
           </li>
         </ul>
         <div class="research-links"><a href="README.md">Project overview ↗</a><a href="experiments/hidden_wire/README.md">Hidden-wire protocol &amp; results ↗</a><a href="data/README.md">Dataset provenance ↗</a></div>

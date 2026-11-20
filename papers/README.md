@@ -10,4 +10,6 @@
 
 **Unified arXiv draft.** [Magnetic Fields from Measurements](arxiv-draft-maxwell/arxiv-draft.pdf) · [Source and build instructions](arxiv-draft-maxwell/README.md). The paper follows a path from Maxwell's field equations through the measured room to a controlled recovery of the field around a wire.
 
-The first two papers are three pages each. The third and fourth are four pages each. From the repository root, run `python scripts/build_papers.py` to rebuild all figures, tables and PDFs from retained experiment outputs.
+5. **Equivalent Descriptions of Light.** [PDF](05-equivalent-descriptions/equivalent_descriptions.pdf) · [Source and build instructions](05-equivalent-descriptions/README.md). A standalone mathematical treatment of equivalent field descriptions, deriving Maxwell’s complex formulation and light waves before examining square-loop, forest, and circuit models.
+
+The notes follow measurements into equations, trace how readings shape predictions, and then ask what those equations preserve across representations. The first two papers are three pages each. The third, fourth, and fifth are four pages each. From the repository root, run `python scripts/build_papers.py` to rebuild the first four notes’ figures, tables and PDFs from retained experiment outputs. The fifth note and unified draft have separate build instructions linked above.
