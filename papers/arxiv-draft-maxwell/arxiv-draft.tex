@@ -20,77 +20,49 @@
 \maketitle
 
 \begin{abstract}
-What can a textbook equation learn from a robot crossing a room? In these
-experiments, the physical representation accounts for most of the observed
-gain, while intermediate Gaussian smoothing adds little.
-A Gaussian kernel turns 500 indoor magnetic readings into a smooth map without
-knowing any physics, whereas a sum of textbook dipole responses builds
-magnetostatics directly into the model. A natural question is whether
-pre-smoothing the data with the kernel helps the physical fit, or whether the
-physical form does the work on its own. Fitting 100 dipoles and a uniform
-background to the Gaussian map cuts held-out vector root mean square error from
-8.09 to 5.22 (in the sensor's recording units), but fitting the same dipoles
-directly to the raw readings achieves nearly the entire gain at 5.31.
-Random-forest and boosted-stump baselines score 10.56 and 14.70, respectively,
-under the same data protocol. At fixed settings, the dipole field is an exact
-weighted sum of the original readings;
-tracking those weights shows that even a small shift in route error can mask a
-large change in how individual measurements are used. In a simulated wire
-experiment where the learner must also choose the formula from a library, both
-routes recover the field's proportionality to current and inverse scaling with
-distance, yet direct fitting achieves the lowest mean error in all five regimes.
-Together, the wire shows how readings can select a physical law without
-intermediate smoothing, and the room shows exactly how a textbook field absorbs
-empirical data.
+How does a physical field learn from measurements, and what does smoothing add?
+From 500 indoor magnetic readings, a Gaussian map achieves held-out vector RMSE
+8.09, compared with 5.22 for dipoles fitted to that map and 5.31 for dipoles
+fitted directly to readings, in reference recording units. Random forests and boosted stumps score 10.56 and
+14.70. The physical form accounts for most of the observed gain.
+At fixed settings, the dipole field is exactly a weighted sum of the original
+readings; those weights expose substantial sensitivity changes hidden by similar
+prediction errors. In a simulated wire experiment, direct equation fitting
+outperforms the kernel-mediated route in all five regimes. The results separate
+the supplied representation, its empirical coefficients, and the contribution
+of intermediate smoothing.
 \end{abstract}
 
 \section{From an experiment to a field}
 
-Switch on a current beside a compass and the needle turns. A field equation
-gives that deflection a place in a larger account of electricity and magnetism.
-In his 1865 paper, Maxwell began with the problem of reducing observed forces
-to mathematical form and went on to develop a dynamical theory of the
-electromagnetic field~\cite{maxwell}. The theory grew from experiment and
-mathematical reasoning together. Once we have the equations, we can turn the
-problem around: given readings from a particular experiment, what can they tell
-us about the field that produced them?
+Switch on a current beside a compass and the needle turns. Maxwell's theory
+connected such observations through field equations~\cite{maxwell}. Here we
+ask the inverse question: what do measurements teach a field model whose
+equations are already supplied? A robot's magnetic readings can fit a Gaussian
+map without a field law, or a sum of dipole responses that obeys magnetostatics
+by construction. Smoothing with the Gaussian before fitting dipoles raises two
+questions: how does the resulting field use each reading, and how much does
+the smoother contribute beyond the physical form?
 
-Consider a robot crossing a room with a magnetometer. Each record along its
-route pairs a planar position with three numbers giving the local magnetic
-field. From those readings, a Gaussian kernel can interpolate a smooth map at
-unvisited positions without invoking any physical law. Alternatively, we can
-represent the field as a superposition of textbook dipole responses, which
-automatically obeys the static field equations in free space. A tempting
-compromise is a two-stage workflow: smooth the noisy readings with the kernel
-first, then fit the physical model to the smoothed map. That raises two
-concrete questions: when we fit dipoles to Gaussian predictions, how does the
-textbook field inherit information from the original readings, and how much of
-its accuracy comes from the physical form itself rather than the smoother?
-
-We answer the first question by rewriting a uniform background plus 100 fitted
-dipoles as an exact linear combination of the 500 raw measurements, allowing us
-to inspect the influence of any single reading on any prediction. To answer the
-second, we fit the same dipoles directly to the raw readings under identical
-settings. Finally, a simulated current-carrying wire removes the known dipole
-basis and asks how much of the field's mathematical form can be discovered from
-data within a candidate library. Appendix~\ref{sec:scalar} checks the recovery
-and solution of a differential law in one dimension.
-The results favor the supplied physical form over intermediate smoothing in
-these comparisons, while an exact identity exposes how that form uses the data.
+We rewrite a background plus 100 fitted dipoles as an exact linear combination
+of 500 readings, then compare it with dipoles fitted directly to those readings
+under identical settings. Tree baselines broaden the predictive comparison.
+A simulated wire asks whether a learner can also select the field's formula
+from a candidate library; Appendix~\ref{sec:scalar} checks recovery of a scalar
+differential law. In these tests, the physical form supplies most of the gain,
+while the measurement weights reveal what smoothing changes.
 
 \section{What the robot records}
 
-The Aalto robot mapped an indoor area of roughly \(6\,\mathrm m\times6\,\mathrm m\).
-Each sample records a time \(t\) in seconds since the start of the trial, a
-sensor position \(\x(t)=(x(t),y(t))\) in metres, and a calibrated,
-orientation-corrected magnetic vector \(\B=(B_x,B_y,B_z)^{\mathsf T}\), with
-\(B_z\) vertical and \({}^{\mathsf T}\) denoting transpose.
-Solin et al.\ mapped these readings with a Gaussian process on a scalar
-potential~\cite{solin}; later work used the same archive to estimate field
-magnitude sequentially~\cite{chang} and to stitch local Gaussian process maps
-across a building~\cite{abdulraouf}. Here we predict all three field components
-from position alone, using time only to order the predictions
-\(\widehat{\B}(\x(t))\) along the robot's route.
+The Aalto robot mapped roughly \(6\,\mathrm m\times6\,\mathrm m\), recording
+time \(t\) in seconds, planar position \(\x(t)=(x(t),y(t))\) in metres, and
+calibrated, orientation-corrected magnetic vectors
+\(\B=(B_x,B_y,B_z)^{\mathsf T}\), with \(B_z\) vertical.
+Solin et al.\ used a scalar-potential Gaussian process~\cite{solin}; later
+studies addressed sequential estimation~\cite{chang} and large-scale local
+maps~\cite{abdulraouf}. We predict all components from position alone;
+time only orders predictions along the route. Superscript \({}^{\mathsf T}\)
+denotes transpose.
 
 \subsection{A Gaussian map from the readings}
 
@@ -238,16 +210,13 @@ validation error selects a \(10\times10\) grid at depth \(1\) m with
 that only the fitting targets change. A constant baseline predicting the mean
 training vector everywhere provides a floor for comparison.
 
-We also fit two tree baselines to the identical training and validation arrays,
-using position only and the unchanged trial-1 instrument alignments. A 150-tree
-random forest jointly predicts the three components; gradient boosting with
-depth-one trees fits each component separately. Forest validation searches
-depths 6, 12, and unrestricted, minimum leaf sizes 1, 4, and 12, and feature
-fractions 1.0 and 0.7. Stump validation searches 50, 200, or 600 stages and
-learning rates 0.03, 0.1, or 0.3. Mean trial-3 vector RMSE across seeds 11, 23,
-and 37 selects one setting per method. The forest selects unrestricted depth,
-leaf size one, and feature fraction 0.7; stumps select 200 stages at rate 0.03.
-Test scores average the three separately fitted predictors' errors.
+Tree baselines use identical arrays and calibration. A 150-tree forest predicts
+the components jointly; boosted depth-one trees fit them separately. Eighteen
+forest settings vary depth, leaf size, and feature fraction; nine stump settings
+vary stages and learning rate. Mean trial-3 RMSE across seeds 11, 23, and 37
+selects unrestricted forest depth, leaf size one, and feature fraction 0.7,
+and 200 boosting stages at rate 0.03. Test scores average per-seed errors;
+complete grids are archived with the results.
 
 \begin{table}[!htbp]
 \centering
@@ -305,15 +274,11 @@ recording units.}
 \end{minipage}
 \end{figure}
 
-Ten seconds of the held-out route make these errors visible in field space
-(Figure~\ref{fig:trajectory}). As the robot moves, the tip of its magnetic
-vector traces a three-dimensional curve. All three models follow the dip toward
-lower \(B_z\) while underestimating its depth: the measured minimum reaches
-\(-44.3\) units, compared with \(-41.4\) for the Gaussian map and \(-41.5\) to
-\(-41.6\) for the two dipole maps. Along the route, the direct and two-stage
-dipole curves lie almost on top of each other. To see what Gaussian smoothing
-actually changed beneath that near-overlap, we can trace a single reading
-through the fit.
+Figure~\ref{fig:trajectory} shows ten seconds of the held-out route in field
+space. All three maps underestimate the measured \(B_z\) minimum of \(-44.3\):
+the Gaussian reaches \(-41.4\), and the dipole maps \(-41.5\) to \(-41.6\).
+The dipole curves nearly overlap, but their measurement weights reveal what
+the smoothing changed.
 
 \section{One field, two sums}
 
@@ -388,14 +353,11 @@ weights are drawn on top.}
 \label{fig:influence}
 \end{figure}
 
-To see these weights in action, we select the held-out trial-4 position inside
-the spatial gap nearest its center using coordinates alone:
-\((1.990,-1.316)\) m, which lies \(0.482\) m from the nearest training reading.
-Figure~\ref{fig:influence} compares the Gaussian weight \(g_{*i}\) against the
-vertical-to-vertical entry \([W_i]_{zz}\) of the two-stage dipole weight across
-all 500 training positions. The visual contrast is immediate: in the Gaussian
-panel, influence concentrates tightly around the query cross, whereas in the
-dipole panel, signed weights spread across the entire room.
+Using coordinates alone, we select the trial-4 position nearest the gap's
+center: \((1.990,-1.316)\) m, \(0.482\) m from the nearest training reading.
+Figure~\ref{fig:influence} compares Gaussian weights \(g_{*i}\) with dipole
+vertical weights \([W_i]_{zz}\). Gaussian influence concentrates near the
+query; the dipole weights spread across the room.
 
 The two maps diverge most sharply at the ringed reading \((2.109,-0.849)\) m,
 just outside the gap. Raising that single reading's \(B_z\) by one unit pushes
@@ -424,11 +386,8 @@ predicted \(B_z\) reaching \(0.469\) in the two-stage fit.
 
 \section{Hiding the law in a wire experiment}
 
-Return to the compass beside a current. In the room, we handed the learner the
-dipole response before fitting its coefficients. With a simulated wire, we can
-remove that crutch and ask the learner to choose the mathematical form itself,
-while fixing the geometry and varying the current so that the exact field
-provides a clean ground truth.
+The room fit supplies dipole responses. A simulated wire instead asks the
+learner to choose a formula from a general library, with an exact field for scoring.
 
 For a steady signed current \(I\) along the \(z\) axis of an ideal infinite
 wire, Amp\`ere's law gives \(\oint\B\cdot d\boldsymbol\ell=\mu_0 I\), where
@@ -492,7 +451,6 @@ components. The sparse regime cuts training to 80 readings, and limited angles
 restrict azimuth to \(\pm\pi/6\) radians; every test domain uses 800 fresh
 points.
 
-\begin{samepage}
 All 15 two-stage fits (five cases across three seeds) select the exact same
 monomials. Here is the generating field beside the reconstruction from the
 first seed in the main case, with fitted coefficients rounded for display:
@@ -507,49 +465,32 @@ first seed in the main case, with fitted coefficients rounded for display:
 \end{array}
 \]
 \par
-\end{samepage}
-\begin{samepage}
 Normalizing the \(y^2\) coefficient to one puts every recovered expression in
 the form \(I(-a y,b x,0)^{\mathsf T}/(c x^2+y^2)\). Two physical symmetries
 follow exactly from that form: doubling the current doubles the field, and
 doubling both coordinates at fixed current halves it. Circular symmetry, which
 also requires \(a=b\) and \(c=1\), holds approximately.
 \par
-\end{samepage}
 
-In the main case, fitting a rational expression to the Gaussian map slashes the
-error from \(20.44\%\) down to \(0.38\%\), and that accuracy holds when
-extrapolating to larger radii (\(0.38\%\)) and unseen currents (\(0.38\%\)).
-Yet direct fitting on the raw readings does better in every single row of
-Table~\ref{tab:wire}, dropping the main-case error to \(0.06\%\) and the
-sparse-data error from \(6.23\%\) to \(0.10\%\). The reason is clear in the
-first column of Table~\ref{tab:wire}: even when the Gaussian kernel selects the
-shortest length scale tested, it struggles to track the rapid \(1/r\) variation
-near the wire, especially with only 80 readings (\(51.10\%\) error). Because
-the candidate library already contains the true rational family, fitting
-directly to the raw measurements avoids inheriting the smoother's bias.
+The main-case rational fit reduces Gaussian error from \(20.44\%\) to
+\(0.38\%\), retaining \(0.38\%\) error at larger radii and unseen currents.
+Direct fitting is better in every regime: \(0.06\%\) in the main case and
+\(0.10\%\) with sparse data, versus \(6.23\%\) for the two-stage route.
+The Gaussian struggles with rapid near-wire variation, reaching \(51.10\%\)
+error with 80 readings. Since the library contains the true rational family,
+direct fitting avoids inheriting that approximation error.
 
-Finally, the wire illustrates a hard limit on what measurements can determine
-when a controlling variable goes unrecorded. At any fixed position, the field
-is proportional to the signed current; if positive and negative currents occur
-with equal probability at each position and magnitude, the conditional mean
-given position alone is zero. Under squared error, zero is the best prediction
-any position-only model can make, a reminder that even the right
-equation cannot overcome an unobserved source, whether a hidden current or
-unmapped shelves in a room.
+Missing inputs impose a different limit. If signed currents are symmetric at
+each position and magnitude but current is omitted, the position-conditioned
+mean field is zero. Under squared error, zero is then the best position-only
+prediction. Even a suitable equation cannot restore unobserved source information.
 
 \section{What the readings determine}
 
-Both experiments trace the path from raw measurements to an equation that can
-be evaluated at new inputs. In the indoor room, choosing the physical dipole
-form accounts for almost all of the gain over a Gaussian map, while
-pre-smoothing barely alters route error. In the wire experiment, where the
-learner must also choose the terms of the law, direct fitting on raw readings
-outperforms pre-smoothing in every regime we tested.
-The added tree baselines also trail the dipoles on the measured room, although
-their model classes and tuning budgets differ.
+The dipole form accounts for most of the room-data gain over the Gaussian;
+direct equation fitting wins every wire regime. Tree baselines also trail
+dipoles, although their model classes and tuning budgets differ.
 
-\begin{samepage}
 The indoor experiment also makes visible how empirical data enter a textbook
 field. Collecting Eqs.~\eqref{eq:gaussian_response}, \eqref{eq:teacher}, and
 \eqref{eq:dipole_identity} places the three models side by side. Superscripts
@@ -570,24 +511,13 @@ write \(k_{*i}=k_\ell(\x_*,\x_i)\) and \(D_{*j}=D(\rr_*,\mathbf s_j)\):
 \end{array}
 \]
 \par
-\end{samepage}
-Each dipole row writes one field in two equivalent ways: as a sum over 100
-assumed sources (\(j\)) or as a sum over 500 actual readings (\(i\)). Classical
-theory supplies the response matrix \(D_{*j}\) of each source, while the
-observations determine the fitted moments and background. Reading the right-hand
-side tells us the exact change in any prediction when a single sensor value
-shifts, a precise sense in which a field with a textbook form learns from
-examples.
-
-Three claims should be kept separate. The dipole basis satisfies the assumed
-static equations away from its sources; the source and measurement sums are
-exactly equivalent evaluations of one fitted field; and held-out RMSE measures
-how well that field predicts observations. Neither equation compliance nor an
-exact rewrite guarantees predictive accuracy. A companion traveling-wave
-study~\cite{stumps} makes the distinction explicit: phase-based stumps and a
-phase-based forest both give exact weak Maxwell solutions, yet the forest fits
-the tested pulse more accurately. The propagation law and field coupling are
-supplied there, just as magnetostatics is supplied by the dipole basis here.
+Each dipole row expresses one field through 100 assumed sources or 500 actual
+readings. Theory supplies the responses; observations determine their fitted
+coefficients. The right column gives exact sensitivity to each reading.
+Physical validity, equivalence of formulas, and predictive accuracy remain
+separate claims. A companion wave study~\cite{stumps} illustrates this:
+phase stumps and a phase forest both satisfy Maxwell exactly, but the forest
+fits the pulse better. Its propagation law is supplied, as magnetostatics is here.
 
 \paragraph{Scope and limitations.}
 These conclusions describe the specific estimators and domains tested here. The
@@ -609,21 +539,16 @@ and fitted dipole coefficients.
 The additional baselines and complete validation grids are retained in the
 \href{https://github.com/jonland82/blind-field-discovery/tree/52cd50c/experiments/magnetic_mapping/tree_comparison}{tree-comparison directory}.
 
-\clearpage
 \appendix
 \section{A scalar check with a known differential law}
 \label{sec:scalar}
 
-To check how these ideas carry over to a differential law, we test a scalar
-system with known dimensionless field \(B_*(x)=1.7\tanh(x/0.9)\) and source
-\(J_*(x)=0.8\sech^2(x/0.9)\), where \(\sech u=1/\cosh u\). Both channels are
-sampled at 80 positions with noise at \(0.1\%\) of each channel's amplitude,
-and Gaussian models are fitted to each. Differentiating the fitted field
-\(\widehat B\) supplies targets for sparse regression: with both \(B\) and
-\(J\) available, the search selects \(B'=aJ\) (prime denoting \(d/dx\)),
-recovering \(a_*=1.7/(0.9\cdot0.8)=85/36\) to \(0.022\%\) relative error.
-Integrating from the boundary value \(b_0\) at \(x_0=-3\) yields
-\(b_0+a\int_{x_0}^x\widehat J(u)\,du\).
+The dimensionless scalar check uses \(B_*(x)=1.7\tanh(x/0.9)\) and
+\(J_*(x)=0.8\sech^2(x/0.9)\), with \(\sech u=1/\cosh u\).
+Gaussian models fit 80 samples per channel with \(0.1\%\) amplitude noise.
+Sparse regression of the fitted derivative selects \(B'=aJ\), recovering
+\(a_*=85/36\) to \(0.022\%\) relative error. Integration from \(b_0\) at
+\(x_0=-3\) gives \(b_0+a\int_{x_0}^x\widehat J(u)\,du\).
 
 Restricting the search to powers of \(B\) alone selects \(B'=p-qB^2\) with
 \(p,q>0\). Separating variables on \(|B|<A\) gives the closed-form solution
@@ -631,12 +556,10 @@ Restricting the search to powers of \(B\) alone selects \(B'=p-qB^2\) with
  B(x)=A\tanh((x-x_c)/L),\qquad J(x)=(p/a)\sech^2((x-x_c)/L),
  \qquad A=\sqrt{p/q},\quad L=1/\sqrt{pq},
 \]
-with center \(x_c\) fixed by the fitted field at the median training position.
-On the noisy test grid, relative Euclidean errors are \(0.045\%\) for the
-solved field, \(0.085\%\) for the Gaussian fit, and \(0.229\%\) for the
-integral reconstruction. Both reconstructions use the recovered channel
-relation, but only the field-only equation also recovers the analytic shape of
-the generating function.
+The fitted field at the median training position fixes \(x_c\). Noisy-test
+errors are \(0.045\%\) for the solved field, \(0.085\%\) for the Gaussian,
+and \(0.229\%\) for the integral reconstruction. Only the field-only equation
+also recovers the generating function's analytic shape.
 
 {\small
 \begin{thebibliography}{99}
