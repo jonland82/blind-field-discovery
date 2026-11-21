@@ -1,0 +1,7 @@
+{
+  "papers/05-equivalent-descriptions/build_stump_assets.py": "d1535afc5d77468ebd45fe0e1074be6a1df99035a43f9429e56d76ce1b297814",
+  "experiments/magnetic_mapping/tree_comparison/sensor_results.json": "078c333fd1ed533564efb9f55dbc6180ff0de3a3412bd29dc5936394ef739227",
+  "experiments/magnetic_mapping/tree_comparison/wave_results.json": "669972f7575b07569bb8aecb2be9ebbd8ec1a17c75856226616dcb6548f243c1",
+  "experiments/magnetic_mapping/tree_comparison/wave_predictions.npz": "ebeb98b73852136dc87c76bbeb92d674150cacb8b928c0f5f0158568ff137f4f",
+  "experiments/magnetic_mapping/tree_comparison/manifest.json": "a819cc7a0a44019a0e3d401580e8502f9075966ec4b10561987e9537bc29f85c"
+}

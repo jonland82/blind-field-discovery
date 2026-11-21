@@ -49,6 +49,18 @@ The downstream report contains:
 - A later changed-environment stress test with the original maps frozen.
 - Explicit calibration coefficients and trial membership, provenance, predictions, and a summary figure.
 
+## Tree and traveling-wave comparison
+
+`run_tree_comparison.py` compares random forests and boosted depth-one trees with the saved Gaussian and dipole predictions using exactly the same training, validation, calibration, and test arrays. Settings are selected on trial 3 across three fixed seeds. It separately fits a controlled noisy traveling wave with generic trees, Maxwell-constrained stumps, and a random forest given the same traveling phase. The last control distinguishes knowing the propagation coordinate from choosing a particular estimator. These are exploratory comparisons; the sensor tests were examined in earlier studies.
+
+```powershell
+python -m pip install -r experiments/magnetic_mapping/tree_requirements.txt
+python experiments/magnetic_mapping/run_tree_comparison.py
+python -m pytest experiments/magnetic_mapping/tests/test_tree_comparison.py -q
+```
+
+Outputs: [comparison figure](tree_comparison/comparison.png), [sensor scores and all validation candidates](tree_comparison/sensor_results.json), [wave scores, fitted fronts, and jump checks](tree_comparison/wave_results.json), and [environment and input hashes](tree_comparison/manifest.json). Prediction arrays are retained alongside the reports. The wave experiment uses dimensionless light speed one and checks distributional jump coefficients rather than finite differences across discontinuities. It supplies the propagation law and does not discover Maxwell's equations from the room data.
+
 ## The comparison being made mathematically
 
 The unrestricted learner models the three observed channels as separate smooth functions of supplied position:
