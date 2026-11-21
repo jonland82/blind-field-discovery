@@ -20,7 +20,9 @@
 \maketitle
 
 \begin{abstract}
-What can a textbook equation learn from a robot crossing a room---and vice versa?
+What can a textbook equation learn from a robot crossing a room? In these
+experiments, the physical representation accounts for most of the observed
+gain, while intermediate Gaussian smoothing adds little.
 A Gaussian kernel turns 500 indoor magnetic readings into a smooth map without
 knowing any physics, whereas a sum of textbook dipole responses builds
 magnetostatics directly into the model. A natural question is whether
@@ -28,8 +30,10 @@ pre-smoothing the data with the kernel helps the physical fit, or whether the
 physical form does the work on its own. Fitting 100 dipoles and a uniform
 background to the Gaussian map cuts held-out vector root mean square error from
 8.09 to 5.22 (in the sensor's recording units), but fitting the same dipoles
-directly to the raw readings achieves nearly the entire gain at 5.31. At fixed
-settings, the dipole field is an exact weighted sum of the original readings;
+directly to the raw readings achieves nearly the entire gain at 5.31.
+Random-forest and boosted-stump baselines score 10.56 and 14.70, respectively,
+under the same data protocol. At fixed settings, the dipole field is an exact
+weighted sum of the original readings;
 tracking those weights shows that even a small shift in route error can mask a
 large change in how individual measurements are used. In a simulated wire
 experiment where the learner must also choose the formula from a library, both
@@ -71,6 +75,8 @@ settings. Finally, a simulated current-carrying wire removes the known dipole
 basis and asks how much of the field's mathematical form can be discovered from
 data within a candidate library. Appendix~\ref{sec:scalar} checks the recovery
 and solution of a differential law in one dimension.
+The results favor the supplied physical form over intermediate smoothing in
+these comparisons, while an exact identity exposes how that form uses the data.
 
 \section{What the robot records}
 
@@ -103,7 +109,7 @@ Here \(\boldsymbol\alpha_i\) sets the magnitude and direction of the bump
 centered at \(\x_i\).
 
 Because kernel ridge regression is linear in the measured vectors, every
-prediction in Eq.~\eqref{eq:gaussian_response} is simply a weighted average of
+prediction in Eq.~\eqref{eq:gaussian_response} is a possibly signed weighted sum of
 the raw readings. To make those weights explicit, stack the training readings
 into the \(n\times3\) matrix \(Y\) with rows \(\bvec_i^{\mathsf T}\), let
 \(I_d\) denote the \(d\)-dimensional identity, and define the averaging row
@@ -168,12 +174,12 @@ is harmonic everywhere above the source plane; its negative gradient therefore
 has zero divergence and zero curl by construction.
 
 Equations~\eqref{eq:gaussian_response} and \eqref{eq:dipole_response} share the
-same additive structure---a background plus a sum of responses---but their
+same additive structure, a background plus a sum of responses, but their
 building blocks behave very differently. A Gaussian response is a scalar bump
 centered at a measurement, whereas a dipole response is a \(3\times3\) matrix
-centered at an assumed subsurface source. That structural difference---local,
-uncoupled bumps versus long-range, component-coupled physical responses---will
-govern how far a single reading reaches across the room.
+centered at an assumed subsurface source. These local, uncoupled bumps and
+long-range, component-coupled physical responses give individual readings
+different reach across the room.
 
 \subsection{Fitting the moments and background}
 
@@ -209,7 +215,7 @@ direct fit sets \(\mathbf t_a=\bvec_a\) (the raw readings), whereas the
 two-stage fit sets \(\mathbf t_a\) to the Gaussian predictions from
 Eq.~\eqref{eq:teacher} at the same training positions.
 
-\subsection{Testing the three maps on robot routes}
+\subsection{Testing the maps on robot routes}
 
 We train on 500 readings from Invensense trials 1--2 and select hyperparameters
 on trial 3. To test both interpolation and robustness, we evaluate on two
@@ -232,23 +238,35 @@ validation error selects a \(10\times10\) grid at depth \(1\) m with
 that only the fitting targets change. A constant baseline predicting the mean
 training vector everywhere provides a floor for comparison.
 
+We also fit two tree baselines to the identical training and validation arrays,
+using position only and the unchanged trial-1 instrument alignments. A 150-tree
+random forest jointly predicts the three components; gradient boosting with
+depth-one trees fits each component separately. Forest validation searches
+depths 6, 12, and unrestricted, minimum leaf sizes 1, 4, and 12, and feature
+fractions 1.0 and 0.7. Stump validation searches 50, 200, or 600 stages and
+learning rates 0.03, 0.1, or 0.3. Mean trial-3 vector RMSE across seeds 11, 23,
+and 37 selects one setting per method. The forest selects unrestricted depth,
+leaf size one, and feature fraction 0.7; stumps select 200 stages at rate 0.03.
+Test scores average the three separately fitted predictors' errors.
+
 \begin{table}[!htbp]
 \centering
 \caption{Vector RMSE against held-out measurements in reference recording
-units. Scores pool the trials within each environment.}
+units. Scores pool trials within each environment; tree entries average three
+seeds. Two-stage and direct columns denote the dipole fits.}
 \label{tab:mag}
 \small
-\begin{tabular}{@{}llrrrr@{}}
+\begin{tabular}{@{}llrrrrrr@{}}
 \toprule
-Environment & Instrument & Constant & Gaussian & Two-stage & Direct \\
+Environment & Instrument & Constant & Gaussian & Forest & Stumps & Two-stage & Direct \\
 \midrule
-Stable & Invensense  & 16.48 &  8.09 &  5.22 &  5.31 \\
-       & Nexus phone & 16.32 & 10.34 &  8.83 &  8.85 \\
-       & Trivisio    & 16.42 &  8.03 &  5.56 &  5.71 \\
+Stable & Invensense  & 16.48 &  8.09 & 10.56 & 14.70 &  5.22 &  5.31 \\
+       & Nexus phone & 16.32 & 10.34 & 11.77 & 14.72 &  8.83 &  8.85 \\
+       & Trivisio    & 16.42 &  8.03 & 10.20 & 14.62 &  5.56 &  5.71 \\
 \addlinespace
-Changed & Invensense  & 17.62 &  8.64 &  7.33 &  7.36 \\
-        & Nexus phone & 27.53 & 24.16 & 23.81 & 23.79 \\
-        & Trivisio    & 17.24 &  8.69 &  7.43 &  7.50 \\
+Changed & Invensense  & 17.62 &  8.64 & 10.82 & 16.15 &  7.33 &  7.36 \\
+        & Nexus phone & 27.53 & 24.16 & 25.29 & 27.01 & 23.81 & 23.79 \\
+        & Trivisio    & 17.24 &  8.69 & 10.58 & 16.01 &  7.43 &  7.50 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -258,13 +276,19 @@ Across \(N\) test samples, vector RMSE is
 \((N^{-1}\sum_{i=1}^N \|\widehat{\B}_i-\bvec_i\|^2)^{1/2}\), where
 \(\widehat{\B}_i\) is the prediction and \(\bvec_i\) the measurement at sample
 \(i\). On the stable Invensense trials, passing from the Gaussian map to the
-two-stage dipole map cuts error from \(8.09\) to \(5.22\)---a \(35\%\)
+two-stage dipole map cuts error from \(8.09\) to \(5.22\), a \(35\%\)
 reduction from the same 500 readings (Table~\ref{tab:mag}). Yet the direct fit
 achieves \(5.31\), within \(0.09\) units of the two-stage fit, showing that the
 dipole form itself accounts for almost the entire improvement. The same pattern
 holds across the Nexus phone and Trivisio sensors, as well as after the metal
 shelves are introduced, where errors rise across all models and remain large on
 the phone recordings.
+Neither tree baseline reaches the Gaussian or dipole scores on any instrument
+in either environment. On stable reference trials, forest seed standard
+deviation is 0.03 units and stump predictions are identical across seeds.
+This extends the predictive comparison beyond one smooth statistical baseline;
+it does not establish an optimum over tree methods or a universal advantage
+for physical constraints.
 
 \begin{figure}[!htbp]
 \centering
@@ -377,12 +401,13 @@ The two maps diverge most sharply at the ringed reading \((2.109,-0.849)\) m,
 just outside the gap. Raising that single reading's \(B_z\) by one unit pushes
 predicted \(B_z\) \emph{up} by \(+0.579\) in the Gaussian map, but pushes it
 \emph{down} by \(-0.025\) in the direct dipole fit and \(-0.085\) in the
-two-stage dipole fit. Why does a nearby reading reverse sign? Whereas an
-isotropic Gaussian bump simply averages nearby values with positive weight, the
-dipole model must satisfy \(\nabla\cdot\B=0\) and \(\nabla\times\B=0\) globally,
-balancing nearby readings against distant ones and coupling horizontal and
-vertical components. Here, the direct dipole fit already flips the sign, and
-pre-smoothing makes the response more than three times as negative---showing
+two-stage dipole fit. Although a Gaussian kernel value is positive, its fitted
+regression weights can have either sign. The reversal here is a property of
+the complete regularized fits, not a consequence of kernel positivity. The
+dipole basis enforces \(\nabla\cdot\B=0\) and \(\nabla\times\B=0\) above the
+source plane while coupling components and distributing influence across
+positions. Here, the direct dipole fit already flips the sign, and
+pre-smoothing makes the response more than three times as negative, showing
 that nearly identical route RMSEs can coexist with a substantial change in how
 a specific reading is used. Across all three models, the analytical weights
 match the archived query prediction and full refit perturbations in all three
@@ -496,7 +521,7 @@ In the main case, fitting a rational expression to the Gaussian map slashes the
 error from \(20.44\%\) down to \(0.38\%\), and that accuracy holds when
 extrapolating to larger radii (\(0.38\%\)) and unseen currents (\(0.38\%\)).
 Yet direct fitting on the raw readings does better in every single row of
-Table~\ref{tab:wire}---dropping the main-case error to \(0.06\%\) and the
+Table~\ref{tab:wire}, dropping the main-case error to \(0.06\%\) and the
 sparse-data error from \(6.23\%\) to \(0.10\%\). The reason is clear in the
 first column of Table~\ref{tab:wire}: even when the Gaussian kernel selects the
 shortest length scale tested, it struggles to track the rapid \(1/r\) variation
@@ -509,7 +534,7 @@ when a controlling variable goes unrecorded. At any fixed position, the field
 is proportional to the signed current; if positive and negative currents occur
 with equal probability at each position and magnitude, the conditional mean
 given position alone is zero. Under squared error, zero is the best prediction
-any position-only model can make---a clean reminder that even the right
+any position-only model can make, a reminder that even the right
 equation cannot overcome an unobserved source, whether a hidden current or
 unmapped shelves in a room.
 
@@ -521,6 +546,8 @@ form accounts for almost all of the gain over a Gaussian map, while
 pre-smoothing barely alters route error. In the wire experiment, where the
 learner must also choose the terms of the law, direct fitting on raw readings
 outperforms pre-smoothing in every regime we tested.
+The added tree baselines also trail the dipoles on the measured room, although
+their model classes and tuning budgets differ.
 
 \begin{samepage}
 The indoor experiment also makes visible how empirical data enter a textbook
@@ -549,8 +576,18 @@ assumed sources (\(j\)) or as a sum over 500 actual readings (\(i\)). Classical
 theory supplies the response matrix \(D_{*j}\) of each source, while the
 observations determine the fitted moments and background. Reading the right-hand
 side tells us the exact change in any prediction when a single sensor value
-shifts---a precise sense in which a field with a textbook form learns from
+shifts, a precise sense in which a field with a textbook form learns from
 examples.
+
+Three claims should be kept separate. The dipole basis satisfies the assumed
+static equations away from its sources; the source and measurement sums are
+exactly equivalent evaluations of one fitted field; and held-out RMSE measures
+how well that field predicts observations. Neither equation compliance nor an
+exact rewrite guarantees predictive accuracy. A companion traveling-wave
+study~\cite{stumps} makes the distinction explicit: phase-based stumps and a
+phase-based forest both give exact weak Maxwell solutions, yet the forest fits
+the tested pulse more accurately. The propagation law and field coupling are
+supplied there, just as magnetostatics is supplied by the dipole basis here.
 
 \paragraph{Scope and limitations.}
 These conclusions describe the specific estimators and domains tested here. The
@@ -566,9 +603,11 @@ rather than uniformly across the room~\cite{wadoux}.
 \paragraph{Data and code.}
 The \href{https://github.com/AaltoML/magnetic-data/tree/b45da3bc7ab623fdef6e01247021daebf7983f29}{Aalto recordings}
 are pinned to commit \texttt{b45da3b}. The
-\href{https://github.com/jonland82/blind-field-discovery/tree/3c575973eb5d926cba3c181ee3543b9a0b8ee8bd}{project repository}
-contains the four companion notes, code, fixed protocols, saved predictions,
+\href{https://github.com/jonland82/blind-field-discovery/tree/52cd50c}{project repository}
+contains the companion notes, code, fixed protocols, saved predictions,
 and fitted dipole coefficients.
+The additional baselines and complete validation grids are retained in the
+\href{https://github.com/jonland82/blind-field-discovery/tree/52cd50c/experiments/magnetic_mapping/tree_comparison}{tree-comparison directory}.
 
 \clearpage
 \appendix
@@ -683,5 +722,11 @@ A.~M.~J.-C. Wadoux, G.~B.~M. Heuvelink, S. de Bruin, and D.~J. Brus.
 Spatial cross-validation is not the right way to evaluate map accuracy.
 \emph{Ecological Modelling}, 457:109692, 2021.
 \href{https://doi.org/10.1016/j.ecolmodel.2021.109692}{doi:10.1016/j.ecolmodel.2021.109692}.
+\bibitem{stumps}
+J.~R. Landers.
+Decision stumps as exact Maxwell fronts.
+Companion research note, 2026.
+\href{https://github.com/jonland82/blind-field-discovery/blob/52cd50c/papers/05-equivalent-descriptions/stumps_as_maxwell_fronts.pdf}{Companion paper}.
+
 \end{thebibliography}}
 \end{document}
