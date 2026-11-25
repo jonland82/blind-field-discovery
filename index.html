@@ -99,32 +99,32 @@
             <div class="paper-description">
               <p class="eyebrow">Unified arXiv draft</p>
               <h3>Magnetic Fields from Measurements</h3>
-              <p>The room and wire experiments compare direct physical fitting with kernel smoothing and derive exactly how individual readings shape the fitted field.</p>
+              <p>The room and wire experiments compare direct physical fitting with kernel smoothing and derive exactly how individual readings shape the fitted field. In these comparisons, the physical form accounts for most of the predictive gain, while intermediate smoothing changes measurement sensitivity more than prediction accuracy.</p>
             </div>
             <div class="paper-actions"><a href="papers/arxiv-draft-maxwell/arxiv-draft.pdf">PDF · 9 pages</a><a href="papers/arxiv-draft-maxwell/arxiv-draft.tex">LaTeX source</a></div>
           </li>
           <li>
-            <div class="paper-description"><h3>From samples to an equation</h3><p>Recover the tanh field and sech² source by solving a learned differential equation.</p></div>
+            <div class="paper-description"><h3>From samples to an equation</h3><p>This synthetic benchmark follows noisy samples through a Gaussian kernel fit to a learned differential equation, whose solution recovers the tanh field and sech² source. It compares prediction within and beyond the sampled interval to test what the recovered analytic form adds to the kernel map.</p></div>
             <div class="paper-actions"><a href="papers/01-kernel-to-equation/kernel_to_equation.pdf">PDF · 3 pages</a><a href="papers/01-kernel-to-equation/kernel_to_equation.tex">LaTeX source</a></div>
           </li>
           <li>
-            <div class="paper-description"><h3>From a learned kernel to a magnetic field</h3><p>Fit equivalent dipoles to the Gaussian map of the measured room.</p></div>
+            <div class="paper-description"><h3>From a learned kernel to a magnetic field</h3><p>This real-data study fits a background field and equivalent magnetic dipoles to a Gaussian map learned from robot measurements. It evaluates predictions on held-out routes and distinguishes the assumed magnetostatic laws from the fitted sources, which need not identify the room’s actual source arrangement.</p></div>
             <div class="paper-actions"><a href="papers/02-kernel-to-magnetostatics/kernel_to_magnetostatics.pdf">PDF · 3 pages</a><a href="papers/02-kernel-to-magnetostatics/kernel_to_magnetostatics.tex">LaTeX source</a></div>
           </li>
           <li>
-            <div class="paper-description"><h3>Maxwell’s Perspective</h3><p>Recover the wire equation and examine the role of the available observations.</p></div>
+            <div class="paper-description"><h3>Maxwell’s Perspective</h3><p>This companion connects the synthetic and measured-field experiments with a controlled recovery of the magnetic field around a wire. A missing-current example shows how the variables supplied to the learner change the function it can infer, separating predictive agreement from identification of a unique physical field.</p></div>
             <div class="paper-actions"><a href="papers/03-maxwells-perspective/maxwells_perspective.pdf">PDF · 4 pages</a><a href="papers/03-maxwells-perspective/maxwells_perspective.tex">LaTeX source</a></div>
           </li>
           <li>
-            <div class="paper-description"><h3>The magnetic field as a learned function</h3><p>Derive exact measurement weights for the Gaussian and reconstructed dipole maps.</p></div>
+            <div class="paper-description"><h3>The magnetic field as a learned function</h3><p>This paper rewrites the Gaussian and reconstructed dipole maps as exact weighted sums of the original magnetic measurements. Influence maps and a verified perturbation of one reading show how the two models can respond differently to the same observation, even predicting changes in opposite directions.</p></div>
             <div class="paper-actions"><a href="papers/04-measurement-influence/measurement_influence.pdf">PDF · 4 pages</a><a href="papers/04-measurement-influence/measurement_influence.tex">LaTeX source</a></div>
           </li>
           <li>
-            <div class="paper-description"><h3>Equivalent Descriptions of Light</h3><p>Derive equivalent Maxwell formulations and examine what wave, square-loop, forest, and circuit descriptions predict.</p></div>
+            <div class="paper-description"><h3>Equivalent Descriptions of Light</h3><p>This mathematical companion derives equivalent Maxwell formulations, vacuum waves, and Fourier representations before constructing square-loop and threshold-forest descriptions of a chosen waveform. An ideal circuit chain then shows how local component laws can determine wave speed and field ratio, clarifying what each description assumes and predicts.</p></div>
             <div class="paper-actions"><a href="papers/05-equivalent-descriptions/equivalent_descriptions.pdf">PDF · 4 pages</a><a href="papers/05-equivalent-descriptions/equivalent_descriptions.tex">LaTeX source</a></div>
           </li>
           <li>
-            <div class="paper-description"><h3>Decision stumps as exact Maxwell fronts</h3><p>Derive exact weak Maxwell solutions from threshold ensembles and test why exact propagation does not guarantee the best learned waveform.</p></div>
+            <div class="paper-description"><h3>Decision stumps as exact Maxwell fronts</h3><p>This paper derives decision stumps as exact weak Maxwell solutions and establishes waveform approximation bounds that persist under propagation. Exploratory tests on measured magnetic maps and a simulated traveling pulse show why an exact physical representation does not guarantee the most accurate learned prediction.</p></div>
             <div class="paper-actions"><a href="papers/05-equivalent-descriptions/stumps_as_maxwell_fronts.pdf">PDF · 8 pages</a><a href="papers/05-equivalent-descriptions/stumps_as_maxwell_fronts.tex">LaTeX source</a></div>
           </li>
         </ul>
